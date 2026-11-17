@@ -108,11 +108,11 @@ export default function Header() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center group">
+          <Link to="/" className="flex items-center group py-1">
             <img
               src="/logo.png"
               alt="SimplyBuySell Logo"
-              className="h-10 sm:h-12 w-auto object-contain transition-transform group-hover:scale-[1.02]"
+              className="h-12 sm:h-14 md:h-16 w-auto object-contain transition-transform group-hover:scale-[1.02]"
               onError={(e) => {
                 // fallback text if logo is loading
                 e.target.style.display = 'none';
@@ -246,7 +246,7 @@ export default function Header() {
               {/* Drawer Header */}
               <div className="flex items-center justify-between pb-4 border-b border-slate-100">
                 <Link to="/" onClick={() => setMobileMenuOpen(false)} className="flex items-center">
-                  <img src="/logo.png" alt="SimplyBuySell Logo" className="h-9 w-auto object-contain" />
+                  <img src="/logo.png" alt="SimplyBuySell Logo" className="h-10 sm:h-12 w-auto object-contain" />
                 </Link>
                 <button
                   onClick={() => setMobileMenuOpen(false)}

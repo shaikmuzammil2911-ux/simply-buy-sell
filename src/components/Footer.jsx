@@ -25,9 +25,9 @@ export default function Footer() {
           <div className="lg:col-span-4 space-y-4">
             <Link to="/" className="inline-block group">
               <img
-                src="/logo.png"
+                src="/logo-white.png"
                 alt="SimplyBuySell Logo"
-                className="h-11 sm:h-12 w-auto object-contain transition-transform group-hover:scale-[1.02]"
+                className="h-12 sm:h-14 md:h-16 w-auto object-contain transition-transform group-hover:scale-[1.02]"
               />
             </Link>
 
