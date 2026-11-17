@@ -23,20 +23,12 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-navy-800">
           {/* Col 1: Brand & Bio (4 cols) */}
           <div className="lg:col-span-4 space-y-4">
-            <Link to="/" className="flex items-center gap-3">
+            <Link to="/" className="inline-block group">
               <img
                 src="/logo.png"
                 alt="SimplyBuySell Logo"
-                className="h-10 sm:h-12 w-auto object-contain"
+                className="h-11 sm:h-12 w-auto object-contain transition-transform group-hover:scale-[1.02]"
               />
-              <div>
-                <span className="text-xl font-extrabold tracking-tight text-white block leading-tight">
-                  Simply<span className="text-brand-orange">Buy</span><span className="text-brand-green">Sell</span>
-                </span>
-                <span className="text-[10px] uppercase font-bold tracking-widest text-slate-400 block">
-                  BUY | SELL | INVEST
-                </span>
-              </div>
             </Link>
 
             <p className="text-slate-400 text-sm leading-relaxed max-w-sm">

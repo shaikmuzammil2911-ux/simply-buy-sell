@@ -107,8 +107,8 @@ export default function Header() {
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-          {/* Logo & Positioning */}
-          <Link to="/" className="flex items-center gap-3 group">
+          {/* Logo */}
+          <Link to="/" className="flex items-center group">
             <img
               src="/logo.png"
               alt="SimplyBuySell Logo"
@@ -118,14 +118,6 @@ export default function Header() {
                 e.target.style.display = 'none';
               }}
             />
-            <div className="hidden sm:block">
-              <span className="text-xl font-extrabold tracking-tight text-navy-900 block leading-tight">
-                Simply<span className="text-brand-orange">Buy</span><span className="text-brand-green">Sell</span>
-              </span>
-              <span className="text-[10px] uppercase font-bold tracking-widest text-slate-500 block">
-                Buy • Sell • Invest
-              </span>
-            </div>
           </Link>
 
           {/* Desktop Navigation Links */}
@@ -253,12 +245,9 @@ export default function Header() {
             <div>
               {/* Drawer Header */}
               <div className="flex items-center justify-between pb-4 border-b border-slate-100">
-                <div className="flex items-center gap-2">
-                  <img src="/logo.png" alt="Logo" className="h-8 w-auto object-contain" />
-                  <span className="font-extrabold text-navy-900 text-lg">
-                    Simply<span className="text-brand-orange">Buy</span><span className="text-brand-green">Sell</span>
-                  </span>
-                </div>
+                <Link to="/" onClick={() => setMobileMenuOpen(false)} className="flex items-center">
+                  <img src="/logo.png" alt="SimplyBuySell Logo" className="h-9 w-auto object-contain" />
+                </Link>
                 <button
                   onClick={() => setMobileMenuOpen(false)}
                   className="p-1 rounded-md text-slate-400 hover:text-slate-700 hover:bg-slate-100"
