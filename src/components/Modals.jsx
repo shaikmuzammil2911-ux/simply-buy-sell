@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   X,
   CheckCircle2,
@@ -11,7 +11,10 @@ import {
   Send,
   Building,
   ShieldCheck,
-  AlertCircle
+  Upload,
+  Sparkles,
+  MessageCircle,
+  Image as ImageIcon
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
@@ -24,8 +27,25 @@ export default function Modals() {
     closeSuccessModal,
     submitEnquiry,
     submitCustomerReview,
+    getWhatsAppLink,
     toast
   } = useApp();
+
+  // Timed Lead Capture Popup (Appears once after 12 seconds to engage visitors)
+  const [leadPopupOpen, setLeadPopupOpen] = useState(false);
+  const [leadCaptured, setLeadCaptured] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const alreadyShown = sessionStorage.getItem('sbs_lead_shown');
+      if (!alreadyShown) {
+        setLeadPopupOpen(true);
+        sessionStorage.setItem('sbs_lead_shown', 'true');
+      }
+    }, 12000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   // Escape key listener for accessible modals
   useEffect(() => {
@@ -35,6 +55,7 @@ export default function Modals() {
         closeScheduleVisitModal();
         closeReviewModal();
         closeSuccessModal();
+        setLeadPopupOpen(false);
       }
     };
     window.addEventListener('keydown', handleKeyDown);
@@ -67,6 +88,12 @@ export default function Modals() {
     propertyUsed: '',
     rating: 5,
     comment: ''
+  });
+
+  const [leadForm, setLeadForm] = useState({
+    name: '',
+    phone: '',
+    interest: 'Plots in Amaravati / Thullur'
   });
 
   const handleEnquirySubmit = (e) => {
@@ -110,11 +137,27 @@ export default function Modals() {
     closeReviewModal();
   };
 
+  const handleLeadSubmit = (e) => {
+    e.preventDefault();
+    if (!leadForm.name || !leadForm.phone) return;
+    submitEnquiry({
+      name: leadForm.name,
+      phone: leadForm.phone,
+      requirement: `Lead Popup: ${leadForm.interest}`,
+      propertyTitle: 'Amaravati Real Estate Consultation Request',
+      preferredContact: 'WhatsApp'
+    });
+    setLeadCaptured(true);
+    setTimeout(() => {
+      setLeadPopupOpen(false);
+    }, 2000);
+  };
+
   return (
     <>
       {/* 1. TOAST NOTIFICATION */}
       {toast && (
-        <div className="fixed top-5 right-5 z-50 max-w-sm w-full bg-white rounded-2xl shadow-2xl border border-slate-100 p-4 flex items-start gap-3 animate-fade-in">
+        <div className="fixed top-5 right-5 z-50 max-w-sm w-full bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-blue-100 p-4 flex items-start gap-3 animate-fade-in-scale">
           <div className="p-2 rounded-xl bg-emerald-50 text-brand-green shrink-0">
             <CheckCircle2 className="w-5 h-5" />
           </div>
@@ -125,14 +168,120 @@ export default function Modals() {
         </div>
       )}
 
-      {/* 2. QUICK ENQUIRY MODAL */}
+      {/* 2. TIMED LEAD CAPTURE POPUP (Heavy Popup Feature) */}
+      {leadPopupOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in-scale"
+          onClick={() => setLeadPopupOpen(false)}
+        >
+          <div
+            className="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-blue-200 relative overflow-hidden text-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Top decorative gradient */}
+            <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-brand-orange via-brand-green to-brand-royal" />
+
+            <button
+              onClick={() => setLeadPopupOpen(false)}
+              className="absolute top-4 right-4 p-1.5 rounded-full text-slate-400 hover:text-navy-900 hover:bg-slate-100 transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="w-14 h-14 rounded-2xl bg-blue-50 text-brand-royal flex items-center justify-center mx-auto mb-4 mt-2">
+              <Sparkles className="w-7 h-7 text-brand-orange" />
+            </div>
+
+            <span className="text-[11px] font-bold uppercase tracking-wider text-blue-600 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 inline-block mb-2">
+              Exclusive Investor Advisory
+            </span>
+
+            <h3 className="text-xl sm:text-2xl font-extrabold text-navy-900 leading-tight mb-2">
+              Looking for Property in Amaravati?
+            </h3>
+
+            <p className="text-xs sm:text-sm text-slate-600 mb-6 leading-relaxed">
+              Get our verified price index report, CRDA layout maps, and top verified deals sent directly to your phone.
+            </p>
+
+            {leadCaptured ? (
+              <div className="p-4 rounded-2xl bg-emerald-50 text-emerald-800 font-bold text-sm flex items-center justify-center gap-2">
+                <CheckCircle2 className="w-5 h-5 text-brand-green" />
+                <span>Thank you! We will reach out shortly.</span>
+              </div>
+            ) : (
+              <form onSubmit={handleLeadSubmit} className="space-y-3 text-left">
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Your Name</label>
+                  <input
+                    type="text"
+                    required
+                    value={leadForm.name}
+                    onChange={(e) => setLeadForm({ ...leadForm, name: e.target.value })}
+                    placeholder="Enter your name"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-orange"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">WhatsApp / Mobile Number</label>
+                  <input
+                    type="tel"
+                    required
+                    value={leadForm.phone}
+                    onChange={(e) => setLeadForm({ ...leadForm, phone: e.target.value })}
+                    placeholder="+91 98765 43210"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-orange"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Interested In</label>
+                  <select
+                    value={leadForm.interest}
+                    onChange={(e) => setLeadForm({ ...leadForm, interest: e.target.value })}
+                    className="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-medium focus:outline-none focus:border-brand-orange"
+                  >
+                    <option value="Plots in Amaravati / Thullur">CRDA Approved Plots (Thullur / Mangalagiri)</option>
+                    <option value="Flats & Villas in Mangalagiri">Luxury Flats & Villas</option>
+                    <option value="Commercial Showrooms & Offices">Commercial Spaces / Offices</option>
+                    <option value="Agricultural Lands">Agricultural Lands</option>
+                  </select>
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full py-3.5 rounded-xl bg-brand-orange hover:bg-brand-orangeDark text-white font-bold text-sm shadow-lg shadow-brand-orange/30 flex items-center justify-center gap-2 transition-all mt-2"
+                >
+                  <Send className="w-4 h-4" />
+                  <span>Get Free Property Brochure</span>
+                </button>
+
+                <div className="text-center pt-1">
+                  <a
+                    href={getWhatsAppLink('Hello SimplyBuySell, I would like instant assistance for Amaravati properties.')}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs text-emerald-700 font-semibold hover:underline inline-flex items-center gap-1"
+                  >
+                    <MessageCircle className="w-3.5 h-3.5 text-emerald-600" />
+                    <span>Or chat instantly on WhatsApp</span>
+                  </a>
+                </div>
+              </form>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* 3. QUICK ENQUIRY MODAL */}
       {modalState.enquiry.isOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in-scale"
           onClick={closeEnquiryModal}
         >
           <div
-            className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-100 relative max-h-[90vh] overflow-y-auto"
+            className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-blue-100 relative max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             <button
@@ -150,7 +299,7 @@ export default function Modals() {
                 {modalState.enquiry.property ? 'Enquire About Property' : 'Get in Touch'}
               </h3>
               {modalState.enquiry.property && (
-                <div className="mt-2 p-3 rounded-xl bg-slate-50 border border-slate-100 flex items-center gap-3">
+                <div className="mt-2 p-3 rounded-2xl bg-blue-50/70 border border-blue-100 flex items-center gap-3">
                   <Building className="w-5 h-5 text-brand-royal shrink-0" />
                   <div className="truncate">
                     <div className="text-xs font-bold text-navy-900 truncate">
@@ -177,7 +326,7 @@ export default function Modals() {
                     value={enquiryForm.name}
                     onChange={(e) => setEnquiryForm({ ...enquiryForm, name: e.target.value })}
                     placeholder="Enter your full name"
-                    className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange"
+                    className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-orange"
                   />
                 </div>
               </div>
@@ -195,7 +344,7 @@ export default function Modals() {
                       value={enquiryForm.phone}
                       onChange={(e) => setEnquiryForm({ ...enquiryForm, phone: e.target.value })}
                       placeholder="+91 98765 43210"
-                      className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange"
+                      className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-orange"
                     />
                   </div>
                 </div>
@@ -211,7 +360,7 @@ export default function Modals() {
                       value={enquiryForm.email}
                       onChange={(e) => setEnquiryForm({ ...enquiryForm, email: e.target.value })}
                       placeholder="name@email.com"
-                      className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange"
+                      className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-orange"
                     />
                   </div>
                 </div>
@@ -227,7 +376,7 @@ export default function Modals() {
                       type="button"
                       key={method}
                       onClick={() => setEnquiryForm({ ...enquiryForm, preferredContact: method })}
-                      className={`py-2 text-xs font-bold rounded-lg border transition-colors ${
+                      className={`py-2 text-xs font-bold rounded-xl border transition-colors ${
                         enquiryForm.preferredContact === method
                           ? 'border-brand-orange bg-orange-50 text-brand-orange'
                           : 'border-slate-200 text-slate-600 hover:bg-slate-50'
@@ -248,7 +397,7 @@ export default function Modals() {
                   value={enquiryForm.message}
                   onChange={(e) => setEnquiryForm({ ...enquiryForm, message: e.target.value })}
                   placeholder="I would like to know about registration details and layout approval..."
-                  className="w-full p-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange"
+                  className="w-full p-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-orange"
                 />
               </div>
 
@@ -264,14 +413,14 @@ export default function Modals() {
         </div>
       )}
 
-      {/* 3. SCHEDULE SITE VISIT MODAL */}
+      {/* 4. SCHEDULE SITE VISIT MODAL */}
       {modalState.scheduleVisit.isOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in-scale"
           onClick={closeScheduleVisitModal}
         >
           <div
-            className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-100 relative max-h-[90vh] overflow-y-auto"
+            className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-blue-100 relative max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             <button
@@ -376,14 +525,14 @@ export default function Modals() {
         </div>
       )}
 
-      {/* 4. WRITE CUSTOMER REVIEW MODAL */}
+      {/* 5. WRITE CUSTOMER REVIEW MODAL */}
       {modalState.review.isOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in-scale"
           onClick={closeReviewModal}
         >
           <div
-            className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-100 relative max-h-[90vh] overflow-y-auto"
+            className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-blue-100 relative max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             <button
@@ -494,14 +643,14 @@ export default function Modals() {
         </div>
       )}
 
-      {/* 5. SUCCESS CONFIRMATION MODAL */}
+      {/* 6. SUCCESS CONFIRMATION MODAL */}
       {modalState.success.isOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in-scale"
           onClick={closeSuccessModal}
         >
           <div
-            className="bg-white rounded-3xl max-w-md w-full p-8 shadow-2xl border border-slate-100 relative text-center"
+            className="bg-white rounded-3xl max-w-md w-full p-8 shadow-2xl border border-blue-100 relative text-center"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="w-16 h-16 rounded-full bg-emerald-100 text-brand-green flex items-center justify-center mx-auto mb-5 shadow-lg shadow-emerald-500/20">

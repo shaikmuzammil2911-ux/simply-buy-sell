@@ -45,7 +45,7 @@ export default function Motto() {
   ];
 
   return (
-    <div className="w-full bg-slate-50 min-h-screen">
+    <div className="w-full bg-gradient-to-b from-sky-50 via-blue-50/50 to-sky-50 min-h-screen">
       {/* Hero Header */}
       <section className="bg-navy-900 text-white py-16 md:py-24 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-navy-800 via-navy-900 to-black opacity-80" />

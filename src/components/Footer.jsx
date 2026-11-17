@@ -9,8 +9,7 @@ import {
   Linkedin,
   Youtube,
   ShieldCheck,
-  ArrowRight,
-  Heart
+  ArrowRight
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
@@ -18,16 +17,19 @@ export default function Footer() {
   const { siteSettings } = useApp();
 
   return (
-    <footer className="bg-navy-900 text-slate-300 pt-16 pb-8 border-t border-navy-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <footer className="bg-navy-900 text-slate-300 pt-16 pb-8 border-t border-navy-800 relative overflow-hidden">
+      {/* Subtle light blue ambient glow at top */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-1 bg-gradient-to-r from-transparent via-blue-400/30 to-transparent pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-navy-800">
-          {/* Col 1: Brand & Bio (4 cols) */}
+          {/* Col 1: Brand Logo & Bio (4 cols) */}
           <div className="lg:col-span-4 space-y-4">
-            <Link to="/" className="inline-block group">
+            <Link to="/" className="inline-block group py-1">
               <img
                 src="/logo-white.png"
                 alt="SimplyBuySell Logo"
-                className="h-12 sm:h-14 md:h-16 w-auto object-contain transition-transform group-hover:scale-[1.02]"
+                className="h-12 sm:h-14 md:h-16 w-auto object-contain transition-transform group-hover:scale-[1.03]"
               />
             </Link>
 
@@ -40,7 +42,7 @@ export default function Footer() {
                 href="https://facebook.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 rounded-lg bg-navy-800 hover:bg-brand-orange text-slate-300 hover:text-white flex items-center justify-center transition-colors"
+                className="w-9 h-9 rounded-xl bg-navy-800 hover:bg-brand-orange text-slate-300 hover:text-white flex items-center justify-center transition-colors"
                 aria-label="Facebook"
               >
                 <Facebook className="w-4 h-4" />
@@ -49,7 +51,7 @@ export default function Footer() {
                 href="https://instagram.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 rounded-lg bg-navy-800 hover:bg-brand-orange text-slate-300 hover:text-white flex items-center justify-center transition-colors"
+                className="w-9 h-9 rounded-xl bg-navy-800 hover:bg-brand-orange text-slate-300 hover:text-white flex items-center justify-center transition-colors"
                 aria-label="Instagram"
               >
                 <Instagram className="w-4 h-4" />
@@ -58,7 +60,7 @@ export default function Footer() {
                 href="https://linkedin.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 rounded-lg bg-navy-800 hover:bg-brand-orange text-slate-300 hover:text-white flex items-center justify-center transition-colors"
+                className="w-9 h-9 rounded-xl bg-navy-800 hover:bg-brand-orange text-slate-300 hover:text-white flex items-center justify-center transition-colors"
                 aria-label="LinkedIn"
               >
                 <Linkedin className="w-4 h-4" />
@@ -67,7 +69,7 @@ export default function Footer() {
                 href="https://youtube.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 rounded-lg bg-navy-800 hover:bg-brand-orange text-slate-300 hover:text-white flex items-center justify-center transition-colors"
+                className="w-9 h-9 rounded-xl bg-navy-800 hover:bg-brand-orange text-slate-300 hover:text-white flex items-center justify-center transition-colors"
                 aria-label="YouTube"
               >
                 <Youtube className="w-4 h-4" />
@@ -84,6 +86,11 @@ export default function Footer() {
               <li>
                 <Link to="/" className="hover:text-brand-orange transition-colors">
                   Home
+                </Link>
+              </li>
+              <li>
+                <Link to="/services/residential" className="hover:text-brand-orange transition-colors">
+                  Our Services
                 </Link>
               </li>
               <li>
@@ -150,11 +157,6 @@ export default function Footer() {
                   Investment
                 </Link>
               </li>
-              <li>
-                <Link to="/admin" className="text-xs text-brand-orange hover:underline pt-2 inline-block">
-                  Admin Dashboard
-                </Link>
-              </li>
             </ul>
           </div>
 
@@ -175,7 +177,7 @@ export default function Footer() {
                 </a>
               </li>
               <li className="flex items-center gap-2.5">
-                <Mail className="w-4 h-4 text-brand-royal shrink-0" />
+                <Mail className="w-4 h-4 text-blue-400 shrink-0" />
                 <a href={`mailto:${siteSettings.email}`} className="hover:text-white">
                   {siteSettings.email}
                 </a>

@@ -52,7 +52,7 @@ export default function BuyersChoice() {
   const currentCategory = categories.find((c) => c.id === activeCategory);
 
   return (
-    <div className="w-full bg-slate-50 min-h-screen py-10">
+    <div className="w-full bg-gradient-to-b from-sky-50 via-blue-50/50 to-sky-50 min-h-screen py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Page Header */}
         <div className="text-center max-w-3xl mx-auto mb-10">

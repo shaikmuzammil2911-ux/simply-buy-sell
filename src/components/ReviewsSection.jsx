@@ -1,34 +1,23 @@
 import React, { useState } from 'react';
-import { Star, MessageSquarePlus, ChevronLeft, ChevronRight, Quote, ShieldCheck } from 'lucide-react';
+import { Star, MessageSquarePlus, Quote, ShieldCheck } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
 export default function ReviewsSection() {
   const { reviews, openReviewModal } = useApp();
-  // Filter only approved reviews for the public showcase
   const approvedReviews = reviews.filter((r) => r.approved !== false);
-
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  const prevReview = () => {
-    setCurrentIndex((prev) => (prev === 0 ? approvedReviews.length - 1 : prev - 1));
-  };
-
-  const nextReview = () => {
-    setCurrentIndex((prev) => (prev + 1) % approvedReviews.length);
-  };
 
   if (!approvedReviews.length) return null;
 
   return (
-    <section className="py-16 md:py-24 bg-slate-50 border-b border-slate-200/60">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-16 md:py-24 bg-gradient-to-b from-sky-50 via-blue-50/70 to-sky-100/60 border-b border-blue-100/80 relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
-            <div className="inline-block text-brand-orange text-xs font-bold uppercase tracking-widest mb-2">
+            <div className="inline-block text-brand-royal text-xs font-bold uppercase tracking-widest mb-2 px-3.5 py-1 rounded-full bg-blue-100 border border-blue-200">
               Verified Testimonials
             </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-navy-900 tracking-tight">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-navy-900 tracking-tight">
               Customer Reviews
             </h2>
             <p className="mt-2 text-slate-600 text-sm sm:text-base">
@@ -38,7 +27,7 @@ export default function ReviewsSection() {
 
           <button
             onClick={openReviewModal}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white border border-slate-200 hover:border-brand-orange text-navy-900 hover:text-brand-orange font-semibold text-xs sm:text-sm shadow-sm transition-all duration-200"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white border border-blue-200 hover:border-brand-orange text-navy-900 hover:text-brand-orange font-bold text-xs sm:text-sm shadow-sm transition-all duration-200"
           >
             <MessageSquarePlus className="w-4 h-4 text-brand-orange" />
             <span>Write a Review</span>
@@ -50,7 +39,7 @@ export default function ReviewsSection() {
           {approvedReviews.map((rev) => (
             <div
               key={rev.id}
-              className="bg-white p-6 rounded-2xl shadow-card hover:shadow-card-hover border border-slate-100 transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between"
+              className="bg-white/95 backdrop-blur-md p-6 rounded-3xl shadow-card hover:shadow-card-hover border border-blue-100/80 hover:border-blue-300 transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between"
             >
               <div>
                 {/* Rating Stars & Quote Icon */}
@@ -60,7 +49,7 @@ export default function ReviewsSection() {
                       <Star key={i} className="w-4 h-4 fill-current" />
                     ))}
                   </div>
-                  <Quote className="w-5 h-5 text-slate-300" />
+                  <Quote className="w-5 h-5 text-blue-300" />
                 </div>
 
                 {/* Review Text */}
@@ -72,17 +61,17 @@ export default function ReviewsSection() {
               <div>
                 {/* Property Used Badge */}
                 {rev.propertyUsed && (
-                  <div className="text-[11px] font-semibold text-brand-royal bg-blue-50 px-2 py-1 rounded-md mb-4 inline-block truncate max-w-full">
+                  <div className="text-[11px] font-semibold text-brand-royal bg-blue-50/80 border border-blue-100 px-2.5 py-1 rounded-lg mb-4 inline-block truncate max-w-full">
                     {rev.propertyUsed}
                   </div>
                 )}
 
                 {/* Customer Info */}
-                <div className="flex items-center gap-3 pt-3 border-t border-slate-100">
+                <div className="flex items-center gap-3 pt-3 border-t border-blue-50">
                   <img
                     src={rev.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80'}
                     alt={rev.name}
-                    className="w-10 h-10 rounded-full object-cover border border-slate-200"
+                    className="w-10 h-10 rounded-full object-cover border-2 border-blue-100 shadow-sm"
                     loading="lazy"
                   />
                   <div className="truncate">

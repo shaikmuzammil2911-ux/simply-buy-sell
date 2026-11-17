@@ -46,7 +46,7 @@ export default function ServiceDetail() {
   const [openFaq, setOpenFaq] = useState(0);
 
   return (
-    <div className="w-full bg-slate-50 min-h-screen py-8">
+    <div className="w-full bg-gradient-to-b from-sky-50 via-blue-50/50 to-sky-50 min-h-screen py-8">
       {/* Service Hero */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
         <div className="relative rounded-3xl overflow-hidden bg-navy-900 text-white min-h-[380px] flex items-center shadow-xl">

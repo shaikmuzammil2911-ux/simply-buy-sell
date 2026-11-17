@@ -33,7 +33,7 @@ export default function OpenProperties() {
   });
 
   return (
-    <div className="w-full bg-slate-50 min-h-screen py-10">
+    <div className="w-full bg-gradient-to-b from-sky-50 via-blue-50/50 to-sky-50 min-h-screen py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Hero Banner for Open Properties */}
         <div className="bg-gradient-to-r from-navy-900 via-royal to-navy-900 rounded-3xl p-8 sm:p-12 text-white mb-10 shadow-xl relative overflow-hidden">
