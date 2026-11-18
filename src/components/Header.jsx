@@ -94,7 +94,7 @@ export default function Header() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center group py-0.5">
+          <Link to="/" className="flex items-center group py-0.5 mr-6 lg:mr-10 shrink-0">
             <img
               src="/logo.png"
               alt="SimplyBuySell Logo"
