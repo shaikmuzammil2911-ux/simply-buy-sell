@@ -56,7 +56,7 @@ export default function PlotHeroSearch() {
 
           {/* Main Headline: Deep Crisp Navy + Bright Gradient */}
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-navy-950 mb-4 leading-tight drop-shadow-sm">
-            Find the Right Plot in{' '}
+            Buy and Sell Properties in{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-amber-500 underline decoration-amber-400 decoration-wavy decoration-2">
               Amaravati
             </span>
@@ -65,37 +65,36 @@ export default function PlotHeroSearch() {
 
           {/* Supporting Copy: Dark Slate for Crystal Readability */}
           <p className="text-base sm:text-lg font-medium text-slate-700 mb-8 max-w-2xl mx-auto leading-relaxed">
-            Explore <strong className="text-blue-700 font-bold">residential</strong> and{' '}
-            <strong className="text-amber-600 font-bold">commercial plots</strong> with detailed property information, map discovery, and smarter property comparisons.
+            Your premier marketplace to <strong className="text-blue-700 font-bold">Buy and Sell properties</strong> with verified APCRDA plot codes, transparent pricing, and instant documentation.
           </p>
 
           {/* High-Impact Action Buttons with Bright Vivid Colors */}
           <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mb-4">
-            {/* Explore Plots */}
+            {/* Buy Property */}
             <Link
               to="/buy"
               className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-black text-sm sm:text-base shadow-lg shadow-blue-600/35 ring-4 ring-blue-200/80 transition-all flex items-center gap-2 group hover:-translate-y-0.5"
             >
-              <span>Explore Plots</span>
+              <span>Buy Property</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
 
-            {/* Sell Your Plot */}
+            {/* Sell Property */}
             <Link
               to="/sell"
               className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-black text-sm sm:text-base shadow-lg shadow-amber-500/35 ring-4 ring-amber-200/80 transition-all flex items-center gap-2 hover:-translate-y-0.5"
             >
               <PlusCircle className="w-4 h-4" />
-              <span>Sell Your Plot</span>
+              <span>Sell Property</span>
             </Link>
 
-            {/* APCRDA GIS Map Button */}
+            {/* Buyers Choice */}
             <Link
-              to="/map"
+              to="/buyers-choice"
               className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-black text-sm sm:text-base shadow-lg shadow-emerald-600/30 ring-4 ring-emerald-200/80 transition-all flex items-center gap-2 hover:-translate-y-0.5"
             >
-              <Map className="w-4 h-4 text-emerald-200" />
-              <span>APCRDA GIS Map</span>
+              <Sparkles className="w-4 h-4 text-emerald-200" />
+              <span>Buyers Choice</span>
             </Link>
           </div>
         </div>

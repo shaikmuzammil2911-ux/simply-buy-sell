@@ -1171,42 +1171,42 @@ export const initialReviews = [
 export const initialHeroSlides = [
   {
     id: 1,
-    title: "Invest in Amaravati's Bright Future",
+    title: "Buy & Sell Properties in Amaravati",
     subtitle: "Buy • Sell • Invest",
-    description: "Discover verified APCRDA & LPS returnable residential plots, arterial commercial spaces, and high-growth capital region investments.",
+    description: "Discover verified APCRDA & LPS returnable plots, apartment flats, and open plots with transparent pricing and direct owner contacts.",
     image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1920&q=80",
-    badge: "Prime Amaravati Capital Region",
+    badge: "Prime Amaravati Real Estate",
     active: true,
-    ctaPrimary: { text: "Explore Plots", link: "/buy" },
+    ctaPrimary: { text: "Buy Properties", link: "/buy" },
     ctaSecondary: { text: "GIS Map", link: "/map" },
-    ctaBuy: { text: "Buy Plots", link: "/buy" },
-    ctaSell: { text: "Sell Your Plot", link: "/sell" }
+    ctaBuy: { text: "Buy Properties", link: "/buy" },
+    ctaSell: { text: "Sell Property", link: "/sell" }
   },
   {
     id: 2,
-    title: "Verified APCRDA Returnable Residential Plots",
+    title: "Verified APCRDA Land Pooling Plots",
     subtitle: "Clear Demarcations • Freehold Titles",
-    description: "Explore surveyed residential plots across Thullur, Rayapudi, Mandadam, and Nelapadu with authentic plot code records.",
+    description: "Explore surveyed LPS plots across Thullur, Rayapudi, Mandadam, and Nelapadu with authentic plot code records and instant documentation.",
     image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1920&q=80",
-    badge: "APCRDA LPS Returnable Plots",
+    badge: "APCRDA LPS Verified",
     active: true,
-    ctaPrimary: { text: "Residential Plots", link: "/residential-plots" },
+    ctaPrimary: { text: "Buy LPS Plots", link: "/buy?category=lps_plots" },
     ctaSecondary: { text: "Plot Intelligence", link: "/plot-intelligence" },
-    ctaBuy: { text: "Browse Residential", link: "/residential-plots" },
-    ctaSell: { text: "List Your Plot", link: "/sell" }
+    ctaBuy: { text: "Browse Plots", link: "/buy" },
+    ctaSell: { text: "Sell Your Plot", link: "/sell" }
   },
   {
     id: 3,
-    title: "High-Growth Commercial Parcels & Road Frontages",
+    title: "High-Growth Commercial Parcels & Open Plots",
     subtitle: "Seed Access Road • Arterial Expressways",
-    description: "Prime commercial frontage parcels suitable for corporate campuses, retail ventures, and long-term capital preservation.",
+    description: "Prime commercial frontage parcels and investment lands suitable for corporate campuses, retail ventures, and long-term capital preservation.",
     image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1920&q=80",
-    badge: "High-Yield Commercial Opportunities",
+    badge: "High-Yield Investments",
     active: true,
-    ctaPrimary: { text: "Commercial Plots", link: "/commercial-plots" },
-    ctaSecondary: { text: "Compare Plots", link: "/compare-plots" },
-    ctaBuy: { text: "Commercial Assets", link: "/commercial-plots" },
-    ctaSell: { text: "Post Your Plot", link: "/sell" }
+    ctaPrimary: { text: "Explore Properties", link: "/buy" },
+    ctaSecondary: { text: "Compare Properties", link: "/compare-plots" },
+    ctaBuy: { text: "Buy Properties", link: "/buy" },
+    ctaSell: { text: "Sell Property", link: "/sell" }
   }
 ];
 
