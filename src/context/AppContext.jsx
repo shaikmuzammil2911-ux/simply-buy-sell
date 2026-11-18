@@ -1,6 +1,9 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import {
   initialPlots,
+  initialHeroSlides,
+  initialServices,
+  trustCards,
   amaravatiVillages,
   amaravatiLandmarks,
   initialStatistics,
@@ -11,6 +14,7 @@ import {
 const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
+  // Persisted state helper
   const usePersistedState = (key, defaultValue) => {
     const [state, setState] = useState(() => {
       try {
@@ -33,16 +37,66 @@ export const AppProvider = ({ children }) => {
     return [state, setState];
   };
 
-  const [plots, setPlots] = usePersistedState('sbs_plots', initialPlots);
+  // Primary Data State
+  const [properties, setProperties] = usePersistedState('sbs_properties', initialPlots);
+  const [heroSlides, setHeroSlides] = usePersistedState('sbs_hero_slides', initialHeroSlides);
+  const [services, setServices] = usePersistedState('sbs_services', initialServices);
   const [villages, setVillages] = usePersistedState('sbs_villages', amaravatiVillages);
   const [landmarks, setLandmarks] = usePersistedState('sbs_landmarks', amaravatiLandmarks);
   const [statistics, setStatistics] = usePersistedState('sbs_statistics', initialStatistics);
   const [siteSettings, setSiteSettings] = usePersistedState('sbs_site_settings', initialSiteSettings);
   const [reviews, setReviews] = usePersistedState('sbs_reviews', initialReviews);
-  const [savedPlots, setSavedPlots] = usePersistedState('sbs_saved_plots', ['SBS-AMA-000101', 'SBS-AMA-000102']);
+  const [savedProperties, setSavedProperties] = usePersistedState('sbs_saved_properties', ['SBS-AMA-000101', 'SBS-AMA-000102']);
 
-  // Plot Comparison State (Up to 4 plots)
-  const [compareList, setCompareList] = usePersistedState('sbs_compare_list', ['SBS-AMA-000101', 'SBS-AMA-000103']);
+  // Comparison State (Array of plot objects)
+  const [rawCompare, setRawCompare] = usePersistedState('sbs_compare_list', ['SBS-AMA-000101', 'SBS-AMA-000103']);
+
+  // Resolve compareList into objects so table doesn't crash
+  const compareList = (Array.isArray(rawCompare) ? rawCompare : [])
+    .map((item) => {
+      if (typeof item === 'object' && item !== null) return item;
+      return properties.find((p) => p.id === item || p.plotCode === item) || null;
+    })
+    .filter(Boolean);
+
+  const isInCompare = (id) => {
+    if (!id) return false;
+    return compareList.some((p) => p.id === id || p.plotCode === id);
+  };
+
+  const addToCompare = (plotOrId) => {
+    const plot = typeof plotOrId === 'object' && plotOrId !== null
+      ? plotOrId
+      : properties.find((p) => p.id === plotOrId || p.plotCode === plotOrId);
+
+    if (!plot) return;
+
+    if (compareList.length >= 4) {
+      showToast('Limit Reached', 'You can compare up to 4 plots simultaneously.', 'info');
+      return;
+    }
+
+    if (isInCompare(plot.id)) {
+      showToast('Already Added', 'This plot is already in your comparison table.', 'info');
+      return;
+    }
+
+    setRawCompare((prev) => [...prev, plot.id]);
+    showToast('Plot Added', `${plot.plotCode || plot.id} added to comparison table.`);
+  };
+
+  const removeFromCompare = (id) => {
+    setRawCompare((prev) => prev.filter((item) => {
+      const itemId = typeof item === 'object' && item !== null ? item.id : item;
+      return itemId !== id;
+    }));
+    showToast('Removed', 'Plot removed from comparison.');
+  };
+
+  const clearCompare = () => {
+    setRawCompare([]);
+    showToast('Cleared', 'Comparison table cleared.');
+  };
 
   // Buyer Requirements Submissions
   const [buyerRequirements, setBuyerRequirements] = usePersistedState('sbs_buyer_reqs', [
@@ -64,28 +118,51 @@ export const AppProvider = ({ children }) => {
     }
   ]);
 
+  const submitBuyerRequirement = (reqData) => {
+    const newReq = {
+      ...reqData,
+      id: `req-${Date.now()}`,
+      status: 'Under Review',
+      date: new Date().toISOString().split('T')[0]
+    };
+    setBuyerRequirements((prev) => [newReq, ...prev]);
+    showToast('Requirement Received', 'Our land advisory desk will contact you with matched plots.');
+  };
+
   // Seller Plot Submissions
   const [sellerSubmissions, setSellerSubmissions] = usePersistedState('sbs_seller_plots', [
     {
       id: 'sub-1',
-      sellerName: 'K. Sambasiva Rao',
-      mobile: '+91 99890 55443',
+      fullName: 'K. Sambasiva Rao',
+      mobileNumber: '+91 99890 55443',
       email: 'sambasiva.k@gmail.com',
       category: 'Residential Plot',
       village: 'Rayapudi',
-      apcrdaPlotCode: 'LPS-RAY-R-0891',
-      plotSizeSqYd: '300',
+      plotCode: 'LPS-RAY-R-0891',
+      plotSizeSqYds: '300',
       facing: 'North-East',
       roadWidth: '60ft',
-      askingPrice: '₹96 Lakhs',
-      pricePerSqYd: '₹32,000 / sq.yd.',
-      documentsAvailable: 'LPS Allotment Order, 30Y EC',
-      status: 'Pending Review',
+      expectedAskingPrice: '₹96 Lakhs',
+      status: 'Pending Verification',
       date: '2026-11-16'
     }
   ]);
 
-  // General Plot Inquiries
+  const submitSellProperty = (sellData) => {
+    const newSub = {
+      ...sellData,
+      id: `sub-${Date.now()}`,
+      status: 'Under Verification',
+      date: new Date().toISOString().split('T')[0]
+    };
+    setSellerSubmissions((prev) => [newSub, ...prev]);
+    triggerSuccessModal(
+      'Plot Listing Submitted!',
+      'Your plot details have been received. Our Amaravati cadastral verification desk will inspect the allotment orders and verify the boundaries.'
+    );
+  };
+
+  // General Inquiries
   const [enquiries, setEnquiries] = usePersistedState('sbs_plot_enquiries', [
     {
       id: 'enq-1',
@@ -99,198 +176,200 @@ export const AppProvider = ({ children }) => {
     }
   ]);
 
-  // Modal controls
+  const submitEnquiry = (enquiryData) => {
+    const newEnq = {
+      ...enquiryData,
+      id: `enq-${Date.now()}`,
+      date: new Date().toLocaleString(),
+      status: 'New'
+    };
+    setEnquiries((prev) => [newEnq, ...prev]);
+    triggerSuccessModal(
+      'Enquiry Received!',
+      'Thank you for your interest. Our Amaravati property advisor will contact you with legal documentation.'
+    );
+  };
+
+  // Modal State
   const [modalState, setModalState] = useState({
-    enquiry: { isOpen: false, plot: null },
-    scheduleVisit: { isOpen: false, plot: null },
+    enquiry: { isOpen: false, property: null },
+    scheduleVisit: { isOpen: false, property: null },
     buyerRequirement: { isOpen: false },
     review: { isOpen: false },
     success: { isOpen: false, title: '', message: '' }
   });
 
+  const openEnquiryModal = (property = null) => {
+    setModalState((prev) => ({
+      ...prev,
+      enquiry: { isOpen: true, property }
+    }));
+  };
+
+  const closeEnquiryModal = () => {
+    setModalState((prev) => ({
+      ...prev,
+      enquiry: { isOpen: false, property: null }
+    }));
+  };
+
+  const openScheduleVisitModal = (property = null) => {
+    setModalState((prev) => ({
+      ...prev,
+      scheduleVisit: { isOpen: true, property }
+    }));
+  };
+
+  const closeScheduleVisitModal = () => {
+    setModalState((prev) => ({
+      ...prev,
+      scheduleVisit: { isOpen: false, property: null }
+    }));
+  };
+
+  const openBuyerRequirementModal = () => {
+    setModalState((prev) => ({
+      ...prev,
+      buyerRequirement: { isOpen: true }
+    }));
+  };
+
+  const closeBuyerRequirementModal = () => {
+    setModalState((prev) => ({
+      ...prev,
+      buyerRequirement: { isOpen: false }
+    }));
+  };
+
+  const openReviewModal = () => {
+    setModalState((prev) => ({
+      ...prev,
+      review: { isOpen: true }
+    }));
+  };
+
+  const closeReviewModal = () => {
+    setModalState((prev) => ({
+      ...prev,
+      review: { isOpen: false }
+    }));
+  };
+
+  const triggerSuccessModal = (title, message) => {
+    setModalState((prev) => ({
+      ...prev,
+      success: { isOpen: true, title, message }
+    }));
+  };
+
+  const closeSuccessModal = () => {
+    setModalState((prev) => ({
+      ...prev,
+      success: { isOpen: false, title: '', message: '' }
+    }));
+  };
+
+  // Toast Notification
   const [toast, setToast] = useState(null);
 
   const showToast = (title, message, type = 'success') => {
     setToast({ title, message, type });
-    setTimeout(() => setToast(null), 4000);
+    setTimeout(() => setToast(null), 4500);
   };
 
-  // Compare Actions
-  const addToCompare = (id) => {
-    if (compareList.includes(id)) {
-      showToast('Already in Compare', 'This plot is already in your comparison list.', 'info');
-      return;
-    }
-    if (compareList.length >= 4) {
-      showToast('Comparison Full', 'You can compare up to 4 plots at a time. Remove one to add another.', 'info');
-      return;
-    }
-    setCompareList(prev => [...prev, id]);
-    showToast('Plot Added to Compare', 'Added to comparison list. Access via "Compare Plots".');
-  };
-
-  const removeFromCompare = (id) => {
-    setCompareList(prev => prev.filter(item => item !== id));
-    showToast('Removed from Compare', 'Plot removed from comparison.');
-  };
-
-  const clearCompare = () => {
-    setCompareList([]);
-    showToast('Compare Cleared', 'All plots removed from comparison.');
-  };
-
-  const isCompared = (id) => compareList.includes(id);
-
-  // Favorite / Save Actions
-  const toggleSavePlot = (id) => {
-    setSavedPlots(prev => {
-      const exists = prev.includes(id);
-      if (exists) {
-        showToast('Removed from Saved', 'Plot removed from saved list.');
-        return prev.filter(item => item !== id);
+  // Save / Bookmark Plots
+  const toggleSaveProperty = (id) => {
+    setSavedProperties((prev) => {
+      if (prev.includes(id)) {
+        showToast('Removed from Saved', 'Plot removed from your saved list.');
+        return prev.filter((item) => item !== id);
       } else {
-        showToast('Plot Saved', 'Plot added to your saved favorites.');
+        showToast('Saved Plot', 'Plot added to your saved list.');
         return [...prev, id];
       }
     });
   };
 
-  const isPlotSaved = (id) => savedPlots.includes(id);
+  const isPropertySaved = (id) => savedProperties.includes(id);
 
-  // Modal Openers
-  const openEnquiryModal = (plot = null) => {
-    setModalState(prev => ({ ...prev, enquiry: { isOpen: true, plot } }));
-  };
-  const closeEnquiryModal = () => {
-    setModalState(prev => ({ ...prev, enquiry: { isOpen: false, plot: null } }));
-  };
-
-  const openScheduleVisitModal = (plot = null) => {
-    setModalState(prev => ({ ...prev, scheduleVisit: { isOpen: true, plot } }));
-  };
-  const closeScheduleVisitModal = () => {
-    setModalState(prev => ({ ...prev, scheduleVisit: { isOpen: false, plot: null } }));
-  };
-
-  const openBuyerRequirementModal = () => {
-    setModalState(prev => ({ ...prev, buyerRequirement: { isOpen: true } }));
-  };
-  const closeBuyerRequirementModal = () => {
-    setModalState(prev => ({ ...prev, buyerRequirement: { isOpen: false } }));
-  };
-
-  const openReviewModal = () => {
-    setModalState(prev => ({ ...prev, review: { isOpen: true } }));
-  };
-  const closeReviewModal = () => {
-    setModalState(prev => ({ ...prev, review: { isOpen: false } }));
-  };
-
-  const triggerSuccessModal = (title, message) => {
-    setModalState(prev => ({ ...prev, success: { isOpen: true, title, message } }));
-  };
-  const closeSuccessModal = () => {
-    setModalState(prev => ({ ...prev, success: { isOpen: false, title: '', message: '' } }));
-  };
-
-  // Buyer Requirement Submission
-  const submitBuyerRequirement = (reqData) => {
-    const newReq = {
-      ...reqData,
-      id: `req-${Date.now()}`,
+  // Reviews
+  const submitCustomerReview = (reviewData) => {
+    const newRev = {
+      ...reviewData,
+      id: `rev-${Date.now()}`,
       date: new Date().toISOString().split('T')[0],
-      status: 'Matching Inventory'
+      approved: true
     };
-    setBuyerRequirements(prev => [newReq, ...prev]);
+    setReviews((prev) => [newRev, ...prev]);
     triggerSuccessModal(
-      'Requirement Received!',
-      'Thank you. Our Amaravati plot matching desk has received your criteria. We will review our active APCRDA plot database and contact you with matching verified plots.'
+      'Review Submitted!',
+      'Thank you for your feedback. Your review is now live.'
     );
   };
 
-  // Seller Plot Submission
-  const submitSellerPlot = (subData) => {
-    const newSub = {
-      ...subData,
-      id: `sub-${Date.now()}`,
-      date: new Date().toISOString().split('T')[0],
-      status: 'Pending Review'
-    };
-    setSellerSubmissions(prev => [newSub, ...prev]);
-    triggerSuccessModal(
-      'Plot Listing Submitted for Verification!',
-      `Your submission reference is #${newSub.id.toUpperCase()}. Our team will cross-check the APCRDA plot records, verify the survey and LPS credentials, and contact you before public publication.`
-    );
+  const approveReview = (id) => {
+    setReviews((prev) => prev.map((r) => (r.id === id ? { ...r, approved: true } : r)));
+    showToast('Review Approved', 'Review is now visible on the website.');
   };
 
-  const updateSellerStatus = (id, newStatus) => {
-    setSellerSubmissions(prev => prev.map(s => s.id === id ? { ...s, status: newStatus } : s));
-    showToast('Submission Updated', `Status changed to: ${newStatus}`);
+  const rejectReview = (id) => {
+    setReviews((prev) => prev.map((r) => (r.id === id ? { ...r, approved: false } : r)));
+    showToast('Review Hidden', 'Review status updated to pending/rejected.');
   };
 
-  // Inquiries
-  const submitPlotEnquiry = (enqData) => {
-    const newEnq = {
-      ...enqData,
-      id: `enq-${Date.now()}`,
-      date: new Date().toISOString().split('T')[0],
-      status: 'New'
-    };
-    setEnquiries(prev => [newEnq, ...prev]);
-    triggerSuccessModal(
-      'Enquiry Registered!',
-      'Our Amaravati plot consultant has received your inquiry. We will provide verified documentation details and coordinate your site inspection.'
-    );
+  const deleteReview = (id) => {
+    setReviews((prev) => prev.filter((r) => r.id !== id));
+    showToast('Review Deleted', 'The review has been deleted.');
   };
 
-  // Plot CRUD for Admin
-  const addPlot = (newPlot) => {
-    const internalId = `SBS-AMA-${String(plots.length + 101).padStart(6, '0')}`;
+  // Plot CRUD Operations
+  const addProperty = (newPlot) => {
+    const internalId = `SBS-AMA-${String(properties.length + 101).padStart(6, '0')}`;
     const plotWithId = {
       ...newPlot,
       id: internalId,
       listingDate: new Date().toISOString().split('T')[0]
     };
-    setPlots(prev => [plotWithId, ...prev]);
+    setProperties((prev) => [plotWithId, ...prev]);
     showToast('Plot Added', `Plot ${internalId} added successfully to inventory.`);
   };
 
-  const updatePlot = (id, updatedData) => {
-    setPlots(prev => prev.map(p => p.id === id ? { ...p, ...updatedData } : p));
+  const updateProperty = (id, updatedData) => {
+    setProperties((prev) => prev.map((p) => (p.id === id ? { ...p, ...updatedData } : p)));
     showToast('Plot Updated', 'Plot details saved successfully.');
   };
 
-  const deletePlot = (id) => {
-    setPlots(prev => prev.filter(p => p.id !== id));
-    showToast('Plot Deleted', 'Plot removed from database.');
+  const deleteProperty = (id) => {
+    setProperties((prev) => prev.filter((p) => p.id !== id));
+    showToast('Plot Deleted', 'The plot has been removed from active inventory.');
   };
 
   const toggleFeatured = (id) => {
-    setPlots(prev => prev.map(p => p.id === id ? { ...p, featured: !p.featured } : p));
+    setProperties((prev) => prev.map((p) => (p.id === id ? { ...p, featured: !p.featured } : p)));
   };
 
   const toggleVerified = (id) => {
-    setPlots(prev => prev.map(p => p.id === id ? { ...p, verified: !p.verified } : p));
+    setProperties((prev) => prev.map((p) => (p.id === id ? { ...p, verified: !p.verified } : p)));
   };
 
-  // Dynamic WhatsApp Link Builder complying with Phase 16
-  const getWhatsAppLink = (customText = null, plot = null) => {
-    const phone = siteSettings.whatsappPhone || '919876543210';
+  // WhatsApp Link Helper (Safely handles both object and string arguments)
+  const getWhatsAppLink = (arg1 = null, arg2 = null) => {
+    const phone = siteSettings?.whatsappPhone || '919876543210';
     let text = '';
-    if (customText) {
-      text = customText;
-    } else if (plot) {
-      text = `Hello Simply Buy Sell Team,
+    if (typeof arg1 === 'object' && arg1 !== null) {
+      const p = arg1;
+      text = `Hello Simply Buy Sell Team, I am interested in this Amaravati property:
+Plot Title: ${p.title || 'Amaravati Plot'}
+Plot Code: ${p.plotCode || p.id || 'N/A'}
+Village: ${p.village || 'Amaravati'}
+Size: ${p.sizeSqYds || p.area || 'N/A'} sq.yd
+Asking Price: ${p.priceDisplay || 'On Request'}
 
-I am interested in this Amaravati plot.
-
-Property Code: ${plot.apcrdaPlotCode || plot.id}
-Village: ${plot.village}
-Category: ${plot.category}
-Plot Size: ${plot.plotSizeSqYd} Sq.Yds
-Asking Price: ${plot.priceDisplay} (${plot.pricePerSqYdDisplay})
-
-Please share the complete property details and arrange a site visit.`;
+Please share the legal verification details and coordinate a site inspection.`;
+    } else if (typeof arg1 === 'string' && arg1.trim()) {
+      text = arg1;
+    } else if (typeof arg2 === 'string' && arg2.trim()) {
+      text = `Hello Simply Buy Sell Team, I am interested in "${arg2}". Please share verified documentation and pricing details.`;
     } else {
       text = `Hello Simply Buy Sell Team, I am looking to buy/sell verified plots in Amaravati. Please share current available inventory.`;
     }
@@ -300,26 +379,29 @@ Please share the complete property details and arrange a site visit.`;
   return (
     <AppContext.Provider
       value={{
-        plots,
+        // Data Collections
+        properties,
+        plots: properties,
+        heroSlides,
+        services,
         villages,
         landmarks,
         statistics,
         siteSettings,
         reviews,
-        savedPlots,
+        trustCards,
+        savedProperties,
+        savedPlots: savedProperties,
         compareList,
         buyerRequirements,
         sellerSubmissions,
+        sellRequests: sellerSubmissions,
         enquiries,
+
+        // Modals & Notifications
         modalState,
         toast,
         showToast,
-        addToCompare,
-        removeFromCompare,
-        clearCompare,
-        isCompared,
-        toggleSavePlot,
-        isPlotSaved,
         openEnquiryModal,
         closeEnquiryModal,
         openScheduleVisitModal,
@@ -330,17 +412,46 @@ Please share the complete property details and arrange a site visit.`;
         closeReviewModal,
         closeSuccessModal,
         triggerSuccessModal,
+
+        // Comparison Actions
+        addToCompare,
+        removeFromCompare,
+        clearCompare,
+        isInCompare,
+        isCompared: isInCompare,
+
+        // Saved Plot Actions
+        toggleSaveProperty,
+        toggleSavePlot: toggleSaveProperty,
+        isPropertySaved,
+        isPlotSaved: isPropertySaved,
+
+        // Form Submissions
         submitBuyerRequirement,
-        submitSellerPlot,
-        updateSellerStatus,
-        submitPlotEnquiry,
-        addPlot,
-        updatePlot,
-        deletePlot,
+        submitSellProperty,
+        submitSellerPlot: submitSellProperty,
+        updateSellStatus: () => {},
+        submitEnquiry,
+        submitPlotEnquiry: submitEnquiry,
+        submitCustomerReview,
+        approveReview,
+        rejectReview,
+        deleteReview,
+
+        // Admin CRUD
+        addProperty,
+        updateProperty,
+        deleteProperty,
+        addPlot: addProperty,
+        updatePlot: updateProperty,
+        deletePlot: deleteProperty,
         toggleFeatured,
         toggleVerified,
         setStatistics,
         setSiteSettings,
+        setServices,
+
+        // Communication
         getWhatsAppLink
       }}
     >

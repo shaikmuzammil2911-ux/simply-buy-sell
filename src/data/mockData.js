@@ -743,9 +743,151 @@ export const initialReviews = [
   }
 ];
 
+export const initialHeroSlides = [
+  {
+    id: 1,
+    title: "Invest in Amaravati's Bright Future",
+    subtitle: "Buy • Sell • Invest",
+    description: "Discover verified APCRDA & LPS returnable residential plots, arterial commercial spaces, and high-growth capital region investments.",
+    image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1920&q=80",
+    badge: "Prime Amaravati Capital Region",
+    active: true,
+    ctaPrimary: { text: "Explore Plots", link: "/buy" },
+    ctaSecondary: { text: "GIS Map", link: "/map" },
+    ctaBuy: { text: "Buy Plots", link: "/buy" },
+    ctaSell: { text: "Sell Your Plot", link: "/sell" }
+  },
+  {
+    id: 2,
+    title: "Verified APCRDA Returnable Residential Plots",
+    subtitle: "Clear Demarcations • Freehold Titles",
+    description: "Explore surveyed residential plots across Thullur, Rayapudi, Mandadam, and Nelapadu with authentic plot code records.",
+    image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1920&q=80",
+    badge: "APCRDA LPS Returnable Plots",
+    active: true,
+    ctaPrimary: { text: "Residential Plots", link: "/residential-plots" },
+    ctaSecondary: { text: "Plot Intelligence", link: "/plot-intelligence" },
+    ctaBuy: { text: "Browse Residential", link: "/residential-plots" },
+    ctaSell: { text: "List Your Plot", link: "/sell" }
+  },
+  {
+    id: 3,
+    title: "High-Growth Commercial Parcels & Road Frontages",
+    subtitle: "Seed Access Road • Arterial Expressways",
+    description: "Prime commercial frontage parcels suitable for corporate campuses, retail ventures, and long-term capital preservation.",
+    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1920&q=80",
+    badge: "High-Yield Commercial Opportunities",
+    active: true,
+    ctaPrimary: { text: "Commercial Plots", link: "/commercial-plots" },
+    ctaSecondary: { text: "Compare Plots", link: "/compare-plots" },
+    ctaBuy: { text: "Commercial Assets", link: "/commercial-plots" },
+    ctaSell: { text: "Post Your Plot", link: "/sell" }
+  }
+];
+
+export const trustCards = [
+  {
+    id: 1,
+    title: "Verified APCRDA/LPS Codes",
+    description: "Every listing includes official cadastral layout data, survey numbers, and pooling allotment reference codes.",
+    icon: "ShieldCheck",
+    color: "blue"
+  },
+  {
+    id: 2,
+    title: "Interactive GIS Mapping",
+    description: "Inspect exact parcel geometries, road frontage widths (18m, 24m, 45m+), and distance to Amaravati anchor institutions.",
+    icon: "Map",
+    color: "green"
+  },
+  {
+    id: 3,
+    title: "Zero Brokerage Inflations",
+    description: "Direct matchmaking connecting genuine plot allottees with vetted institutional and private buyers.",
+    icon: "HeartHandshake",
+    color: "orange"
+  },
+  {
+    id: 4,
+    title: "Objective Market Benchmarks",
+    description: "Synthesized asking price per square yard analytics across 29 Amaravati capital revenue villages.",
+    icon: "TrendingUp",
+    color: "green"
+  },
+  {
+    id: 5,
+    title: "Clear Legal Due Diligence",
+    description: "Pre-screened title continuity, encumbrance certificates, and pooling returnable sanction verification.",
+    icon: "FileCheck",
+    color: "blue"
+  },
+  {
+    id: 6,
+    title: "Side-by-Side Plot Comparisons",
+    description: "Compare up to 4 plots simultaneously across size, facing, road width, and price per sq.yd before committing.",
+    icon: "Sparkles",
+    color: "orange"
+  }
+];
+
+export const initialServices = [
+  {
+    id: 1,
+    slug: "residential-plots",
+    title: "Residential Plots",
+    subtitle: "APCRDA LPS Returnable Allotments",
+    description: "Find clear-title residential plots in prime sectors of Thullur, Rayapudi, and Mandadam with wide roads and underground infrastructure.",
+    image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=800&q=80",
+    icon: "Home",
+    featured: true,
+    highlights: ["Clear Demarcated Sectors", "18m to 24m Road Access", "Freehold Ownership Titles", "High Capital ROI"]
+  },
+  {
+    id: 2,
+    slug: "commercial-plots",
+    title: "Commercial Plots",
+    subtitle: "High-Density Commercial & Mixed-Use",
+    description: "Prime arterial frontage plots on Seed Access Road and expressway corridors for retail showrooms, corporate offices, and healthcare hubs.",
+    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80",
+    icon: "Building2",
+    featured: true,
+    highlights: ["Expressway Frontage", "30m to 60m Road Widths", "High Density Zoning", "Instant Connectivity to Vijayawada"]
+  },
+  {
+    id: 3,
+    slug: "gis-map-assistance",
+    title: "GIS Map Discovery & Site Verification",
+    subtitle: "Spatial Cadastral Survey & Navigation",
+    description: "Locate exact plot boundaries using GPS coordinates, verify sector master plan zoning, and inspect ground demarcations.",
+    image: "https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=800&q=80",
+    icon: "MapPin",
+    featured: true,
+    highlights: ["Real Cadastral Overlays", "Exact GPS Coordinates", "Distance to Key Landmarks", "Direct Turn-by-Turn Directions"]
+  },
+  {
+    id: 4,
+    slug: "plot-intelligence-reports",
+    title: "Plot Intelligence & Valuation",
+    subtitle: "In-depth Spatial & Benchmark Analytics",
+    description: "Comprehensive 7-module dossier detailing physical dimensions, zoning compliance, infrastructure proximity, and market rates.",
+    image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80",
+    icon: "TrendingUp",
+    featured: true,
+    highlights: ["Village Median Comparison", "Zoning Certification", "Infrastructure Proximity", "Buyer Suitability Matrix"]
+  }
+];
+
 export const initialStatistics = {
+  propertiesListed: "140+",
+  propertiesCount: 148,
   activePlotsCount: 148,
   activePlotsDisplay: "140+",
+  happyCustomers: "5K+",
+  happyCount: 5000,
+  trustedPlatform: "100%",
+  trustedCount: 100,
+  serviceArea: "Amaravati Capital Region",
+  serviceTagline: "Andhra Pradesh",
   registeredVillages: 13,
   villagesDisplay: "13 Villages",
   sqYardsListed: 125000,
