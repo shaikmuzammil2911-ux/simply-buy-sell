@@ -37,16 +37,23 @@ export const AppProvider = ({ children }) => {
     return [state, setState];
   };
 
-  // Primary Data State
-  const [properties, setProperties] = usePersistedState('sbs_properties', initialPlots);
-  const [heroSlides, setHeroSlides] = usePersistedState('sbs_hero_slides', initialHeroSlides);
-  const [services, setServices] = usePersistedState('sbs_services', initialServices);
-  const [villages, setVillages] = usePersistedState('sbs_villages', amaravatiVillages);
-  const [landmarks, setLandmarks] = usePersistedState('sbs_landmarks', amaravatiLandmarks);
-  const [statistics, setStatistics] = usePersistedState('sbs_statistics', initialStatistics);
-  const [siteSettings, setSiteSettings] = usePersistedState('sbs_site_settings', initialSiteSettings);
-  const [reviews, setReviews] = usePersistedState('sbs_reviews', initialReviews);
-  const [savedProperties, setSavedProperties] = usePersistedState('sbs_saved_properties', ['SBS-AMA-000101', 'SBS-AMA-000102']);
+  // Primary Data State (Versioned cache ensures immediate freshness across browsers)
+  const [properties, setProperties] = usePersistedState('sbs_properties_v5', initialPlots);
+  const [heroSlides, setHeroSlides] = usePersistedState('sbs_hero_slides_v5', initialHeroSlides);
+  const [services, setServices] = usePersistedState('sbs_services_v5', initialServices);
+  const [villages, setVillages] = usePersistedState('sbs_villages_v5', amaravatiVillages);
+  const [landmarks, setLandmarks] = usePersistedState('sbs_landmarks_v5', amaravatiLandmarks);
+  const [statistics, setStatistics] = usePersistedState('sbs_statistics_v5', initialStatistics);
+  const [siteSettings, setSiteSettings] = usePersistedState('sbs_site_settings_v5', initialSiteSettings);
+  const [reviews, setReviews] = usePersistedState('sbs_reviews_v5', initialReviews);
+  const [savedProperties, setSavedProperties] = usePersistedState('sbs_saved_properties_v5', ['SBS-AMA-000101', 'SBS-AMA-000102']);
+
+  // Auto-heal / sync if stored properties array is smaller than updated catalog
+  useEffect(() => {
+    if (!properties || properties.length < initialPlots.length) {
+      setProperties(initialPlots);
+    }
+  }, []);
 
   // Comparison State (Array of plot objects)
   const [rawCompare, setRawCompare] = usePersistedState('sbs_compare_list', ['SBS-AMA-000101', 'SBS-AMA-000103']);

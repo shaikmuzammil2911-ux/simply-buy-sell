@@ -19,7 +19,8 @@ import {
   MapPin,
   Eye,
   RotateCcw,
-  Globe2
+  Globe2,
+  ArrowRight
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { amaravatiVillages, amaravatiLandmarks } from '../data/mockData';
@@ -43,22 +44,46 @@ export default function MapPage() {
   const markersRef = useRef([]);
   const polygonRef = useRef(null);
 
-  // Filter plots
+  // Filter plots with fallback coordinates to ensure every listing maps accurately
   const filteredPlots = properties.filter((plot) => {
-    if (!plot.lat || !plot.lng) return false;
+    // Determine coordinates (use plot coordinates or fallback to village coordinates)
+    const plotLat = plot.lat || amaravatiVillages.find((v) => v.name.toLowerCase() === plot.village?.toLowerCase())?.lat;
+    const plotLng = plot.lng || amaravatiVillages.find((v) => v.name.toLowerCase() === plot.village?.toLowerCase())?.lng;
+    if (!plotLat || !plotLng) return false;
 
-    if (selectedCategory !== 'All' && plot.category !== selectedCategory) {
-      return false;
+    // Attach verified coordinates to plot
+    plot.lat = plot.lat || plotLat;
+    plot.lng = plot.lng || plotLng;
+
+    if (selectedCategory !== 'All') {
+      const cat = (plot.category || '').toLowerCase();
+      const pCat = (plot.propertyCategory || '').toLowerCase();
+      const type = (plot.type || '').toLowerCase();
+      const sel = selectedCategory.toLowerCase();
+
+      if (sel.includes('residential')) {
+        if (!cat.includes('residential') && pCat !== 'lps_plots') return false;
+      } else if (sel.includes('commercial')) {
+        if (!cat.includes('commercial')) return false;
+      } else if (sel.includes('apartment') || sel.includes('flat')) {
+        if (pCat !== 'apartments' && type !== 'flats') return false;
+      } else if (sel.includes('house') || sel.includes('villa')) {
+        if (pCat !== 'houses' && type !== 'houses') return false;
+      } else if (sel.includes('open')) {
+        if (pCat !== 'open_plots') return false;
+      }
     }
+
     if (selectedVillage !== 'All' && plot.village?.toLowerCase() !== selectedVillage.toLowerCase()) {
       return false;
     }
+
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase().trim();
-      const matchCode = plot.plotCode?.toLowerCase().includes(q);
-      const matchId = plot.id?.toLowerCase().includes(q);
-      const matchVillage = plot.village?.toLowerCase().includes(q);
-      const matchTitle = plot.title?.toLowerCase().includes(q);
+      const matchCode = (plot.apcrdaPlotCode || plot.plotCode || '').toLowerCase().includes(q);
+      const matchId = (plot.id || '').toLowerCase().includes(q);
+      const matchVillage = (plot.village || '').toLowerCase().includes(q);
+      const matchTitle = (plot.title || '').toLowerCase().includes(q);
       if (!matchCode && !matchId && !matchVillage && !matchTitle) return false;
     }
     return true;
@@ -179,17 +204,53 @@ export default function MapPage() {
       });
     }
 
-    // Add Plot Markers with Grand Visual Styling
+    // Add Plot Markers with Grand Visual Styling & Multi-Category Differentiation
     filteredPlots.forEach((plot) => {
-      const isRes = plot.category === 'Residential Plot';
       const isSelected = selectedPlot?.id === plot.id;
+      const isRes = plot.category === 'Residential Plot' || (plot.propertyCategory === 'lps_plots' && plot.category === 'residential');
+      const isComm = plot.category === 'Commercial Plot' || (plot.propertyCategory === 'lps_plots' && plot.category === 'commercial');
+      const isApt = plot.propertyCategory === 'apartments' || plot.type === 'Flats';
+      const isHouse = plot.propertyCategory === 'houses' || plot.type === 'Houses';
+      const isOpenPlot = plot.propertyCategory === 'open_plots';
 
-      // Vivid Emerald for Residential, Vivid Flame Orange for Commercial
-      const bgGradient = isRes
-        ? 'linear-gradient(135deg, #059669, #10b981)'
-        : 'linear-gradient(135deg, #d97706, #f59e0b)';
-      const shadowColor = isRes ? 'rgba(5, 150, 105, 0.45)' : 'rgba(217, 119, 6, 0.45)';
-      const ringColor = isSelected ? '#ffffff' : (isRes ? '#a7f3d0' : '#fde68a');
+      // Pin Color, Gradient, Shadow & Marker Letter
+      let bgGradient = 'linear-gradient(135deg, #059669, #10b981)';
+      let shadowColor = 'rgba(5, 150, 105, 0.45)';
+      let ringColor = isSelected ? '#ffffff' : '#a7f3d0';
+      let pinLetter = 'R';
+      let categoryTag = 'Residential Plot';
+      let badgeBg = '#059669';
+
+      if (isComm) {
+        bgGradient = 'linear-gradient(135deg, #d97706, #f59e0b)';
+        shadowColor = 'rgba(217, 119, 6, 0.45)';
+        ringColor = isSelected ? '#ffffff' : '#fde68a';
+        pinLetter = 'C';
+        categoryTag = 'Commercial Plot';
+        badgeBg = '#d97706';
+      } else if (isApt) {
+        bgGradient = 'linear-gradient(135deg, #2563eb, #3b82f6)';
+        shadowColor = 'rgba(37, 99, 235, 0.45)';
+        ringColor = isSelected ? '#ffffff' : '#bfdbfe';
+        pinLetter = 'A';
+        categoryTag = 'Apartment Flat';
+        badgeBg = '#2563eb';
+      } else if (isHouse) {
+        bgGradient = 'linear-gradient(135deg, #7c3aed, #8b5cf6)';
+        shadowColor = 'rgba(124, 58, 237, 0.45)';
+        ringColor = isSelected ? '#ffffff' : '#ddd6fe';
+        pinLetter = 'H';
+        categoryTag = 'Individual House';
+        badgeBg = '#7c3aed';
+      } else if (isOpenPlot) {
+        bgGradient = 'linear-gradient(135deg, #b45309, #d97706)';
+        shadowColor = 'rgba(180, 83, 9, 0.45)';
+        ringColor = isSelected ? '#ffffff' : '#fed7aa';
+        pinLetter = 'P';
+        categoryTag = 'Open Plot';
+        badgeBg = '#b45309';
+      }
+
       const size = isSelected ? 42 : 36;
 
       const customIcon = L.divIcon({
@@ -230,7 +291,7 @@ export default function MapPage() {
                 font-weight: 900;
                 text-shadow: 0 1px 2px rgba(0,0,0,0.4);
               ">
-                ${isRes ? 'R' : 'C'}
+                ${pinLetter}
               </span>
             </div>
           </div>
@@ -242,15 +303,15 @@ export default function MapPage() {
 
       const marker = L.marker([plot.lat, plot.lng], { icon: customIcon }).addTo(map);
 
-      // Grand Popup Content with thumbnail, crisp details, and actions
+      // Grand Popup Content with thumbnail, crisp details, and DIRECT VIEW PROPERTY LINK
       const popupHtml = `
-        <div style="font-family:system-ui;min-width:260px;padding:4px;overflow:hidden;border-radius:12px;">
-          <div style="position:relative;width:100%;height:110px;border-radius:10px;overflow:hidden;margin-bottom:8px;background:#0f172a;">
+        <div style="font-family:system-ui;min-width:270px;padding:4px;overflow:hidden;border-radius:12px;">
+          <div style="position:relative;width:100%;height:115px;border-radius:10px;overflow:hidden;margin-bottom:8px;background:#0f172a;">
             <img src="${plot.images?.[0] || 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=400&q=80'}" style="width:100%;height:100%;object-fit:cover;filter:brightness(1.05);" />
-            <div style="position:absolute;top:6px;left:6px;background:${isRes ? '#059669' : '#d97706'};color:#fff;font-size:10px;font-weight:800;padding:2px 8px;border-radius:6px;text-transform:uppercase;box-shadow:0 2px 6px rgba(0,0,0,0.3);">
-              ${plot.category}
+            <div style="position:absolute;top:6px;left:6px;background:${badgeBg};color:#fff;font-size:10px;font-weight:800;padding:2px 8px;border-radius:6px;text-transform:uppercase;box-shadow:0 2px 6px rgba(0,0,0,0.3);">
+              ${plot.category || categoryTag}
             </div>
-            <div style="position:absolute;bottom:6px;right:6px;background:rgba(15,23,42,0.85);backdrop-filter:blur(4px);color:#fff;font-size:13px;font-weight:900;padding:3px 8px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);">
+            <div style="position:absolute;bottom:6px;right:6px;background:rgba(15,23,42,0.88);backdrop-filter:blur(4px);color:#fff;font-size:13px;font-weight:900;padding:3px 8px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);">
               ${plot.priceDisplay}
             </div>
           </div>
@@ -260,24 +321,29 @@ export default function MapPage() {
           </div>
 
           <div style="font-size:11px;color:#0284c7;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:4px;">
-            <span>📍 ${plot.village}, Amaravati</span>
-            ${plot.plotCode ? `<span style="margin-left:auto;font-family:monospace;background:#fef3c7;color:#b45309;padding:1px 5px;border-radius:4px;border:1px solid #fde68a;">${plot.plotCode}</span>` : ''}
+            <span>📍 ${plot.village || 'Amaravati'}, Amaravati</span>
+            ${(plot.apcrdaPlotCode || plot.plotCode) ? `<span style="margin-left:auto;font-family:monospace;background:#fef3c7;color:#b45309;padding:1px 5px;border-radius:4px;border:1px solid #fde68a;">${plot.apcrdaPlotCode || plot.plotCode}</span>` : ''}
           </div>
 
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;font-size:10px;background:#f8fafc;padding:6px 8px;border-radius:8px;margin-bottom:10px;border:1px solid #e2e8f0;">
-            <div><strong>Size:</strong> ${plot.sizeSqYds} sq.yd</div>
-            <div><strong>Facing:</strong> ${plot.facing}</div>
-            <div><strong>Road:</strong> ${plot.roadWidth}m wide</div>
-            <div><strong>Asking:</strong> ₹${plot.pricePerSqYd?.toLocaleString('en-IN') || 'N/A'}/yd</div>
+            <div><strong>Extent:</strong> ${plot.area || `${plot.plotSizeSqYd || 200} sq.yd`}</div>
+            <div><strong>Facing:</strong> ${plot.facing || 'East'}</div>
+            <div><strong>Road:</strong> ${plot.roadWidthFt ? `${plot.roadWidthFt} ft` : (plot.roadWidth || '40 ft')}</div>
+            <div><strong>Rate:</strong> ${plot.pricePerSqYd ? `₹${plot.pricePerSqYd.toLocaleString()}/yd` : (plot.pricePerSqFt ? `₹${plot.pricePerSqFt.toLocaleString()}/ft` : 'Best Price')}</div>
           </div>
 
           <div style="display:flex;flex-direction:column;gap:5px;">
-            <a href="/plot-intelligence?code=${encodeURIComponent(plot.plotCode || plot.id)}" style="display:block;text-align:center;padding:7px;background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;font-size:11px;font-weight:800;border-radius:8px;text-decoration:none;box-shadow:0 3px 8px rgba(37,99,235,0.35);">
-              Explore Plot Intelligence Dossier →
+            <a href="/property/${plot.id}" style="display:block;text-align:center;padding:8px;background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;font-size:12px;font-weight:900;border-radius:8px;text-decoration:none;box-shadow:0 3px 10px rgba(37,99,235,0.35);">
+              View Complete Property Details →
             </a>
-            <a href="https://www.google.com/maps/dir/?api=1&destination=${plot.lat},${plot.lng}" target="_blank" rel="noopener noreferrer" style="display:block;text-align:center;padding:6px;background:#f1f5f9;color:#334155;font-size:10px;font-weight:700;border-radius:8px;text-decoration:none;border:1px solid #cbd5e1;">
-              Turn-by-Turn GPS Navigation ↗
-            </a>
+            <div style="display:flex;gap:5px;">
+              <a href="/plot-intelligence?code=${encodeURIComponent(plot.apcrdaPlotCode || plot.plotCode || plot.id)}" style="flex:1;text-align:center;padding:5px;background:#f0f9ff;color:#0284c7;font-size:10px;font-weight:800;border-radius:6px;text-decoration:none;border:1px solid #bae6fd;">
+                Plot Intelligence
+              </a>
+              <a href="https://www.google.com/maps/dir/?api=1&destination=${plot.lat},${plot.lng}" target="_blank" rel="noopener noreferrer" style="flex:1;text-align:center;padding:5px;background:#f1f5f9;color:#334155;font-size:10px;font-weight:700;border-radius:6px;text-decoration:none;border:1px solid #cbd5e1;">
+                GPS Directions ↗
+              </a>
+            </div>
           </div>
         </div>
       `;
@@ -291,8 +357,10 @@ export default function MapPage() {
           polygonRef.current.remove();
           polygonRef.current = null;
         }
-        if (plot.boundaries && plot.boundaries.length > 2) {
-          polygonRef.current = L.polygon(plot.boundaries, {
+        const bounds = plot.boundaries || plot.boundaryGeoJson?.coordinates?.[0];
+        if (bounds && bounds.length > 2) {
+          const latLngs = bounds.map(coord => Array.isArray(coord) ? [coord[1], coord[0]] : coord);
+          polygonRef.current = L.polygon(latLngs, {
             color: isRes ? '#059669' : '#d97706',
             fillColor: isRes ? '#10b981' : '#f59e0b',
             fillOpacity: 0.45,
@@ -356,18 +424,18 @@ export default function MapPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col pt-16">
+    <div className="min-h-screen bg-slate-50 flex flex-col pt-0">
       {/* Top Grand GIS Sub-Header / Filters with High-Contrast Vivid Colors */}
-      <div className="bg-white border-b-2 border-blue-200 shadow-md px-4 py-3 sticky top-16 z-20">
+      <div className="bg-white border-b-2 border-blue-200 shadow-md px-4 py-2.5 sm:py-3 sticky top-0 z-20">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-3">
           {/* Title & Stats */}
           <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-700 text-white flex items-center justify-center shadow-lg shadow-blue-500/30 ring-2 ring-blue-200">
-              <MapIcon className="w-6 h-6" />
+            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-700 text-white flex items-center justify-center shadow-lg shadow-blue-500/30 ring-2 ring-blue-200 shrink-0">
+              <MapIcon className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h1 className="text-lg font-black text-navy-950">
+                <h1 className="text-base sm:text-lg font-black text-navy-950">
                   Amaravati GIS Cadastral Plot Explorer
                 </h1>
                 <span className="text-[10px] font-black uppercase tracking-wider bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-2.5 py-0.5 rounded-full shadow-sm">
@@ -375,7 +443,7 @@ export default function MapPage() {
                 </span>
               </div>
               <p className="text-xs font-semibold text-slate-600">
-                Visualizing <strong className="text-blue-700">{filteredPlots.length}</strong> verified plotted parcels across Amaravati villages
+                Visualizing <strong className="text-blue-700 font-black">{filteredPlots.length}</strong> verified plotted parcels across Amaravati villages
               </p>
             </div>
           </div>
@@ -394,15 +462,18 @@ export default function MapPage() {
               />
             </div>
 
-            {/* Category Select */}
+            {/* Category Select covering all 4+ multi-category inventory */}
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
               className="py-1.5 px-3 rounded-xl border-2 border-slate-200 bg-white font-bold text-navy-900 focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs shadow-sm"
             >
-              <option value="All">All Categories</option>
-              <option value="Residential Plot">Residential Plots (LPS)</option>
-              <option value="Commercial Plot">Commercial Plots (Arterial)</option>
+              <option value="All">All Categories ({properties.length} Available)</option>
+              <option value="Residential Plot">Amaravati LPS Residential Plots</option>
+              <option value="Commercial Plot">Amaravati LPS Commercial Plots</option>
+              <option value="Apartments">Apartment Flats</option>
+              <option value="Houses">Individual Houses & Villas</option>
+              <option value="Open Plots">Open Plots & Ventures</option>
             </select>
 
             {/* Village Select */}
@@ -468,7 +539,12 @@ export default function MapPage() {
               filteredPlots.map((plot) => {
                 const isSelected = selectedPlot?.id === plot.id;
                 const inCompare = isInCompare(plot.id);
-                const isRes = plot.category === 'Residential Plot';
+                const isRes = plot.category === 'Residential Plot' || (plot.propertyCategory === 'lps_plots' && plot.category === 'residential');
+                const isComm = plot.category === 'Commercial Plot' || (plot.propertyCategory === 'lps_plots' && plot.category === 'commercial');
+                const isApt = plot.propertyCategory === 'apartments' || plot.type === 'Flats';
+                const isHouse = plot.propertyCategory === 'houses' || plot.type === 'Houses';
+
+                const badgeBg = isRes ? 'bg-emerald-600' : isComm ? 'bg-amber-600' : isApt ? 'bg-blue-600' : isHouse ? 'bg-purple-600' : 'bg-slate-700';
 
                 return (
                   <div
@@ -476,67 +552,92 @@ export default function MapPage() {
                     onClick={() => handleSelectPlotFromList(plot)}
                     className={`p-3.5 rounded-2xl cursor-pointer transition-all border-2 ${
                       isSelected
-                        ? 'bg-blue-50/90 border-blue-500 shadow-md ring-2 ring-blue-300/60'
+                        ? 'bg-blue-50/90 border-blue-500 shadow-lg ring-2 ring-blue-300/60'
                         : 'bg-white border-slate-200 hover:border-blue-300 hover:shadow-md'
                     }`}
                   >
-                    <div className="flex items-start justify-between gap-2 mb-1.5">
-                      <span
-                        className={`text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full text-white shadow-sm ${
-                          isRes ? 'bg-emerald-600' : 'bg-amber-600'
-                        }`}
-                      >
-                        {plot.category}
-                      </span>
-                      <span className="text-sm font-black text-navy-950">
-                        {plot.priceDisplay}
-                      </span>
-                    </div>
-
-                    <div className="font-extrabold text-xs text-navy-950 line-clamp-1 mb-1">
-                      {plot.title}
-                    </div>
-
-                    <div className="flex items-center gap-1 text-[11px] text-slate-600 mb-2 font-medium">
-                      <MapPin className="w-3.5 h-3.5 text-blue-600 shrink-0" />
-                      <span>{plot.village}, Amaravati</span>
-                      {plot.plotCode && (
-                        <span className="ml-auto font-mono text-[10px] font-bold text-amber-800 bg-amber-100 px-1.5 py-0.5 rounded border border-amber-300">
-                          {plot.plotCode}
+                    <div className="flex gap-3">
+                      {/* Thumbnail Image */}
+                      <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-xl overflow-hidden bg-slate-900 shrink-0">
+                        <img
+                          src={plot.images?.[0] || 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=400&q=80'}
+                          alt={plot.title}
+                          className="w-full h-full object-cover filter brightness-105 contrast-105"
+                        />
+                        <span className={`absolute top-1.5 left-1.5 text-[9px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded text-white shadow-xs ${badgeBg}`}>
+                          {plot.category || (isApt ? 'Flat' : isHouse ? 'House' : 'Plot')}
                         </span>
-                      )}
+                      </div>
+
+                      {/* Content Details */}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-start justify-between gap-1 mb-0.5">
+                          <span className="text-sm font-black text-brand-orange">
+                            {plot.priceDisplay}
+                          </span>
+                          {(plot.apcrdaPlotCode || plot.plotCode) && (
+                            <span className="font-mono text-[9px] font-bold text-blue-800 bg-blue-100 px-1.5 py-0.5 rounded border border-blue-200 truncate max-w-[100px]">
+                              {plot.apcrdaPlotCode || plot.plotCode}
+                            </span>
+                          )}
+                        </div>
+
+                        <h4 className="font-extrabold text-xs text-navy-950 line-clamp-1 mb-1">
+                          {plot.title}
+                        </h4>
+
+                        <div className="flex items-center gap-1 text-[11px] text-slate-600 mb-2 font-medium">
+                          <MapPin className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+                          <span className="truncate">{plot.village || 'Amaravati'}, AP</span>
+                        </div>
+
+                        <div className="text-[10px] text-slate-500 font-semibold mb-2">
+                          <span>{plot.area || `${plot.plotSizeSqYd || 200} sq.yd`}</span>
+                          {plot.facing && <span> • {plot.facing}</span>}
+                          {plot.roadWidth && <span> • {plot.roadWidth}m</span>}
+                        </div>
+                      </div>
                     </div>
 
-                    <div className="grid grid-cols-3 gap-1 text-[10px] bg-slate-50 p-2 rounded-xl mb-2.5 text-slate-700 font-bold border border-slate-100">
-                      <div><span className="text-slate-400 font-normal">Size:</span> {plot.sizeSqYds} yd</div>
-                      <div><span className="text-slate-400 font-normal">Facing:</span> {plot.facing}</div>
-                      <div><span className="text-slate-400 font-normal">Road:</span> {plot.roadWidth}m</div>
-                    </div>
-
-                    <div className="flex items-center justify-between gap-1 pt-2 border-t border-slate-100 text-[11px]">
+                    {/* Action Buttons: Direct Navigate & Locate */}
+                    <div className="flex items-center justify-between gap-2 pt-2.5 mt-2 border-t border-slate-100 text-[11px]">
+                      {/* Direct Property Details Link */}
                       <Link
-                        to={`/plot-intelligence?code=${encodeURIComponent(plot.plotCode || plot.id)}`}
+                        to={`/property/${plot.id}`}
                         onClick={(e) => e.stopPropagation()}
-                        className="text-blue-600 hover:text-blue-800 font-black flex items-center gap-1 bg-blue-50 px-2 py-0.5 rounded-md border border-blue-200"
+                        className="px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black text-xs flex items-center gap-1 shadow-sm transition-all hover:scale-105"
                       >
-                        <Sparkles className="w-3 h-3 text-blue-600" />
-                        <span>Intelligence</span>
+                        <span>View Property</span>
+                        <ArrowRight className="w-3.5 h-3.5" />
                       </Link>
 
+                      {/* Zoom on Map */}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleSelectPlotFromList(plot);
+                        }}
+                        className="px-2.5 py-1.5 rounded-xl bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100 font-bold text-xs flex items-center gap-1"
+                      >
+                        <Navigation className="w-3 h-3 text-blue-600" />
+                        <span>Locate</span>
+                      </button>
+
+                      {/* Compare Toggle */}
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
                           if (inCompare) removeFromCompare(plot.id);
                           else addToCompare(plot);
                         }}
-                        className={`text-[10px] font-black px-2.5 py-1 rounded-md flex items-center gap-1 transition-all ${
+                        className={`text-[10px] font-black px-2 py-1.5 rounded-xl flex items-center gap-1 transition-all ${
                           inCompare
                             ? 'bg-amber-500 text-white shadow-sm'
-                            : 'bg-slate-100 text-slate-800 hover:bg-slate-200'
+                            : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200'
                         }`}
                       >
                         <SlidersHorizontal className="w-2.5 h-2.5" />
-                        <span>{inCompare ? 'Comparing' : 'Compare'}</span>
+                        <span>{inCompare ? 'Compared' : 'Compare'}</span>
                       </button>
                     </div>
                   </div>

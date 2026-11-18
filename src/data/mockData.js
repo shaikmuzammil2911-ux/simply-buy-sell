@@ -568,6 +568,7 @@ export const initialPlots = [
       "https://images.unsplash.com/photo-1592595896551-12b371d546d5?auto=format&fit=crop&w=1200&q=80"
     ],
     description: "Corner residential plot located right in the Judicial City zone of Nelapadu. Surrounded by proposed judge and advocate colonies, institutional facilities, and parks. Immediate possession.",
+    propertyCategory: "lps_plots",
     highlights: [
       "South-East corner with dual road access (60ft & 40ft roads)",
       "Walking distance to High Court of Andhra Pradesh",
@@ -580,6 +581,124 @@ export const initialPlots = [
       nearbyInfra: "High Court (0.5 km), Justice City Promenade (0.8 km), Thullur (2.5 km).",
       comparablesInsight: "Nelapadu judicial plots range between ₹28,000–₹33,000/sq.yd.",
       buyerFit: "Advocates, legal professionals, and families seeking an upscale address."
+    }
+  },
+  {
+    id: "SBS-AMA-000106-C",
+    apcrdaPlotCode: "LPS-NEL-C-0215",
+    title: "450 Sq.Yd High Court Commercial Arterial Plot, Nelapadu",
+    category: "Commercial Plot",
+    plotType: "Commercial Plot",
+    propertyCategory: "lps_plots",
+    village: "Nelapadu",
+    locality: "Justice City Main Arterial Frontage",
+    surveyNo: "71/2A",
+    plotNumber: "215",
+    layoutName: "Nelapadu Commercial Sector 4",
+    plotSizeSqYd: 450,
+    dimensions: "45 ft x 90 ft",
+    plotLengthFt: 90,
+    plotWidthFt: 45,
+    frontageFt: 45,
+    roadWidthFt: 80,
+    facing: "North-East",
+    cornerPlot: true,
+    roadAccess: "80 ft Master Plan Expressway + 40 ft Side Road",
+    askingPrice: 14850000,
+    priceDisplay: "₹1.48 Crore",
+    pricePerSqYd: 33000,
+    pricePerSqYdDisplay: "₹33,000 / sq.yd.",
+    negotiable: true,
+    listingDate: "2026-11-15",
+    status: "Available",
+    featured: true,
+    verified: true,
+    lat: 16.5175,
+    lng: 80.4892,
+    locationAccuracy: "Exact Verified Plot Location",
+    documentation: {
+      titleReviewStatus: "Verified Commercial Title",
+      lpsReturnableCertificate: "Valid Returnable Certificate Available",
+      crdallpSanctionNo: "APCRDA/COMM/NEL/2019/0215",
+      encumbranceStatus: "Clear EC Checked",
+      source: "Nelapadu SRO Records",
+      lastVerificationDate: "2026-11-14"
+    },
+    images: [
+      "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80"
+    ],
+    description: "High-value commercial returnable plot fronting the primary Justice City sector road. Perfect for legal chambers, office suites, or corporate branches.",
+    highlights: [
+      "Direct 80ft expressway frontage",
+      "Just 300 meters from Andhra Pradesh High Court",
+      "Corner plot with optimal signage visibility"
+    ],
+    intelligence: {
+      roadConnectivity: "80ft sector road connectivity.",
+      landUseZoning: "C1 - Commercial Mixed-Use Zone.",
+      nearbyInfra: "High Court of AP (0.3 km), Velagapudi Secretariat (3.5 km).",
+      comparablesInsight: "Nelapadu commercial plots trade between ₹32,000–₹38,000/sq.yd.",
+      buyerFit: "Commercial developers, law firms, and institutional investors."
+    }
+  },
+  {
+    id: "SBS-AMA-000106-R2",
+    apcrdaPlotCode: "LPS-NEL-R-0418",
+    title: "200 Sq.Yd 100% East Facing Residential Plot, Nelapadu",
+    category: "Residential Plot",
+    plotType: "Residential Plot",
+    propertyCategory: "lps_plots",
+    village: "Nelapadu",
+    locality: "Justice City Advocates Enclave",
+    surveyNo: "65/3",
+    plotNumber: "418",
+    layoutName: "Nelapadu LPS Residential Phase 2",
+    plotSizeSqYd: 200,
+    dimensions: "30 ft x 60 ft",
+    plotLengthFt: 60,
+    plotWidthFt: 30,
+    frontageFt: 30,
+    roadWidthFt: 40,
+    facing: "East",
+    cornerPlot: false,
+    roadAccess: "40 ft Wide Blacktop Sector Road",
+    askingPrice: 5800000,
+    priceDisplay: "₹58 Lakhs",
+    pricePerSqYd: 29000,
+    pricePerSqYdDisplay: "₹29,000 / sq.yd.",
+    negotiable: false,
+    listingDate: "2026-11-17",
+    status: "Available",
+    featured: false,
+    verified: true,
+    lat: 16.5165,
+    lng: 80.4915,
+    locationAccuracy: "Exact Verified Plot Location",
+    documentation: {
+      titleReviewStatus: "100% Verified Clean Title",
+      lpsReturnableCertificate: "Certificate Available & Verified",
+      crdallpSanctionNo: "APCRDA/NEL/2019/0418",
+      encumbranceStatus: "Nil Encumbrance",
+      source: "Nelapadu SRO & CRDA Land Records",
+      lastVerificationDate: "2026-11-16"
+    },
+    images: [
+      "https://images.unsplash.com/photo-1628744448840-55bdb2497bd4?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80"
+    ],
+    description: "Compact 200 sq.yd east-facing residential returnable plot in Nelapadu. Ready for immediate luxury house or villa construction with clean titles.",
+    highlights: [
+      "100% Vaastu Compliant East Facing",
+      "Fully developed 40ft blacktop road with underground utilities",
+      "Peaceful residential enclave next to High Court complex"
+    ],
+    intelligence: {
+      roadConnectivity: "40ft internal blacktop road.",
+      landUseZoning: "R1 - Primary Plotted Residential.",
+      nearbyInfra: "High Court (0.6 km), Justice City Park (0.4 km).",
+      comparablesInsight: "Nelapadu residential plots median ₹29,000/sq.yd.",
+      buyerFit: "Lawyers, senior executives, and families building modern homes."
     }
   },
   {
