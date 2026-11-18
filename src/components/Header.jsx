@@ -56,9 +56,9 @@ export default function Header() {
             : 'bg-white/95 backdrop-blur-sm border-b border-blue-100 py-3'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between relative">
           {/* Logo */}
-          <Link to="/" className="flex items-center group py-0.5 mr-6 lg:mr-10 shrink-0">
+          <Link to="/" className="flex items-center group py-0.5 shrink-0 z-10">
             <img
               src="/logo.png"
               alt="SimplyBuySell Logo"
@@ -69,8 +69,8 @@ export default function Header() {
             />
           </Link>
 
-          {/* Desktop Navigation Links */}
-          <div className="hidden lg:flex items-center gap-6 text-sm font-bold text-slate-700">
+          {/* Desktop Navigation Links - Centered in the middle */}
+          <div className="hidden lg:flex items-center justify-center gap-8 text-sm font-bold text-slate-700 absolute left-1/2 -translate-x-1/2">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
@@ -96,10 +96,21 @@ export default function Header() {
             ))}
           </div>
 
+          {/* Right Contact Quick Pill on Desktop for balanced layout */}
+          <div className="hidden lg:flex items-center gap-2 z-10">
+            <a
+              href={`tel:${siteSettings.phone.replace(/\s+/g, '')}`}
+              className="inline-flex items-center gap-1.5 text-xs font-extrabold text-blue-700 hover:text-blue-900 bg-blue-50/80 hover:bg-blue-100 px-3.5 py-2 rounded-xl border border-blue-200 transition-colors"
+            >
+              <Phone className="w-3.5 h-3.5 text-brand-orange" />
+              <span>{siteSettings.phone}</span>
+            </a>
+          </div>
+
           {/* Mobile Menu Toggle Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-2.5 rounded-xl text-slate-700 hover:text-brand-orange bg-blue-50/80 border border-blue-100 transition-colors"
+            className="lg:hidden p-2.5 rounded-xl text-slate-700 hover:text-brand-orange bg-blue-50/80 border border-blue-100 transition-colors z-10"
             aria-label="Toggle navigation menu"
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -132,9 +143,9 @@ export default function Header() {
                     key={link.name}
                     to={link.path}
                     onClick={() => setMobileMenuOpen(false)}
-                    className={`flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-semibold transition-colors ${
+                    className={`flex items-center justify-center text-center px-4 py-3 rounded-xl text-base font-bold transition-colors ${
                       location.pathname === link.path
-                        ? 'bg-blue-50 text-brand-orange font-bold'
+                        ? 'bg-blue-50 text-brand-orange font-extrabold'
                         : 'text-slate-700 hover:bg-blue-50/50'
                     }`}
                   >
