@@ -72,17 +72,17 @@ export default function HeroSlider() {
               isActive ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
             }`}
           >
-            {/* Background Image with optimized focal cover */}
+            {/* Bright, high-vibrancy image */}
             <img
               src={slide.image}
               alt={slide.title}
-              className={`w-full h-full object-cover object-center transform transition-transform duration-10000 ${
+              className={`w-full h-full object-cover object-center transform transition-transform duration-10000 brightness-105 contrast-105 saturate-110 ${
                 isActive ? 'scale-105' : 'scale-100'
               }`}
             />
-            {/* Dark gradient overlay for pristine HTML text contrast & readability */}
-            <div className="absolute inset-0 bg-gradient-to-r from-navy-900/95 via-navy-900/80 to-navy-900/40 md:to-transparent" />
-            <div className="absolute inset-0 bg-gradient-to-t from-navy-900/90 via-transparent to-navy-900/30" />
+            {/* Soft modern gradient allowing full bright colors to shine through */}
+            <div className="absolute inset-0 bg-gradient-to-r from-navy-950/85 via-navy-950/60 to-transparent md:to-navy-950/20" />
+            <div className="absolute inset-0 bg-gradient-to-t from-navy-950/80 via-transparent to-transparent" />
           </div>
         );
       })}

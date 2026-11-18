@@ -34,15 +34,16 @@ export default function PropertyCard({ property }) {
   return (
     <div className="group bg-white/95 rounded-2xl overflow-hidden border border-blue-100/90 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between backdrop-blur-sm">
       <div>
-        {/* Image & Header Overlay */}
-        <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-900">
+        {/* Image & Header Overlay - Bright, Vivid & Clear */}
+        <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-100">
           <img
             src={property.images?.[0] || 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=800&q=80'}
             alt={property.title}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90 group-hover:opacity-100"
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 brightness-105 contrast-105"
             loading="lazy"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-navy-950/80 via-navy-950/20 to-black/40" />
+          {/* Subtle light gradient at bottom only for text legibility, keeping full image bright and sunny */}
+          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/70 via-black/25 to-transparent" />
 
           {/* Top badges */}
           <div className="absolute top-3 left-3 right-3 flex items-center justify-between z-10 gap-2">
