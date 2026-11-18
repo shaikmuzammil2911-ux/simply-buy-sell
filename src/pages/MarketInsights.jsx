@@ -35,7 +35,7 @@ export default function MarketInsights() {
     : amaravatiVillages.filter((v) => v.name === selectedVillageFilter);
 
   return (
-    <div className="min-h-screen bg-slate-50 pt-24 pb-16">
+    <div className="min-h-screen bg-slate-50 pt-4 sm:pt-6 pb-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Page Header */}
         <div className="mb-8">

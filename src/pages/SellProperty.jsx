@@ -226,7 +226,7 @@ export default function SellProperty() {
   };
 
   return (
-    <div className="w-full bg-gradient-to-b from-sky-50 via-blue-50/50 to-sky-50 min-h-screen pt-24 pb-20">
+    <div className="w-full bg-gradient-to-b from-sky-50 via-blue-50/50 to-sky-50 min-h-screen pt-4 sm:pt-6 pb-16">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header Title */}
         <div className="text-center mb-8">
