@@ -8,13 +8,14 @@ export default function FeaturedProperties() {
   const { properties } = useApp();
   const [activeTab, setActiveTab] = useState('All');
 
-  const tabs = ['All Plots', 'Residential Plots', 'Commercial Plots', 'Corner Plots'];
+  const tabs = ['All Properties', 'Amaravati LPS Plots', 'Apartment Flats', 'Individual Houses', 'Open Plots'];
 
   const filteredProperties = properties.filter((p) => {
-    if (activeTab === 'All Plots') return true;
-    if (activeTab === 'Residential Plots') return p.category === 'Residential Plot';
-    if (activeTab === 'Commercial Plots') return p.category === 'Commercial Plot';
-    if (activeTab === 'Corner Plots') return p.cornerPlot === true;
+    if (activeTab === 'All Properties') return true;
+    if (activeTab === 'Amaravati LPS Plots') return p.propertyCategory === 'lps_plots' || (!p.propertyCategory && (p.category?.includes('Plot') || p.type === 'Plots'));
+    if (activeTab === 'Apartment Flats') return p.propertyCategory === 'apartments' || (!p.propertyCategory && p.type === 'Flats');
+    if (activeTab === 'Individual Houses') return p.propertyCategory === 'houses' || (!p.propertyCategory && p.type === 'Houses');
+    if (activeTab === 'Open Plots') return p.propertyCategory === 'open_plots';
     return true;
   });
 

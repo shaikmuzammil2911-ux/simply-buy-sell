@@ -47,8 +47,9 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/motto" element={<Motto />} />
           
-          {/* Amaravati Plot Core Routes */}
+          {/* Property Discovery & Core Routes */}
           <Route path="/buy" element={<BuyProperty />} />
+          <Route path="/buy-property" element={<BuyProperty />} />
           <Route path="/residential-plots" element={<ResidentialPlots />} />
           <Route path="/commercial-plots" element={<CommercialPlots />} />
           <Route path="/map" element={<MapPage />} />
@@ -63,6 +64,7 @@ export default function App() {
           <Route path="/open-properties" element={<OpenProperties />} />
           <Route path="/buyers-choice" element={<BuyersChoice />} />
           <Route path="/properties" element={<BuyProperty />} />
+          <Route path="/property/:id" element={<PropertyDetail />} />
           <Route path="/properties/:id" element={<PropertyDetail />} />
           <Route path="/services/:slug" element={<ServiceDetail />} />
           <Route path="/contact" element={<Contact />} />

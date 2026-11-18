@@ -17,7 +17,12 @@ import {
   ShieldCheck,
   Search,
   Save,
-  ArrowRight
+  ArrowRight,
+  Layers,
+  Check,
+  ExternalLink,
+  MapPin,
+  Compass
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
@@ -49,10 +54,16 @@ export default function AdminDashboard() {
 
   const [activeTab, setActiveTab] = useState('overview');
 
-  // Quick Stats
+  // Quick Stats & Category Breakdown
   const totalProps = properties.length;
+  const lpsPlotsCount = properties.filter((p) => p.propertyCategory === 'lps_plots' || (!p.propertyCategory && p.type === 'Plots')).length;
+  const apartmentsCount = properties.filter((p) => p.propertyCategory === 'apartments' || (!p.propertyCategory && p.type === 'Flats')).length;
+  const housesCount = properties.filter((p) => p.propertyCategory === 'houses' || (!p.propertyCategory && p.type === 'Houses')).length;
+  const openPlotsCount = properties.filter((p) => p.propertyCategory === 'open_plots').length;
+
   const totalEnquiries = enquiries.length;
   const totalSellRequests = sellRequests.length;
+  const pendingSellRequests = sellRequests.filter((s) => s.status !== 'Published').length;
   const totalReviews = reviews.length;
   const pendingReviews = reviews.filter((r) => !r.approved).length;
 
@@ -150,8 +161,9 @@ export default function AdminDashboard() {
           {[
             { id: 'overview', label: 'Dashboard Overview', icon: LayoutDashboard },
             { id: 'properties', label: `Properties (${totalProps})`, icon: Building },
+            { id: 'sellRequests', label: `Seller Submissions (${totalSellRequests})`, icon: FileText, badge: pendingSellRequests > 0 ? pendingSellRequests : null },
             { id: 'enquiries', label: `Buyer Enquiries (${totalEnquiries})`, icon: MessageSquare },
-            { id: 'sellRequests', label: `Seller Submissions (${totalSellRequests})`, icon: FileText },
+            { id: 'schemas', label: 'Dynamic Category Schemas', icon: Layers },
             { id: 'reviews', label: `Reviews (${reviews.length})`, icon: Users },
             { id: 'slides', label: `Hero Slides (${heroSlides.length})`, icon: Sliders },
             { id: 'content', label: 'Website Content & Stats', icon: Settings },
@@ -170,6 +182,11 @@ export default function AdminDashboard() {
               >
                 <Icon className={`w-4 h-4 ${isActive ? 'text-brand-orange' : 'text-slate-500'}`} />
                 <span>{tab.label}</span>
+                {tab.badge && (
+                  <span className="ml-1 px-1.5 py-0.2 rounded-full text-[10px] font-extrabold bg-brand-orange text-white">
+                    {tab.badge}
+                  </span>
+                )}
               </button>
             );
           })}
@@ -195,13 +212,61 @@ export default function AdminDashboard() {
               <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
                 <div className="text-xs font-bold text-slate-400 uppercase">Seller Requests</div>
                 <div className="text-3xl font-extrabold text-brand-orange mt-1">{totalSellRequests}</div>
-                <div className="text-xs text-orange-600 font-semibold mt-1">Awaiting verification</div>
+                <div className="text-xs text-orange-600 font-semibold mt-1">{pendingSellRequests} awaiting review</div>
               </div>
 
               <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
                 <div className="text-xs font-bold text-slate-400 uppercase">Pending Reviews</div>
                 <div className="text-3xl font-extrabold text-purple-600 mt-1">{pendingReviews}</div>
                 <div className="text-xs text-purple-500 font-semibold mt-1">Need approval</div>
+              </div>
+            </div>
+
+            {/* Dynamic Multi-Category Inventory Breakdown */}
+            <div className="bg-gradient-to-r from-blue-50/80 via-white to-orange-50/80 p-6 rounded-3xl border border-blue-200 shadow-sm">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+                <div>
+                  <h3 className="text-base font-extrabold text-navy-950 flex items-center gap-2">
+                    <Layers className="w-5 h-5 text-brand-royal" />
+                    <span>Live Multi-Category Inventory Breakdown</span>
+                  </h3>
+                  <p className="text-xs text-slate-500 mt-0.5">
+                    Categorized with dedicated schemas, measurements, and intelligent filtering.
+                  </p>
+                </div>
+                <button
+                  onClick={() => setActiveTab('schemas')}
+                  className="text-xs font-bold text-brand-royal hover:underline flex items-center gap-1 self-start sm:self-auto"
+                >
+                  <span>View Dynamic Schemas</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="bg-white p-4 rounded-2xl border border-emerald-200/80 shadow-xs">
+                  <div className="text-[11px] font-bold text-emerald-700 uppercase tracking-wider">Amaravati LPS Plots</div>
+                  <div className="text-2xl font-black text-navy-950 mt-1">{lpsPlotsCount}</div>
+                  <div className="text-[11px] text-slate-500 font-medium mt-0.5">Price / Sq.Yd • APCRDA Codes</div>
+                </div>
+
+                <div className="bg-white p-4 rounded-2xl border border-blue-200/80 shadow-xs">
+                  <div className="text-[11px] font-bold text-blue-700 uppercase tracking-wider">Apartment Flats</div>
+                  <div className="text-2xl font-black text-navy-950 mt-1">{apartmentsCount}</div>
+                  <div className="text-[11px] text-slate-500 font-medium mt-0.5">Price / Sq.Ft • BHK & Floors</div>
+                </div>
+
+                <div className="bg-white p-4 rounded-2xl border border-purple-200/80 shadow-xs">
+                  <div className="text-[11px] font-bold text-purple-700 uppercase tracking-wider">Individual Houses</div>
+                  <div className="text-2xl font-black text-navy-950 mt-1">{housesCount}</div>
+                  <div className="text-[11px] text-slate-500 font-medium mt-0.5">Plot sq.yd + Built-up sq.ft</div>
+                </div>
+
+                <div className="bg-white p-4 rounded-2xl border border-amber-200/80 shadow-xs">
+                  <div className="text-[11px] font-bold text-amber-700 uppercase tracking-wider">Open Plots</div>
+                  <div className="text-2xl font-black text-navy-950 mt-1">{openPlotsCount}</div>
+                  <div className="text-[11px] text-slate-500 font-medium mt-0.5">DTCP / Layout Ventures</div>
+                </div>
               </div>
             </div>
 
@@ -383,47 +448,317 @@ export default function AdminDashboard() {
 
         {/* TAB 4: SELLER SUBMISSIONS */}
         {activeTab === 'sellRequests' && (
-          <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-card border border-slate-200 animate-fade-in">
-            <h2 className="text-xl font-bold text-navy-900 mb-6">Seller Property Submissions</h2>
+          <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-card border border-slate-200 animate-fade-in space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <h2 className="text-xl font-bold text-navy-900">Seller Property Submissions & Approvals</h2>
+                <p className="text-xs text-slate-500 mt-0.5">
+                  Review seller submissions, verify cadastral/plot details, and approve to immediately publish to the live catalog.
+                </p>
+              </div>
+              <span className="text-xs font-bold text-brand-orange bg-orange-50 px-3 py-1.5 rounded-xl border border-orange-200 self-start sm:self-auto">
+                {pendingSellRequests} Submissions Awaiting Approval
+              </span>
+            </div>
 
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse text-xs sm:text-sm">
                 <thead>
                   <tr className="border-b border-slate-200 text-slate-400 uppercase text-[11px] font-bold">
-                    <th className="pb-3">Seller Name</th>
-                    <th className="pb-3">Property Title</th>
-                    <th className="pb-3">Type & Area</th>
+                    <th className="pb-3">Seller Details</th>
+                    <th className="pb-3">Category & Title</th>
+                    <th className="pb-3">Cadastral / Specs</th>
                     <th className="pb-3">Price Ask</th>
                     <th className="pb-3">Status</th>
+                    <th className="pb-3 text-right">Approval Action</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
-                  {sellRequests.map((sell) => (
-                    <tr key={sell.id} className="hover:bg-slate-50 transition-colors">
-                      <td className="py-3 pr-4">
-                        <div className="font-bold text-navy-900">{sell.fullName}</div>
-                        <div className="text-xs text-slate-500">{sell.mobileNumber}</div>
-                      </td>
-                      <td className="py-3 font-semibold text-navy-900">{sell.propertyTitle}</td>
-                      <td className="py-3 text-slate-600">{sell.propertyType} • {sell.area}</td>
-                      <td className="py-3 text-brand-orange font-bold">{sell.priceExpectation}</td>
-                      <td className="py-3">
-                        <select
-                          value={sell.status}
-                          onChange={(e) => updateSellStatus(sell.id, e.target.value)}
-                          className="text-xs font-bold py-1 px-2 rounded-lg border border-slate-200 bg-white"
-                        >
-                          <option value="Submitted">Submitted</option>
-                          <option value="Under Review">Under Review</option>
-                          <option value="Verified">Verified</option>
-                          <option value="Published">Published</option>
-                          <option value="Rejected">Rejected</option>
-                        </select>
-                      </td>
-                    </tr>
-                  ))}
+                  {sellRequests.map((sell) => {
+                    const isPublished = sell.status === 'Published';
+                    const categoryLabel = 
+                      sell.propertyCategory === 'lps_plots' ? 'Amaravati LPS Plot' :
+                      sell.propertyCategory === 'apartments' ? 'Apartment Flat' :
+                      sell.propertyCategory === 'houses' ? 'Individual House' :
+                      sell.propertyCategory === 'open_plots' ? 'Open Plot' : (sell.propertyType || 'Plot');
+
+                    const categoryBadgeClass =
+                      sell.propertyCategory === 'lps_plots' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' :
+                      sell.propertyCategory === 'apartments' ? 'bg-blue-50 text-blue-700 border-blue-200' :
+                      sell.propertyCategory === 'houses' ? 'bg-purple-50 text-purple-700 border-purple-200' :
+                      'bg-amber-50 text-amber-700 border-amber-200';
+
+                    return (
+                      <tr key={sell.id} className="hover:bg-slate-50 transition-colors">
+                        <td className="py-3 pr-4">
+                          <div className="font-bold text-navy-900">{sell.fullName}</div>
+                          <div className="text-xs text-slate-500">{sell.mobileNumber}</div>
+                          <div className="text-[11px] text-slate-400">{sell.whatsappNumber ? `WA: ${sell.whatsappNumber}` : ''}</div>
+                        </td>
+                        <td className="py-3 pr-4">
+                          <span className={`inline-block text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-md border ${categoryBadgeClass} mb-1`}>
+                            {categoryLabel}
+                          </span>
+                          <div className="font-bold text-navy-900 text-xs sm:text-sm line-clamp-1">{sell.propertyTitle}</div>
+                          <div className="text-xs text-slate-500">{sell.village || sell.location || 'Amaravati'}</div>
+                        </td>
+                        <td className="py-3 pr-4">
+                          <div className="text-xs font-semibold text-slate-700">{sell.area || `${sell.extent || 200} sq.yd`}</div>
+                          {sell.apcrdaPlotCode && (
+                            <div className="text-[11px] font-mono text-brand-royal font-bold">Code: {sell.apcrdaPlotCode}</div>
+                          )}
+                          {sell.bhk && (
+                            <div className="text-[11px] text-slate-500 font-medium">{sell.bhk} • {sell.floorNumber || '1st'} Floor</div>
+                          )}
+                          <div className="text-[11px] text-slate-400">{sell.facing ? `${sell.facing} Facing` : ''} {sell.roadWidth ? `• ${sell.roadWidth}` : ''}</div>
+                        </td>
+                        <td className="py-3 pr-4">
+                          <div className="text-brand-orange font-black text-sm">{sell.priceExpectation}</div>
+                          {sell.pricePerSqYd && (
+                            <div className="text-[10px] text-slate-500">₹{sell.pricePerSqYd.toLocaleString()}/sq.yd</div>
+                          )}
+                          {sell.pricePerSqFt && (
+                            <div className="text-[10px] text-slate-500">₹{sell.pricePerSqFt.toLocaleString()}/sq.ft</div>
+                          )}
+                        </td>
+                        <td className="py-3 pr-4">
+                          <select
+                            value={sell.status}
+                            onChange={(e) => updateSellStatus(sell.id, e.target.value)}
+                            className="text-xs font-bold py-1 px-2 rounded-lg border border-slate-200 bg-white"
+                          >
+                            <option value="Submitted">Submitted</option>
+                            <option value="Under Review">Under Review</option>
+                            <option value="Verified">Verified</option>
+                            <option value="Published">Published</option>
+                            <option value="Rejected">Rejected</option>
+                          </select>
+                        </td>
+                        <td className="py-3 text-right">
+                          {isPublished ? (
+                            <span className="inline-flex items-center gap-1 text-xs font-bold text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-200">
+                              <CheckCircle2 className="w-3.5 h-3.5" />
+                              <span>Live on Website</span>
+                            </span>
+                          ) : (
+                            <button
+                              onClick={() => {
+                                const newId = `prop-sub-${Date.now()}`;
+                                addProperty({
+                                  id: newId,
+                                  title: sell.propertyTitle || `${sell.village || 'Amaravati'} Property`,
+                                  propertyCategory: sell.propertyCategory || 'lps_plots',
+                                  category: sell.propertyCategory === 'lps_plots' ? (sell.zoning === 'Commercial' ? 'commercial' : 'residential') : (sell.propertyCategory === 'apartments' ? 'residential' : 'residential'),
+                                  type: sell.propertyCategory === 'apartments' ? 'Flats' : sell.propertyCategory === 'houses' ? 'Houses' : 'Plots',
+                                  price: sell.priceNumber || 5500000,
+                                  priceDisplay: sell.priceExpectation || '₹55 Lakhs',
+                                  pricePerSqYd: sell.pricePerSqYd || (sell.propertyCategory?.includes('plot') ? 27500 : null),
+                                  pricePerSqFt: sell.pricePerSqFt || (!sell.propertyCategory?.includes('plot') ? 4800 : null),
+                                  village: sell.village || 'Thullur',
+                                  mandal: sell.mandal || 'Thullur',
+                                  location: sell.village ? `${sell.village}, Amaravati` : (sell.location || 'Amaravati'),
+                                  address: sell.address || `${sell.village || 'Amaravati'}, Capital Region, AP`,
+                                  area: sell.area || `${sell.extent || 200} sq.yd`,
+                                  extent: sell.extent || 200,
+                                  unit: sell.unit || 'sq.yd',
+                                  bhk: sell.bhk,
+                                  bathrooms: sell.bathrooms,
+                                  houseType: sell.houseType,
+                                  facing: sell.facing || 'East',
+                                  roadWidth: sell.roadWidth || '40 Feet',
+                                  apcrdaPlotCode: sell.apcrdaPlotCode,
+                                  surveyNumber: sell.surveyNumber,
+                                  plotNumber: sell.plotNumber,
+                                  images: sell.images && sell.images.length > 0 ? sell.images : ['https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=800&q=80'],
+                                  description: sell.description || `Verified listing in ${sell.village || 'Amaravati'}. Clear titles and high appreciation corridor.`,
+                                  status: 'Available',
+                                  verified: true,
+                                  featured: false
+                                });
+                                updateSellStatus(sell.id, 'Published');
+                                showToast('Approved & Published!', `Listing "${sell.propertyTitle}" is now live in the public catalog.`);
+                              }}
+                              className="px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-sm flex items-center gap-1.5 ml-auto transition-all hover:scale-105"
+                            >
+                              <CheckCircle2 className="w-3.5 h-3.5" />
+                              <span>Approve & Publish</span>
+                            </button>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
+            </div>
+          </div>
+        )}
+
+        {/* TAB: DYNAMIC CATEGORY SCHEMAS */}
+        {activeTab === 'schemas' && (
+          <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-card border border-slate-200 animate-fade-in space-y-6">
+            <div>
+              <h2 className="text-xl font-black text-navy-950 flex items-center gap-2">
+                <Layers className="w-6 h-6 text-brand-royal" />
+                <span>Dynamic Multi-Category Schema Inspector</span>
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-500 mt-1">
+                Field structures, rules, and calculation engines applied dynamically to seller submission forms, discovery filters, and detail pages.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Category 1: LPS Plots */}
+              <div className="p-5 rounded-2xl border-2 border-emerald-300 bg-emerald-50/30">
+                <div className="flex items-center justify-between pb-3 border-b border-emerald-200">
+                  <div className="flex items-center gap-2">
+                    <span className="w-3 h-3 rounded-full bg-emerald-600"></span>
+                    <h3 className="font-extrabold text-navy-950 text-base">Amaravati LPS Plots (Priority #1)</h3>
+                  </div>
+                  <span className="text-[10px] font-extrabold px-2 py-0.5 rounded bg-emerald-200 text-emerald-900 uppercase">
+                    Land Pooling
+                  </span>
+                </div>
+                <div className="mt-3 space-y-2 text-xs">
+                  <div className="flex justify-between py-1 border-b border-emerald-100">
+                    <span className="text-slate-500 font-semibold">Classification</span>
+                    <span className="font-bold text-navy-900">Residential or Commercial</span>
+                  </div>
+                  <div className="flex justify-between py-1 border-b border-emerald-100">
+                    <span className="text-slate-500 font-semibold">APCRDA Plot Code</span>
+                    <span className="font-mono font-bold text-brand-royal">Required (e.g. LPS-THU-R-0412)</span>
+                  </div>
+                  <div className="flex justify-between py-1 border-b border-emerald-100">
+                    <span className="text-slate-500 font-semibold">Measurement Unit</span>
+                    <span className="font-bold text-navy-900">Square Yards (sq.yd)</span>
+                  </div>
+                  <div className="flex justify-between py-1 border-b border-emerald-100">
+                    <span className="text-slate-500 font-semibold">Auto-Calculated Field</span>
+                    <span className="font-bold text-emerald-700">Price per Sq.Yard</span>
+                  </div>
+                  <div className="flex justify-between py-1 border-b border-emerald-100">
+                    <span className="text-slate-500 font-semibold">Cadastral / Layout Specs</span>
+                    <span className="font-bold text-navy-900">Survey #, Facing, Road Width, Corner Plot</span>
+                  </div>
+                  <div className="p-2 bg-emerald-100/70 rounded-lg text-emerald-900 font-bold text-[11px]">
+                    ✓ Bed / Bath fields strictly hidden (Plots only)
+                  </div>
+                </div>
+              </div>
+
+              {/* Category 2: Apartment Flats */}
+              <div className="p-5 rounded-2xl border-2 border-blue-300 bg-blue-50/30">
+                <div className="flex items-center justify-between pb-3 border-b border-blue-200">
+                  <div className="flex items-center gap-2">
+                    <span className="w-3 h-3 rounded-full bg-blue-600"></span>
+                    <h3 className="font-extrabold text-navy-950 text-base">Apartment Flats</h3>
+                  </div>
+                  <span className="text-[10px] font-extrabold px-2 py-0.5 rounded bg-blue-200 text-blue-900 uppercase">
+                    Residential
+                  </span>
+                </div>
+                <div className="mt-3 space-y-2 text-xs">
+                  <div className="flex justify-between py-1 border-b border-blue-100">
+                    <span className="text-slate-500 font-semibold">BHK Configuration</span>
+                    <span className="font-bold text-navy-900">1, 2, 2.5, 3, 3.5, 4+ BHK</span>
+                  </div>
+                  <div className="flex justify-between py-1 border-b border-blue-100">
+                    <span className="text-slate-500 font-semibold">Floors</span>
+                    <span className="font-bold text-navy-900">Floor Number & Total Tower Floors</span>
+                  </div>
+                  <div className="flex justify-between py-1 border-b border-blue-100">
+                    <span className="text-slate-500 font-semibold">Area Measurement</span>
+                    <span className="font-bold text-navy-900">Super Built-up & Carpet Area (sq.ft)</span>
+                  </div>
+                  <div className="flex justify-between py-1 border-b border-blue-100">
+                    <span className="text-slate-500 font-semibold">Auto-Calculated Field</span>
+                    <span className="font-bold text-blue-700">Price per Sq.Foot</span>
+                  </div>
+                  <div className="flex justify-between py-1 border-b border-blue-100">
+                    <span className="text-slate-500 font-semibold">Living Amenities</span>
+                    <span className="font-bold text-navy-900">Bathrooms, Balconies, Reserved Car Parking</span>
+                  </div>
+                  <div className="p-2 bg-blue-100/70 rounded-lg text-blue-900 font-bold text-[11px]">
+                    ✓ Displays complete flat living metrics & floor specs
+                  </div>
+                </div>
+              </div>
+
+              {/* Category 3: Individual Houses */}
+              <div className="p-5 rounded-2xl border-2 border-purple-300 bg-purple-50/30">
+                <div className="flex items-center justify-between pb-3 border-b border-purple-200">
+                  <div className="flex items-center gap-2">
+                    <span className="w-3 h-3 rounded-full bg-purple-600"></span>
+                    <h3 className="font-extrabold text-navy-950 text-base">Individual Houses & Villas</h3>
+                  </div>
+                  <span className="text-[10px] font-extrabold px-2 py-0.5 rounded bg-purple-200 text-purple-900 uppercase">
+                    Independent
+                  </span>
+                </div>
+                <div className="mt-3 space-y-2 text-xs">
+                  <div className="flex justify-between py-1 border-b border-purple-100">
+                    <span className="text-slate-500 font-semibold">House Type</span>
+                    <span className="font-bold text-navy-900">Duplex, Independent Villa, Bungalow</span>
+                  </div>
+                  <div className="flex justify-between py-1 border-b border-purple-100">
+                    <span className="text-slate-500 font-semibold">Dual Area Metrics</span>
+                    <span className="font-bold text-navy-900">Plot Extent (sq.yd) + Built-up (sq.ft)</span>
+                  </div>
+                  <div className="flex justify-between py-1 border-b border-purple-100">
+                    <span className="text-slate-500 font-semibold">Elevation & Floors</span>
+                    <span className="font-bold text-navy-900">G, G+1, G+2 with Covered Parking</span>
+                  </div>
+                  <div className="flex justify-between py-1 border-b border-purple-100">
+                    <span className="text-slate-500 font-semibold">Auto-Calculated Field</span>
+                    <span className="font-bold text-purple-700">Price per Built-up Sq.Foot</span>
+                  </div>
+                  <div className="flex justify-between py-1 border-b border-purple-100">
+                    <span className="text-slate-500 font-semibold">Property Details</span>
+                    <span className="font-bold text-navy-900">Compound Wall, Borewell, Vaastu Direction</span>
+                  </div>
+                  <div className="p-2 bg-purple-100/70 rounded-lg text-purple-900 font-bold text-[11px]">
+                    ✓ Combines land parcel extent with home living area
+                  </div>
+                </div>
+              </div>
+
+              {/* Category 4: Open Plots */}
+              <div className="p-5 rounded-2xl border-2 border-amber-300 bg-amber-50/30">
+                <div className="flex items-center justify-between pb-3 border-b border-amber-200">
+                  <div className="flex items-center gap-2">
+                    <span className="w-3 h-3 rounded-full bg-amber-600"></span>
+                    <h3 className="font-extrabold text-navy-950 text-base">Open Plots & Ventures</h3>
+                  </div>
+                  <span className="text-[10px] font-extrabold px-2 py-0.5 rounded bg-amber-200 text-amber-900 uppercase">
+                    DTCP / CRDA Layouts
+                  </span>
+                </div>
+                <div className="mt-3 space-y-2 text-xs">
+                  <div className="flex justify-between py-1 border-b border-amber-100">
+                    <span className="text-slate-500 font-semibold">Layout / Venture</span>
+                    <span className="font-bold text-navy-900">Approval Authority, Venture Name</span>
+                  </div>
+                  <div className="flex justify-between py-1 border-b border-amber-100">
+                    <span className="text-slate-500 font-semibold">Measurement Unit</span>
+                    <span className="font-bold text-navy-900">Square Yards (sq.yd) / Cents</span>
+                  </div>
+                  <div className="flex justify-between py-1 border-b border-amber-100">
+                    <span className="text-slate-500 font-semibold">Auto-Calculated Field</span>
+                    <span className="font-bold text-amber-700">Price per Sq.Yard</span>
+                  </div>
+                  <div className="flex justify-between py-1 border-b border-amber-100">
+                    <span className="text-slate-500 font-semibold">Dimensions</span>
+                    <span className="font-bold text-navy-900">Length × Width, Frontage, Road Width</span>
+                  </div>
+                  <div className="flex justify-between py-1 border-b border-amber-100">
+                    <span className="text-slate-500 font-semibold">Plot Attributes</span>
+                    <span className="font-bold text-navy-900">Corner, East/North Facing, Gated Layout</span>
+                  </div>
+                  <div className="p-2 bg-amber-100/70 rounded-lg text-amber-900 font-bold text-[11px]">
+                    ✓ Tailored for immediate construction & investment ventures
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         )}

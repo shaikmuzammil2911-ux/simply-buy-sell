@@ -7,11 +7,11 @@ import PropertyCard from './PropertyCard';
 export default function CategorySpotlightSection() {
   const { properties } = useApp();
   const residentialPlots = properties
-    .filter((p) => p.category === 'Residential Plot')
+    .filter((p) => p.category === 'Residential Plot' || (p.propertyCategory === 'lps_plots' && p.category === 'residential') || p.category === 'residential')
     .slice(0, 3);
 
   const commercialPlots = properties
-    .filter((p) => p.category === 'Commercial Plot')
+    .filter((p) => p.category === 'Commercial Plot' || (p.propertyCategory === 'lps_plots' && p.category === 'commercial') || p.category === 'commercial')
     .slice(0, 3);
 
   return (

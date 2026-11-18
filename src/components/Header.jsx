@@ -40,13 +40,12 @@ export default function Header() {
 
   const navLinks = [
     { name: 'Home', path: '/' },
-    { name: 'Buy Plots', path: '/buy' },
-    { name: 'Residential Plots', path: '/residential-plots' },
-    { name: 'Commercial Plots', path: '/commercial-plots' },
+    { name: 'Buy Property', path: '/buy-property' },
     { name: 'APCRDA Map', path: '/map', badge: 'GIS' },
     { name: 'Plot Intelligence', path: '/plot-intelligence' },
-    { name: 'Compare Plots', path: '/compare-plots', badgeCount: compareList.length },
+    { name: 'Compare', path: '/compare-plots', badgeCount: compareList.length },
     { name: 'Market Insights', path: '/market-insights' },
+    { name: 'Sell Property', path: '/sell' },
     { name: 'Contact', path: '/contact' },
   ];
 
@@ -136,11 +135,11 @@ export default function Header() {
           {/* Action Buttons */}
           <div className="hidden sm:flex items-center gap-3">
             <Link
-              to="/sell-property"
+              to="/sell"
               className="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold text-white bg-brand-orange hover:bg-brand-orangeDark transition-all duration-200 flex items-center gap-1.5 shadow-md shadow-brand-orange/20 hover:scale-105"
             >
               <PlusCircle className="w-4 h-4" />
-              <span>List Your Plot</span>
+              <span>List Your Property</span>
             </Link>
           </div>
 
@@ -176,12 +175,12 @@ export default function Header() {
               {/* Mobile Quick Action */}
               <div className="my-4">
                 <Link
-                  to="/sell-property"
+                  to="/sell"
                   onClick={() => setMobileMenuOpen(false)}
                   className="w-full py-3 text-center text-xs font-bold rounded-xl bg-brand-orange text-white hover:bg-brand-orangeDark transition-colors shadow-sm flex items-center justify-center gap-1.5"
                 >
                   <PlusCircle className="w-4 h-4" />
-                  <span>List Your Plot</span>
+                  <span>List Your Property</span>
                 </Link>
               </div>
 
