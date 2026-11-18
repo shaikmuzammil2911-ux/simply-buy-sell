@@ -2,412 +2,333 @@ import React, { useState, useMemo } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import {
   Search,
-  Filter,
   SlidersHorizontal,
   X,
   ChevronDown,
-  Building,
   RotateCcw,
   Sparkles,
-  CheckCircle2
+  MapPin,
+  Map,
+  Tag,
+  Maximize2,
+  Compass
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
+import { amaravatiVillages } from '../data/mockData';
 import PropertyCard from '../components/PropertyCard';
 
-export default function BuyProperty() {
+export default function BuyProperty({ defaultCategory = 'All' }) {
   const { properties } = useApp();
   const [searchParams] = useSearchParams();
 
-  // Search & Filter state initialized from URL params if present
+  // Search & Filter state
   const [searchTerm, setSearchTerm] = useState(searchParams.get('q') || '');
-  const [selectedType, setSelectedType] = useState(searchParams.get('type') || 'All');
-  const [selectedLocation, setSelectedLocation] = useState(searchParams.get('location') || 'All');
-  const [selectedPriceRange, setSelectedPriceRange] = useState(searchParams.get('price') || 'All');
-  const [selectedBeds, setSelectedBeds] = useState('All');
-  const [selectedStatus, setSelectedStatus] = useState('All');
-  const [selectedFurnishing, setSelectedFurnishing] = useState('All');
+  const [selectedCategory, setSelectedCategory] = useState(
+    searchParams.get('category') || defaultCategory
+  );
+  const [selectedVillage, setSelectedVillage] = useState(
+    searchParams.get('village') || 'All'
+  );
+  const [selectedFacing, setSelectedFacing] = useState('All');
+  const [selectedSizeRange, setSelectedSizeRange] = useState('All');
+  const [selectedPriceRange, setSelectedPriceRange] = useState('All');
+  const [cornerOnly, setCornerOnly] = useState(false);
   const [sortBy, setSortBy] = useState('newest');
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
 
-  // Filter options
-  const propertyTypes = [
-    'All',
-    'Flats',
-    'Apartments',
-    'Houses',
-    'Villas',
-    'Plots',
-    'Open Plots',
-    'Commercial',
-    'Agricultural Land'
+  // Facings
+  const facings = ['All', 'East', 'North', 'West', 'South', 'North-East', 'South-East'];
+
+  // Size ranges in sq.yd
+  const sizeRanges = [
+    { label: 'All Sizes', value: 'All' },
+    { label: 'Under 250 sq.yd', value: 'under-250' },
+    { label: '250 – 500 sq.yd', value: '250-500' },
+    { label: '500 – 1000 sq.yd', value: '500-1000' },
+    { label: '1000+ sq.yd', value: 'above-1000' }
   ];
 
-  const locations = [
-    'All',
-    'Amaravati',
-    'Mangalagiri',
-    'Thullur',
-    'Vijayawada',
-    'Guntur',
-    'Tadikonda'
-  ];
-
+  // Price ranges
   const priceRanges = [
-    { label: 'All Prices', value: 'All' },
-    { label: 'Under ₹25 Lakhs', value: 'under-25' },
-    { label: '₹25 – ₹50 Lakhs', value: '25-50' },
+    { label: 'All Budgets', value: 'All' },
+    { label: 'Under ₹50 Lakhs', value: 'under-50' },
     { label: '₹50 Lakhs – ₹1 Crore', value: '50-100' },
-    { label: '₹1 Crore+', value: 'above-100' }
+    { label: '₹1 Crore – ₹2 Crores', value: '100-200' },
+    { label: '₹2 Crores+', value: 'above-200' }
   ];
 
-  const bedroomOptions = ['All', '2', '3', '4'];
-  const statusOptions = ['All', 'Ready to Move', 'Immediately Available'];
-  const furnishingOptions = ['All', 'Fully Furnished', 'Semi-Furnished', 'Unfurnished'];
-
-  // Reset Filters
   const resetFilters = () => {
     setSearchTerm('');
-    setSelectedType('All');
-    setSelectedLocation('All');
+    setSelectedCategory(defaultCategory);
+    setSelectedVillage('All');
+    setSelectedFacing('All');
+    setSelectedSizeRange('All');
     setSelectedPriceRange('All');
-    setSelectedBeds('All');
-    setSelectedStatus('All');
-    setSelectedFurnishing('All');
+    setCornerOnly(false);
     setSortBy('newest');
   };
 
   // Filter & Sort Logic
-  const filteredProperties = useMemo(() => {
+  const filteredPlots = useMemo(() => {
     return properties
-      .filter((item) => {
-        // Keyword Search
+      .filter((plot) => {
+        // Keyword / APCRDA Plot Code search
         if (searchTerm.trim()) {
           const q = searchTerm.toLowerCase();
-          const matchTitle = item.title?.toLowerCase().includes(q);
-          const matchLoc = item.location?.toLowerCase().includes(q);
-          const matchDesc = item.description?.toLowerCase().includes(q);
-          const matchType = item.type?.toLowerCase().includes(q);
-          if (!matchTitle && !matchLoc && !matchDesc && !matchType) return false;
+          const matchCode = plot.plotCode?.toLowerCase().includes(q);
+          const matchId = plot.id?.toLowerCase().includes(q);
+          const matchTitle = plot.title?.toLowerCase().includes(q);
+          const matchVillage = plot.village?.toLowerCase().includes(q);
+          if (!matchCode && !matchId && !matchTitle && !matchVillage) return false;
         }
 
-        // Type
-        if (selectedType !== 'All') {
-          if (selectedType === 'Flats' && !(item.type === 'Flats' || item.type === 'Apartments')) return false;
-          else if (selectedType === 'Plots' && !(item.type === 'Plots' || item.type === 'Open Plots')) return false;
-          else if (item.type !== selectedType) return false;
-        }
-
-        // Location
-        if (selectedLocation !== 'All' && item.location !== selectedLocation) {
+        // Category
+        if (selectedCategory !== 'All' && plot.category !== selectedCategory) {
           return false;
         }
 
-        // Price
-        if (selectedPriceRange !== 'All') {
-          const p = item.price || 0;
-          if (selectedPriceRange === 'under-25' && p >= 2500000) return false;
-          if (selectedPriceRange === '25-50' && (p < 2500000 || p > 5000000)) return false;
-          if (selectedPriceRange === '50-100' && (p < 5000000 || p > 10000000)) return false;
-          if (selectedPriceRange === 'above-100' && p < 10000000) return false;
-        }
-
-        // Bedrooms
-        if (selectedBeds !== 'All') {
-          if (selectedBeds === '4' && (!item.bedrooms || item.bedrooms < 4)) return false;
-          if (selectedBeds !== '4' && item.bedrooms !== Number(selectedBeds)) return false;
-        }
-
-        // Status
-        if (selectedStatus !== 'All' && item.status !== selectedStatus) {
+        // Village
+        if (selectedVillage !== 'All' && plot.village?.toLowerCase() !== selectedVillage.toLowerCase()) {
           return false;
         }
 
-        // Furnishing
-        if (selectedFurnishing !== 'All' && item.furnishing !== selectedFurnishing) {
+        // Facing
+        if (selectedFacing !== 'All' && plot.facing !== selectedFacing) {
           return false;
+        }
+
+        // Corner Plot
+        if (cornerOnly && !plot.cornerPlot) {
+          return false;
+        }
+
+        // Size
+        if (selectedSizeRange !== 'All' && plot.sizeSqYds) {
+          const s = plot.sizeSqYds;
+          if (selectedSizeRange === 'under-250' && s >= 250) return false;
+          if (selectedSizeRange === '250-500' && (s < 250 || s > 500)) return false;
+          if (selectedSizeRange === '500-1000' && (s < 500 || s > 1000)) return false;
+          if (selectedSizeRange === 'above-1000' && s <= 1000) return false;
+        }
+
+        // Price in Lakhs
+        if (selectedPriceRange !== 'All' && plot.priceInLakhs) {
+          const p = plot.priceInLakhs;
+          if (selectedPriceRange === 'under-50' && p >= 50) return false;
+          if (selectedPriceRange === '50-100' && (p < 50 || p > 100)) return false;
+          if (selectedPriceRange === '100-200' && (p < 100 || p > 200)) return false;
+          if (selectedPriceRange === 'above-200' && p <= 200) return false;
         }
 
         return true;
       })
       .sort((a, b) => {
-        if (sortBy === 'price-asc') return (a.price || 0) - (b.price || 0);
-        if (sortBy === 'price-desc') return (b.price || 0) - (a.price || 0);
-        if (sortBy === 'popular') return (b.featured ? 1 : 0) - (a.featured ? 1 : 0);
-        return new Date(b.postedDate || 0) - new Date(a.postedDate || 0);
+        if (sortBy === 'price-low') return (a.priceInLakhs || 0) - (b.priceInLakhs || 0);
+        if (sortBy === 'price-high') return (b.priceInLakhs || 0) - (a.priceInLakhs || 0);
+        if (sortBy === 'size-low') return (a.sizeSqYds || 0) - (b.sizeSqYds || 0);
+        if (sortBy === 'size-high') return (b.sizeSqYds || 0) - (a.sizeSqYds || 0);
+        return 0; // Default order
       });
   }, [
     properties,
     searchTerm,
-    selectedType,
-    selectedLocation,
+    selectedCategory,
+    selectedVillage,
+    selectedFacing,
+    cornerOnly,
+    selectedSizeRange,
     selectedPriceRange,
-    selectedBeds,
-    selectedStatus,
-    selectedFurnishing,
     sortBy
   ]);
 
   return (
-    <div className="w-full bg-gradient-to-b from-sky-50 via-blue-50/60 to-sky-50 min-h-screen py-10">
+    <div className="min-h-screen bg-slate-50 pt-24 pb-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Page Header */}
-        <div className="mb-8">
-          <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-blue-100 text-brand-royal text-xs font-bold uppercase tracking-wider mb-2 border border-blue-200">
-            <Sparkles className="w-3.5 h-3.5 text-brand-orange" />
-            <span>Amaravati Property Marketplace</span>
+        {/* Page Top Heading */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+          <div>
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-xs font-bold uppercase tracking-wider mb-2 border border-blue-200">
+              <Tag className="w-3.5 h-3.5 text-blue-600" />
+              <span>Amaravati Land & Plot Marketplace</span>
+            </div>
+            <h1 className="text-3xl sm:text-4xl font-black text-navy-950 tracking-tight">
+              {defaultCategory === 'Residential Plot'
+                ? 'Amaravati Residential Plots'
+                : defaultCategory === 'Commercial Plot'
+                ? 'Amaravati Commercial Plots'
+                : 'Buy Amaravati Plots'}
+            </h1>
+            <p className="text-sm text-slate-600">
+              APCRDA LPS pooled plots with clear titles, verified plot codes and GIS map coordinates.
+            </p>
           </div>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-navy-900 tracking-tight">
-            Buy Verified Properties
-          </h1>
-          <p className="mt-1 text-slate-600 text-sm sm:text-base">
-            Find premium flats, houses, open plots and commercial investments in Andhra Pradesh
-          </p>
+
+          <div className="flex items-center gap-2">
+            <Link
+              to="/map"
+              className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex items-center gap-1.5 shadow transition-colors"
+            >
+              <Map className="w-3.5 h-3.5" />
+              <span>Switch to GIS Map View</span>
+            </Link>
+          </div>
         </div>
 
-        {/* Global Search Bar */}
-        <div className="bg-white/95 backdrop-blur-md p-4 rounded-3xl shadow-card border border-blue-100 mb-8 flex flex-col md:flex-row items-center gap-3">
-          <div className="relative flex-1 w-full">
-            <Search className="w-5 h-5 text-blue-400 absolute left-4 top-3.5" />
-            <input
-              type="text"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search by property name, location, keyword (e.g. 3BHK Mangalagiri, Thullur Plot)..."
-              className="w-full pl-12 pr-4 py-3 rounded-2xl border border-blue-100 bg-sky-50/30 text-sm focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange"
-            />
-            {searchTerm && (
-              <button
-                onClick={() => setSearchTerm('')}
-                className="absolute right-3.5 top-3.5 text-slate-400 hover:text-slate-600"
+        {/* Filter Bar (Desktop & Mobile) */}
+        <div className="bg-white rounded-2xl border border-blue-100 shadow-sm p-4 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
+            {/* Search Input */}
+            <div className="sm:col-span-2 relative">
+              <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              <input
+                type="text"
+                placeholder="Search APCRDA Code, Village, ID..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-9 pr-3 py-2 rounded-xl border border-slate-200 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+
+            {/* Category Select */}
+            <div>
+              <select
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                className="w-full py-2 px-3 rounded-xl border border-slate-200 bg-white text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
-                <X className="w-4 h-4" />
-              </button>
-            )}
+                <option value="All">All Categories</option>
+                <option value="Residential Plot">Residential Plots</option>
+                <option value="Commercial Plot">Commercial Plots</option>
+              </select>
+            </div>
+
+            {/* Village Select */}
+            <div>
+              <select
+                value={selectedVillage}
+                onChange={(e) => setSelectedVillage(e.target.value)}
+                className="w-full py-2 px-3 rounded-xl border border-slate-200 bg-white text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="All">All Villages</option>
+                {amaravatiVillages.map((v) => (
+                  <option key={v.id} value={v.name}>{v.name}</option>
+                ))}
+              </select>
+            </div>
+
+            {/* Facing Select */}
+            <div>
+              <select
+                value={selectedFacing}
+                onChange={(e) => setSelectedFacing(e.target.value)}
+                className="w-full py-2 px-3 rounded-xl border border-slate-200 bg-white text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                {facings.map((f) => (
+                  <option key={f} value={f}>{f === 'All' ? 'All Facings' : `${f} Facing`}</option>
+                ))}
+              </select>
+            </div>
+
+            {/* Size Range Select */}
+            <div>
+              <select
+                value={selectedSizeRange}
+                onChange={(e) => setSelectedSizeRange(e.target.value)}
+                className="w-full py-2 px-3 rounded-xl border border-slate-200 bg-white text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                {sizeRanges.map((r) => (
+                  <option key={r.value} value={r.value}>{r.label}</option>
+                ))}
+              </select>
+            </div>
           </div>
 
-          <div className="flex items-center gap-3 w-full md:w-auto">
-            {/* Sort Dropdown */}
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className="w-full md:w-52 py-3 px-4 rounded-2xl border border-blue-100 bg-white text-xs sm:text-sm font-semibold text-slate-700 focus:outline-none focus:border-brand-orange"
-            >
-              <option value="newest">Sort: Newest First</option>
-              <option value="price-asc">Price: Low to High</option>
-              <option value="price-desc">Price: High to Low</option>
-              <option value="popular">Most Popular</option>
-            </select>
+          {/* Second Filter Row */}
+          <div className="flex flex-wrap items-center justify-between gap-3 mt-3 pt-3 border-t border-slate-100 text-xs">
+            <div className="flex items-center gap-4">
+              {/* Corner Plot Toggle */}
+              <label className="flex items-center gap-1.5 cursor-pointer select-none">
+                <input
+                  type="checkbox"
+                  checked={cornerOnly}
+                  onChange={(e) => setCornerOnly(e.target.checked)}
+                  className="rounded text-blue-600 focus:ring-blue-500 w-4 h-4"
+                />
+                <span className="font-semibold text-slate-700">Corner Plots Only</span>
+              </label>
 
-            {/* Mobile Filter Toggle */}
+              {/* Price Filter */}
+              <div className="flex items-center gap-1.5">
+                <span className="text-slate-500 font-medium">Budget:</span>
+                <select
+                  value={selectedPriceRange}
+                  onChange={(e) => setSelectedPriceRange(e.target.value)}
+                  className="py-1 px-2 rounded-lg border border-slate-200 bg-white font-semibold text-slate-700 text-xs"
+                >
+                  {priceRanges.map((p) => (
+                    <option key={p.value} value={p.value}>{p.label}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3">
+              {/* Sort By */}
+              <div className="flex items-center gap-1.5">
+                <span className="text-slate-500 font-medium">Sort:</span>
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                  className="py-1 px-2 rounded-lg border border-slate-200 bg-white font-semibold text-slate-700 text-xs"
+                >
+                  <option value="newest">Newest Listed</option>
+                  <option value="price-low">Price: Low to High</option>
+                  <option value="price-high">Price: High to Low</option>
+                  <option value="size-low">Size: Small to Large</option>
+                  <option value="size-high">Size: Large to Small</option>
+                </select>
+              </div>
+
+              {/* Reset Button */}
+              <button
+                onClick={resetFilters}
+                className="text-slate-500 hover:text-slate-800 text-xs font-semibold flex items-center gap-1"
+              >
+                <RotateCcw className="w-3 h-3" />
+                <span>Reset</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Results Header */}
+        <div className="flex items-center justify-between mb-6 text-xs text-slate-600">
+          <div>
+            Showing <strong className="text-navy-950">{filteredPlots.length}</strong> available Amaravati plots
+          </div>
+        </div>
+
+        {/* Plots Grid */}
+        {filteredPlots.length === 0 ? (
+          <div className="bg-white rounded-3xl p-12 text-center border border-blue-100 shadow-sm max-w-lg mx-auto">
+            <h3 className="text-lg font-bold text-navy-950 mb-2">No Plots Match Filters</h3>
+            <p className="text-xs text-slate-500 mb-4">
+              Try adjusting your village, facing, or budget selections, or click Reset.
+            </p>
             <button
-              onClick={() => setMobileFilterOpen(!mobileFilterOpen)}
-              className="lg:hidden p-3 rounded-2xl bg-brand-royal text-white flex items-center gap-2 text-xs font-bold"
+              onClick={resetFilters}
+              className="px-4 py-2 rounded-xl bg-blue-600 text-white font-bold text-xs"
             >
-              <Filter className="w-4 h-4" />
-              <span>Filters</span>
+              Reset All Filters
             </button>
           </div>
-        </div>
-
-        {/* Main Content Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Left Column: Filter Sidebar (Desktop) */}
-          <div className="hidden lg:block lg:col-span-1">
-            <div className="bg-white/95 backdrop-blur-md p-6 rounded-3xl shadow-card border border-blue-100 sticky top-24 space-y-6">
-              <div className="flex items-center justify-between pb-4 border-b border-blue-100">
-                <div className="flex items-center gap-2 font-bold text-navy-900 text-sm uppercase tracking-wider">
-                  <SlidersHorizontal className="w-4 h-4 text-brand-orange" />
-                  <span>Filter Properties</span>
-                </div>
-                <button
-                  onClick={resetFilters}
-                  className="text-xs text-brand-orange hover:underline font-semibold flex items-center gap-1"
-                >
-                  <RotateCcw className="w-3 h-3" />
-                  Reset
-                </button>
-              </div>
-
-              {/* Filter 1: Property Type */}
-              <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
-                  Property Type
-                </label>
-                <select
-                  value={selectedType}
-                  onChange={(e) => setSelectedType(e.target.value)}
-                  className="w-full py-2.5 px-3 rounded-xl border border-slate-200 text-xs text-slate-800 focus:outline-none focus:border-brand-orange"
-                >
-                  {propertyTypes.map((t) => (
-                    <option key={t} value={t}>{t}</option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Filter 2: Location */}
-              <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
-                  Location / Micro-market
-                </label>
-                <select
-                  value={selectedLocation}
-                  onChange={(e) => setSelectedLocation(e.target.value)}
-                  className="w-full py-2.5 px-3 rounded-xl border border-slate-200 text-xs text-slate-800 focus:outline-none focus:border-brand-orange"
-                >
-                  {locations.map((loc) => (
-                    <option key={loc} value={loc}>{loc}</option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Filter 3: Price Range */}
-              <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
-                  Budget / Price
-                </label>
-                <div className="space-y-1.5">
-                  {priceRanges.map((pr) => (
-                    <label key={pr.value} className="flex items-center gap-2 text-xs text-slate-700 cursor-pointer hover:text-brand-orange">
-                      <input
-                        type="radio"
-                        name="priceRange"
-                        value={pr.value}
-                        checked={selectedPriceRange === pr.value}
-                        onChange={(e) => setSelectedPriceRange(e.target.value)}
-                        className="text-brand-orange focus:ring-brand-orange"
-                      />
-                      <span>{pr.label}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-
-              {/* Filter 4: Bedrooms */}
-              <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
-                  Bedrooms
-                </label>
-                <div className="grid grid-cols-4 gap-1.5">
-                  {bedroomOptions.map((b) => (
-                    <button
-                      key={b}
-                      onClick={() => setSelectedBeds(b)}
-                      className={`py-1.5 text-xs font-bold rounded-xl border transition-colors ${
-                        selectedBeds === b
-                          ? 'bg-brand-royal text-white border-brand-royal'
-                          : 'border-slate-200 text-slate-600 hover:bg-slate-50'
-                      }`}
-                    >
-                      {b === 'All' ? 'All' : `${b} BHK`}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Filter 5: Property Status */}
-              <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
-                  Status
-                </label>
-                <select
-                  value={selectedStatus}
-                  onChange={(e) => setSelectedStatus(e.target.value)}
-                  className="w-full py-2 px-3 rounded-xl border border-slate-200 text-xs text-slate-800 focus:outline-none"
-                >
-                  {statusOptions.map((st) => (
-                    <option key={st} value={st}>{st}</option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Filter 6: Furnishing */}
-              <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
-                  Furnishing
-                </label>
-                <select
-                  value={selectedFurnishing}
-                  onChange={(e) => setSelectedFurnishing(e.target.value)}
-                  className="w-full py-2 px-3 rounded-xl border border-slate-200 text-xs text-slate-800 focus:outline-none"
-                >
-                  {furnishingOptions.map((f) => (
-                    <option key={f} value={f}>{f}</option>
-                  ))}
-                </select>
-              </div>
-            </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredPlots.map((plot) => (
+              <PropertyCard key={plot.id} property={plot} />
+            ))}
           </div>
-
-          {/* Right Column: Results Grid */}
-          <div className="lg:col-span-3">
-            {/* Results Count & Active Filters Pills */}
-            <div className="flex flex-wrap items-center justify-between gap-3 mb-6 bg-white/95 backdrop-blur-md p-4 rounded-2xl border border-blue-100 text-xs text-slate-600 shadow-sm">
-              <span className="font-bold text-navy-900">
-                Showing {filteredProperties.length} verified {filteredProperties.length === 1 ? 'property' : 'properties'}
-              </span>
-
-              {(selectedType !== 'All' || selectedLocation !== 'All' || selectedPriceRange !== 'All' || searchTerm) && (
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="text-slate-400">Active filters:</span>
-                  {selectedType !== 'All' && (
-                    <span className="px-2.5 py-1 rounded-lg bg-blue-50 text-blue-700 border border-blue-100 font-semibold flex items-center gap-1">
-                      {selectedType}
-                      <X className="w-3 h-3 cursor-pointer" onClick={() => setSelectedType('All')} />
-                    </span>
-                  )}
-                  {selectedLocation !== 'All' && (
-                    <span className="px-2.5 py-1 rounded-lg bg-blue-50 text-blue-700 border border-blue-100 font-semibold flex items-center gap-1">
-                      {selectedLocation}
-                      <X className="w-3 h-3 cursor-pointer" onClick={() => setSelectedLocation('All')} />
-                    </span>
-                  )}
-                  <button
-                    onClick={resetFilters}
-                    className="text-brand-orange hover:underline font-bold"
-                  >
-                    Clear All
-                  </button>
-                </div>
-              )}
-            </div>
-
-            {/* Properties List */}
-            {filteredProperties.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {filteredProperties.map((prop) => (
-                  <PropertyCard key={prop.id} property={prop} />
-                ))}
-              </div>
-            ) : (
-              /* Useful Empty State */
-              <div className="bg-white/95 backdrop-blur-md rounded-3xl p-12 text-center border border-blue-100 shadow-card">
-                <div className="w-16 h-16 rounded-2xl bg-orange-50 text-brand-orange flex items-center justify-center mx-auto mb-4">
-                  <Search className="w-8 h-8" />
-                </div>
-                <h3 className="text-xl font-bold text-navy-900 mb-2">
-                  No Properties Match Your Search Criteria
-                </h3>
-                <p className="text-slate-600 text-sm max-w-md mx-auto mb-6">
-                  We could not find any properties matching all your filters. Try widening your price range, choosing another location, or resetting filters.
-                </p>
-                <div className="flex justify-center gap-4">
-                  <button
-                    onClick={resetFilters}
-                    className="px-6 py-2.5 rounded-xl bg-brand-orange text-white font-semibold text-sm shadow-md hover:bg-brand-orangeDark transition-colors"
-                  >
-                    Reset All Filters
-                  </button>
-                  <Link
-                    to="/contact"
-                    className="px-6 py-2.5 rounded-xl bg-blue-50 text-navy-900 font-semibold text-sm hover:bg-blue-100 transition-colors"
-                  >
-                    Post Custom Requirement
-                  </Link>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
+        )}
       </div>
     </div>
   );

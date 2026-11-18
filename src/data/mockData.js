@@ -1,647 +1,773 @@
-export const initialHeroSlides = [
+// Amaravati Plot Intelligence & Real Estate Inventory Engine
+
+export const amaravatiVillages = [
   {
-    id: 1,
-    title: "Invest in Amaravati's Bright Future",
-    subtitle: "Buy • Sell • Invest",
-    description: "Discover premium flats, approved plots, luxury homes, and high-yield commercial investments across the rising Amaravati capital region.",
-    image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1920&q=80",
-    badge: "Prime Amaravati Capital Region",
-    active: true,
-    ctaPrimary: { text: "Explore Properties", link: "/buy" },
-    ctaSecondary: { text: "Know More", link: "/motto" },
-    ctaBuy: { text: "Buy Property", link: "/buy" },
-    ctaSell: { text: "Sell Property", link: "/sell" }
+    slug: "thullur",
+    name: "Thullur",
+    zone: "Capital Core Zone",
+    description: "Heart of the Amaravati Government Core, hosting the AP Secretariat, Assembly, and Judicial Complex.",
+    avgPricePerSqYd: 28500,
+    priceRange: "₹22,000 – ₹38,000 / sq.yd.",
+    activePlotCount: 24,
+    themeCity: "Government City",
+    lat: 16.5412,
+    lng: 80.4721,
+    image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=800&q=80"
   },
   {
-    id: 2,
-    title: "Find Your Dream Luxury Home & Villa",
-    subtitle: "Modern Living • Gated Communities",
-    description: "Contemporary 2, 3 & 4 BHK apartments and independent villas with premium amenities in Mangalagiri & Amaravati growth corridors.",
-    image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=1920&q=80",
-    badge: "Verified Residential Properties",
-    active: true,
-    ctaPrimary: { text: "View Residential Homes", link: "/services/residential" },
-    ctaSecondary: { text: "Schedule Site Visit", link: "/contact" },
-    ctaBuy: { text: "Browse Flats", link: "/buy?type=Flats" },
-    ctaSell: { text: "Sell Your House", link: "/sell" }
+    slug: "rayapudi",
+    name: "Rayapudi",
+    zone: "Seed Access & River Corridor",
+    description: "Prime residential and commercial growth corridor bordering the Seed Access Road and Krishna Riverfront.",
+    avgPricePerSqYd: 31000,
+    priceRange: "₹25,000 – ₹42,000 / sq.yd.",
+    activePlotCount: 18,
+    themeCity: "Riverfront City",
+    lat: 16.5489,
+    lng: 80.5123,
+    image: "https://images.unsplash.com/photo-1628744448840-55bdb2497bd4?auto=format&fit=crop&w=800&q=80"
   },
   {
-    id: 3,
-    title: "Approved Open Plots & Plotted Ventures",
-    subtitle: "High Capital Appreciation • Clear Titles",
-    description: "Secure clear-title CRDA & DTCP approved open plots in Thullur, Tadikonda, and strategic expressway growth zones.",
-    image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1920&q=80",
-    badge: "CRDA & DTCP Approved Plots",
-    active: true,
-    ctaPrimary: { text: "Browse Open Plots", link: "/services/plots" },
-    ctaSecondary: { text: "Buyer's Choice", link: "/buyers-choice" },
-    ctaBuy: { text: "Find Plots", link: "/buy?type=Plots" },
-    ctaSell: { text: "Post Your Plot", link: "/sell" }
+    slug: "mandadam",
+    name: "Mandadam",
+    zone: "Central Administrative Corridor",
+    description: "Direct connectivity to Prakasam Barrage and Vijayawada gateway. High appreciation residential zone.",
+    avgPricePerSqYd: 29500,
+    priceRange: "₹24,000 – ₹39,000 / sq.yd.",
+    activePlotCount: 15,
+    themeCity: "Knowledge City",
+    lat: 16.5298,
+    lng: 80.5412,
+    image: "https://images.unsplash.com/photo-1500651230702-0e2d8a49d4ad?auto=format&fit=crop&w=800&q=80"
   },
   {
-    id: 4,
-    title: "Commercial Spaces & Agricultural Lands",
-    subtitle: "Strategic Growth • High ROI Assets",
-    description: "High-value commercial showroom spaces, office complexes, and productive agricultural land parcels near Vijayawada-Amaravati Highway.",
-    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1920&q=80",
-    badge: "High-Yield Investment Opportunities",
-    active: true,
-    ctaPrimary: { text: "Explore Commercial", link: "/services/commercial" },
-    ctaSecondary: { text: "Agricultural Lands", link: "/services/agricultural-land" },
-    ctaBuy: { text: "Commercial Assets", link: "/buy?type=Commercial" },
-    ctaSell: { text: "Sell Land / Property", link: "/sell" }
+    slug: "velagapudi",
+    name: "Velagapudi",
+    zone: "Secretariat Sector",
+    description: "Home to the Interim Government Complex. Ideal for institutional and high-yield commercial plots.",
+    avgPricePerSqYd: 33000,
+    priceRange: "₹26,000 – ₹45,000 / sq.yd.",
+    activePlotCount: 12,
+    themeCity: "Government City",
+    lat: 16.5381,
+    lng: 80.5056,
+    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    slug: "kuragallu",
+    name: "Kuragallu",
+    zone: "Education & Institutional Grid",
+    description: "Adjacent to SRM University AP, VIT-AP, and Amrita Vishwa Vidyapeetham. Prime plotted hub.",
+    avgPricePerSqYd: 26000,
+    priceRange: "₹20,000 – ₹34,000 / sq.yd.",
+    activePlotCount: 20,
+    themeCity: "Justice City",
+    lat: 16.4952,
+    lng: 80.5218,
+    image: "https://images.unsplash.com/photo-1592595896551-12b371d546d5?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    slug: "nekkallu",
+    name: "Nekkallu",
+    zone: "Western Residential Expansion",
+    description: "Spacious returnable plots with wide 40ft-60ft blacktop sector roads in peaceful surroundings.",
+    avgPricePerSqYd: 23500,
+    priceRange: "₹18,000 – ₹30,000 / sq.yd.",
+    activePlotCount: 14,
+    themeCity: "Health City",
+    lat: 16.5124,
+    lng: 80.4589,
+    image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    slug: "lingayapalem",
+    name: "Lingayapalem",
+    zone: "Riverfront & Tourism Sector",
+    description: "Scenic Krishna river proximity with planned tourist promenades and luxury plotted enclaves.",
+    avgPricePerSqYd: 32000,
+    priceRange: "₹26,000 – ₹44,000 / sq.yd.",
+    activePlotCount: 11,
+    themeCity: "Tourism City",
+    lat: 16.5445,
+    lng: 80.5512,
+    image: "https://images.unsplash.com/photo-1628744448840-55bdb2497bd4?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    slug: "nelapadu",
+    name: "Nelapadu",
+    zone: "Judicial City Complex",
+    description: "Surrounds the High Court of Andhra Pradesh and advocates' residential colony.",
+    avgPricePerSqYd: 29000,
+    priceRange: "₹23,000 – ₹37,000 / sq.yd.",
+    activePlotCount: 16,
+    themeCity: "Justice City",
+    lat: 16.5188,
+    lng: 80.4892,
+    image: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    slug: "nidamarru",
+    name: "Nidamarru",
+    zone: "South-West Plotted Zone",
+    description: "Strategic link between Amaravati Core and Mangalagiri IT SEZ corridor.",
+    avgPricePerSqYd: 27000,
+    priceRange: "₹21,000 – ₹35,000 / sq.yd.",
+    activePlotCount: 13,
+    themeCity: "Finance City",
+    lat: 16.4881,
+    lng: 80.5376,
+    image: "https://images.unsplash.com/photo-1500651230702-0e2d8a49d4ad?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    slug: "inavolu",
+    name: "Inavolu",
+    zone: "Central Arterial Junction",
+    description: "Connecting Seed Access Road and Outer Ring Road interchanges with strong commercial potential.",
+    avgPricePerSqYd: 27500,
+    priceRange: "₹22,000 – ₹36,000 / sq.yd.",
+    activePlotCount: 10,
+    themeCity: "Knowledge City",
+    lat: 16.5054,
+    lng: 80.5089,
+    image: "https://images.unsplash.com/photo-1592595896551-12b371d546d5?auto=format&fit=crop&w=800&q=80"
   }
 ];
 
-export const trustCards = [
+export const amaravatiLandmarks = [
   {
-    id: 1,
-    title: "Customer-Friendly & Flexible",
-    description: "Simple, flexible and hassle-free property solutions tailored for buyers, sellers and long-term investors.",
-    icon: "Users",
-    color: "green"
+    id: "lm-1",
+    name: "AP Secretariat & Assembly Complex",
+    category: "Government Offices",
+    village: "Velagapudi",
+    lat: 16.5385,
+    lng: 80.5052,
+    status: "Operational",
+    description: "Interim Government Complex housing Andhra Pradesh state cabinet and ministerial offices."
   },
   {
-    id: 2,
-    title: "More Than Just a Transaction",
-    description: "Helping customers make confident property decisions that deliver compounding long-term value.",
-    icon: "HeartHandshake",
-    color: "orange"
+    id: "lm-2",
+    name: "High Court of Andhra Pradesh",
+    category: "Judicial Complex",
+    village: "Nelapadu",
+    lat: 16.5182,
+    lng: 80.4889,
+    status: "Operational",
+    description: "Principal seat of the High Court of Andhra Pradesh."
   },
   {
-    id: 3,
-    title: "Trust, Clarity & Accurate Information",
-    description: "Reliable and 100% transparent property documentation for safe and informed decision-making.",
-    icon: "ShieldCheck",
-    color: "blue"
+    id: "lm-3",
+    name: "AIIMS Mangalagiri",
+    category: "Healthcare Facilities",
+    village: "Mangalagiri",
+    lat: 16.4382,
+    lng: 80.5612,
+    status: "Operational",
+    description: "Apex tertiary healthcare and medical research institute."
   },
   {
-    id: 4,
-    title: "Our Role in Your Journey",
-    description: "Directly connecting genuine buyers and verified sellers with pre-screened property opportunities.",
-    icon: "Sparkles",
-    color: "orange"
+    id: "lm-4",
+    name: "SRM University AP",
+    category: "Universities",
+    village: "Neerukonda / Kuragallu",
+    lat: 16.4712,
+    lng: 80.5082,
+    status: "Operational",
+    description: "Major university campus catering to 10,000+ students in Amaravati education hub."
   },
   {
-    id: 5,
-    title: "Transparent & Responsible Platform",
-    description: "A simple and responsible marketplace designed strictly around customer confidence and safety.",
-    icon: "Award",
-    color: "green"
+    id: "lm-5",
+    name: "VIT-AP University",
+    category: "Universities",
+    village: "Inavolu",
+    lat: 16.4912,
+    lng: 80.4998,
+    status: "Operational",
+    description: "Leading multi-disciplinary engineering and technology university campus."
   },
   {
-    id: 6,
-    title: "Complete & Clear Details",
-    description: "Precise property dimensions, zoning laws, pricing breakdown, amenities, and essential documents upfront.",
-    icon: "FileCheck",
-    color: "blue"
+    id: "lm-6",
+    name: "Seed Access Road (E3 Arterial)",
+    category: "Roads and Highways",
+    village: "Rayapudi / Dondapadu",
+    lat: 16.5410,
+    lng: 80.5220,
+    status: "Operational",
+    description: "60-meter wide expressway connecting Vijayawada city directly to Amaravati administrative capital."
   }
 ];
 
-export const initialStatistics = {
-  propertiesListed: "10K+",
-  propertiesCount: 10000,
-  happyCustomers: "5K+",
-  happyCount: 5000,
-  trustedPlatform: "100%",
-  trustedCount: 100,
-  serviceArea: "Andhra Pradesh",
-  serviceTagline: "Our Service Area"
-};
-
-export const initialServices = [
+export const initialPlots = [
   {
-    id: 1,
-    slug: "residential",
-    title: "Residential Properties",
-    subtitle: "Find your dream home with premium options.",
-    description: "Explore world-class flats, standalone luxury houses, gated villas, and community apartments designed for elevated modern living.",
-    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=80",
-    icon: "Home",
-    badge: "Top Choice for Families",
-    overview: "Amaravati and the Mangalagiri corridor are experiencing unprecedented residential development with premium gated communities, high-rise luxury towers, and scenic riverside living.",
-    benefits: [
-      "CRDA approved layouts and vetted builder titles",
-      "Prime connectivity to Secretariat, High Court and AIIMS Mangalagiri",
-      "Modern amenities: Clubhouse, swimming pools, 24/7 security",
-      "Attractive home loan partnerships with leading banks"
-    ],
-    hotspots: ["Mangalagiri Core", "Thullur Residential Sector", "Undavalli Riverside", "Tadepalli"],
-    faqs: [
-      { q: "Are residential properties in Amaravati approved by AP CRDA?", a: "Yes, all verified residential listings on SimplyBuySell undergo thorough CRDA approval verification." },
-      { q: "Can I get a home loan for under-construction flats?", a: "Yes, our partner banks provide pre-approved loans up to 80% of property value with attractive interest rates." }
-    ]
-  },
-  {
-    id: 2,
-    slug: "commercial",
-    title: "Commercial Properties",
-    subtitle: "Invest in business spaces built for growth.",
-    description: "Strategic office spaces, retail showrooms, warehousing hubs, and commercial complexes positioned along key transport corridors.",
-    image: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1000&q=80",
-    icon: "Building2",
-    badge: "High Rental Yield",
-    overview: "Commercial properties in the Vijayawada-Guntur-Amaravati tri-city corridor provide steady rental cash flows and exceptional capital appreciation.",
-    benefits: [
-      "High footfall commercial locations on national highways",
-      "Long-term lease potential with institutional and corporate tenants",
-      "Modern infrastructure: power backup, multi-level parking, fiber connectivity",
-      "Flexible commercial floor plans suitable for retail, IT, and healthcare"
-    ],
-    hotspots: ["Vijayawada-Amaravati Highway", "Mangalagiri IT SEZ", "Guntur Inner Ring Road", "Benz Circle Extension"],
-    faqs: [
-      { q: "What is the typical rental yield on commercial assets here?", a: "Commercial real estate in the Amaravati-Vijayawada region averages an attractive 7% to 10% annual rental yield." },
-      { q: "Can SimplyBuySell assist with tenant placement?", a: "Yes, our commercial advisory team assists with corporate leasing and tenant due diligence." }
-    ]
-  },
-  {
-    id: 3,
-    slug: "plots",
-    title: "Open Plots",
-    subtitle: "Own a piece of future-ready land.",
-    description: "Invest in high-growth CRDA, DTCP, and RERA approved open plots with clear titles, demarcated boundaries, and rapid value appreciation.",
-    image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1000&q=80",
-    icon: "MapPin",
-    badge: "Highest Capital Growth",
-    overview: "Open plots in Amaravati capital zones offer the highest long-term multiplier on investment as the state capital infrastructure accelerates.",
-    benefits: [
-      "100% clear titles with computerized link documents",
-      "DTCP and CRDA zoning compliance with proper layout sanctions",
-      "Underground drainage, electricity, and 40ft-60ft black-top roads",
-      "Immediate registration and spot demarcation support"
-    ],
-    hotspots: ["Thullur Capital Zone", "Tadikonda Plotted Enclaves", "Kaza NH-16 Hub", "Mandadam"],
-    faqs: [
-      { q: "How do I verify the legal title of a plot before buying?", a: "SimplyBuySell provides link documents dating back 30+ years, Encumbrance Certificates (EC), and official CRDA layout copies." },
-      { q: "Is spot registration available?", a: "Yes, clear-title plots are ready for instant sub-registrar registration." }
-    ]
-  },
-  {
-    id: 4,
-    slug: "agricultural-land",
-    title: "Agricultural Lands",
-    subtitle: "Explore productive land opportunities.",
-    description: "Fertile agricultural parcels, farm land enclaves, and potential zoning expansion tracts suitable for farming or future conversion.",
-    image: "https://images.unsplash.com/photo-1500651230702-0e2d8a49d4ad?auto=format&fit=crop&w=1000&q=80",
-    icon: "TreePine",
-    badge: "Wealth Preservation",
-    overview: "The Krishna river delta around Amaravati boasts fertile soil with abundant perennial water resources, making agricultural lands a secure store of generational wealth.",
-    benefits: [
-      "Rich alluvial soil with Krishna river canal irrigation",
-      "Pattadar Passbook verification and 1B revenue records check",
-      "Strategic proximity to proposed Outer Ring Road (ORR) alignments",
-      "Opportunity for eco-farm houses and organic agricultural projects"
-    ],
-    hotspots: ["Tadikonda Rural Belt", "Amaravati Riverbank Belts", "Tenali-Guntur Agricultural Corridor"],
-    faqs: [
-      { q: "Can non-farmers purchase agricultural land in Andhra Pradesh?", a: "We guide you on the specific state land revenue guidelines and legal deed structures." },
-      { q: "Are water rights and borewell approvals included?", a: "Each listing specifies canal water entitlement, existing borewells, and electricity connections." }
-    ]
-  },
-  {
-    id: 5,
-    slug: "investment",
-    title: "Investment Opportunities",
-    subtitle: "Discover smart property investment options.",
-    description: "Data-backed real estate opportunities vetted for high capital gains, infrastructure alignment, and optimal exit horizons in Amaravati.",
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1000&q=80",
-    icon: "TrendingUp",
-    badge: "Smart Wealth Building",
-    overview: "Amaravati's revival as Andhra Pradesh's greenfield smart capital offers a generational wealth creation opportunity for early-stage real estate investors.",
-    benefits: [
-      "Proprietary market analytics comparing historical price trends",
-      "Pre-launch institutional syndicate pricing for private investors",
-      "Exit advisory and portfolio diversification support",
-      "Direct exposure to government infrastructure corridors"
-    ],
-    hotspots: ["Seed Access Road", "High Court & Judicial Complex", "CRDA Core City Grid", "AIIMS Health Corridor"],
-    faqs: [
-      { q: "What is the expected ROI in Amaravati over 3-5 years?", a: "With infrastructure resumption, growth sectors show projected capital appreciation between 18% to 28% CAGR." },
-      { q: "Can NRIs invest in Amaravati real estate?", a: "Yes! SimplyBuySell has a dedicated NRI advisory desk to handle NRE/NRO accounts, Power of Attorney, and registration." }
-    ]
-  }
-];
-
-export const initialProperties = [
-  {
-    id: "prop-1",
-    slug: "luxury-3bhk-sky-residence-amaravati-core",
-    title: "Luxury 3BHK Sky Residence with River View",
-    type: "Flats",
-    category: "residential",
-    price: 8500000,
-    priceDisplay: "₹85 Lakhs",
-    location: "Amaravati",
-    address: "Capital City Boulevard, Core Zone, Amaravati, AP",
-    area: "1,850 sq.ft.",
-    areaSqFt: 1850,
-    bedrooms: 3,
-    bathrooms: 3,
-    status: "Ready to Move",
+    id: "SBS-AMA-000101",
+    apcrdaPlotCode: "LPS-THU-R-0412",
+    title: "240 Sq.Yd East Facing Residential Plot in Thullur Sector 14",
+    category: "Residential Plot",
+    plotType: "Residential Plot",
+    village: "Thullur",
+    locality: "Sector 14, Near Government Complex",
+    surveyNo: "184/2A",
+    plotNumber: "412",
+    layoutName: "CRDA Land Pooling Scheme Layout #3",
+    plotSizeSqYd: 240,
+    dimensions: "36 ft x 60 ft",
+    plotLengthFt: 60,
+    plotWidthFt: 36,
+    frontageFt: 36,
+    roadWidthFt: 50,
+    facing: "East",
+    cornerPlot: false,
+    roadAccess: "50 ft Blacktop CRDA Sector Road",
+    askingPrice: 6840000,
+    priceDisplay: "₹68.4 Lakhs",
+    pricePerSqYd: 28500,
+    pricePerSqYdDisplay: "₹28,500 / sq.yd.",
+    negotiable: true,
+    listingDate: "2026-11-10",
+    status: "Available",
     featured: true,
     verified: true,
-    furnishing: "Semi-Furnished",
-    postedDate: "2026-11-12",
-    images: [
-      "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1600573472591-ee6b68d14c68?auto=format&fit=crop&w=1200&q=80"
-    ],
-    description: "An exceptional 3BHK luxury apartment in Amaravati's premier high-rise community. Featuring expansive balconies with panoramic views of the river and smart capital skyline, Italian marble flooring, designer kitchen, and club amenities.",
-    highlights: [
-      "100% Vaastu Compliant North-East Facing",
-      "Double covered car parking included",
-      "High ceiling height with German UPVC soundproof windows",
-      "Access to 40,000 sq.ft. clubhouse and rooftop infinity pool"
-    ],
-    amenities: ["Swimming Pool", "Gymnasium", "24/7 Security", "Power Backup", "Clubhouse", "Children's Play Area", "EV Charging", "Jogging Track"],
-    nearby: [
-      { name: "AP Secretariat & Assembly", distance: "3.5 km" },
-      { name: "AIIMS Mangalagiri", distance: "8.0 km" },
-      { name: "Seed Access Road", distance: "0.8 km" },
-      { name: "Gannavaram Airport", distance: "32.0 km" }
-    ],
-    seller: {
-      name: "SimplyBuySell Verified Partner",
-      phone: "+91 98765 43210",
-      role: "Exclusive Property Partner",
-      verified: true
-    }
-  },
-  {
-    id: "prop-2",
-    slug: "crda-approved-open-plot-thullur",
-    title: "CRDA Approved Corner Open Plot",
-    type: "Plots",
-    category: "plots",
-    price: 4200000,
-    priceDisplay: "₹42 Lakhs",
-    location: "Thullur",
-    address: "Sector 14, Near Government Complex, Thullur, Amaravati",
-    area: "240 sq.yd.",
-    areaSqFt: 2160,
-    bedrooms: null,
-    bathrooms: null,
-    status: "Immediately Available",
-    featured: true,
-    verified: true,
-    furnishing: "Unfurnished",
-    postedDate: "2026-11-15",
+    lat: 16.5425,
+    lng: 80.4735,
+    locationAccuracy: "Exact Verified Plot Location",
+    boundaryGeoJson: {
+      type: "Polygon",
+      coordinates: [[
+        [80.4733, 16.5423],
+        [80.4737, 16.5423],
+        [80.4737, 16.5427],
+        [80.4733, 16.5427],
+        [80.4733, 16.5423]
+      ]]
+    },
+    documentation: {
+      titleReviewStatus: "100% Verified Clean Title",
+      lpsReturnableCertificate: "Available & Verified",
+      crdallpSanctionNo: "APCRDA/LPS/THU/2018/0412",
+      encumbranceStatus: "Nil Encumbrance (Computerized EC Checked)",
+      source: "APCRDA Land Pooling Scheme Official Registry",
+      lastVerificationDate: "2026-11-05"
+    },
     images: [
       "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80",
       "https://images.unsplash.com/photo-1628744448840-55bdb2497bd4?auto=format&fit=crop&w=1200&q=80",
       "https://images.unsplash.com/photo-1592595896551-12b371d546d5?auto=format&fit=crop&w=1200&q=80"
     ],
-    description: "East-facing corner residential plot in a prime CRDA sanctioned layout. Features 50-foot wide blacktop roads, underground water pipelines, drainage, and street lighting. Rapidly growing residential pocket.",
+    description: "East-facing residential returnable plot sanctioned under APCRDA Land Pooling Scheme in Thullur. Direct 50ft blacktop sector road frontage, underground power ducting, drainage, and water supply pipeline laid. 4 minutes drive from High Court & Secretariat.",
     highlights: [
-      "CRDA Approved & LP Number Sanctioned",
-      "East-North Corner with double road frontage",
-      "Clear computerized link documents ready for instant registration",
-      "Surrounded by elite residential villas and schools"
+      "CRDA LPS Allotment Order & Title Deed Verified",
+      "100% East Facing with 36ft clear frontage",
+      "Underground drainage, power & municipal water connectivity",
+      "Spot sub-registrar registration assistance available"
     ],
-    amenities: ["Gated Boundary", "Street Lighting", "Underground Drainage", "Blacktop Roads", "Avenue Plantation", "Water Supply"],
-    nearby: [
-      { name: "AP High Court", distance: "4.2 km" },
-      { name: "Thullur Junction", distance: "1.2 km" },
-      { name: "SRM University AP", distance: "9.5 km" },
-      { name: "Vijayawada Center", distance: "21.0 km" }
-    ],
-    seller: {
-      name: "K. Raghava Rao",
-      phone: "+91 98765 43210",
-      role: "Direct Owner / Seller",
-      verified: true
+    intelligence: {
+      roadConnectivity: "Direct access to 50ft sector road, 800m from 60m wide Seed Access Road.",
+      landUseZoning: "R1 - Primary Residential Zone under APCRDA Master Plan 2050.",
+      nearbyInfra: "AP High Court (1.8 km), Velagapudi Secretariat (3.2 km), Thullur Junction (0.9 km).",
+      comparablesInsight: "Asking price ₹28,500/sq.yd is aligned with Thullur 240 sq.yd median of ₹28,000/sq.yd.",
+      buyerFit: "Ideal for immediate villa construction or medium-term capital appreciation."
     }
   },
   {
-    id: "prop-3",
-    slug: "grand-luxury-villa-mangalagiri",
-    title: "Ultra-Luxury 4BHK Independent Villa",
-    type: "Villas",
-    category: "residential",
-    price: 13500000,
-    priceDisplay: "₹1.35 Crore",
-    location: "Mangalagiri",
-    address: "Greenwood Palms Gated Enclave, Mangalagiri, AP",
-    area: "2,800 sq.ft.",
-    areaSqFt: 2800,
-    bedrooms: 4,
-    bathrooms: 4,
-    status: "Ready to Move",
+    id: "SBS-AMA-000102",
+    apcrdaPlotCode: "LPS-RAY-C-0108",
+    title: "450 Sq.Yd Prime Commercial Plot on Seed Access Road, Rayapudi",
+    category: "Commercial Plot",
+    plotType: "Commercial Plot",
+    village: "Rayapudi",
+    locality: "Seed Access Road Frontage Grid",
+    surveyNo: "92/1B",
+    plotNumber: "108",
+    layoutName: "APCRDA Commercial Corridor Sector 7",
+    plotSizeSqYd: 450,
+    dimensions: "45 ft x 90 ft",
+    plotLengthFt: 90,
+    plotWidthFt: 45,
+    frontageFt: 45,
+    roadWidthFt: 100,
+    facing: "North-East Corner",
+    cornerPlot: true,
+    roadAccess: "100 ft Arterial Seed Access Road + 40 ft Side Road",
+    askingPrice: 15300000,
+    priceDisplay: "₹1.53 Crore",
+    pricePerSqYd: 34000,
+    pricePerSqYdDisplay: "₹34,000 / sq.yd.",
+    negotiable: false,
+    listingDate: "2026-11-12",
+    status: "Available",
     featured: true,
     verified: true,
-    furnishing: "Fully Furnished",
-    postedDate: "2026-11-08",
-    images: [
-      "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1200&q=80"
-    ],
-    description: "Architect-designed 4BHK duplex villa in a gated sanctuary. Complete with a private landscaped lawn, sunlit internal courtyard, high-end teakwood finishes, modular kitchen, home theater lounge, and solar power backup.",
-    highlights: [
-      "300 sq.yd. private plot with 2,800 sq.ft. built-up area",
-      "Private garden and gazebo for family gatherings",
-      "100% Vaastu compliant architecture",
-      "Fully air-conditioned with premium Daikin VRV systems"
-    ],
-    amenities: ["Private Garden", "Home Automation", "Gated Security", "Solar Power", "Clubhouse Access", "Tennis Court", "Visitor Parking"],
-    nearby: [
-      { name: "AIIMS Mangalagiri", distance: "2.5 km" },
-      { name: "NH-16 Highway", distance: "1.0 km" },
-      { name: "Mangalagiri Temple", distance: "3.0 km" },
-      { name: "Vijayawada Club", distance: "12.0 km" }
-    ],
-    seller: {
-      name: "SimplyBuySell Premium Homes",
-      phone: "+91 98765 43210",
-      role: "Verified Premium Consultant",
-      verified: true
-    }
-  },
-  {
-    id: "prop-4",
-    slug: "commercial-showroom-vijayawada-amaravati-highway",
-    title: "Prime Commercial Showroom & Office Space",
-    type: "Commercial",
-    category: "commercial",
-    price: 18000000,
-    priceDisplay: "₹1.80 Crore",
-    location: "Vijayawada",
-    address: "Vijayawada-Amaravati Highway Commercial Hub, Tadepalli",
-    area: "3,200 sq.ft.",
-    areaSqFt: 3200,
-    bedrooms: null,
-    bathrooms: 4,
-    status: "Ready to Move",
-    featured: false,
-    verified: true,
-    furnishing: "Semi-Furnished",
-    postedDate: "2026-11-14",
+    lat: 16.5492,
+    lng: 80.5135,
+    locationAccuracy: "Exact Verified Plot Location",
+    boundaryGeoJson: {
+      type: "Polygon",
+      coordinates: [[
+        [80.5130, 16.5490],
+        [80.5138, 16.5490],
+        [80.5138, 16.5495],
+        [80.5130, 16.5495],
+        [80.5130, 16.5490]
+      ]]
+    },
+    documentation: {
+      titleReviewStatus: "Verified Commercial Land Title",
+      lpsReturnableCertificate: "Commercial Returnable Plot Certificate Verified",
+      crdallpSanctionNo: "APCRDA/COMM/RAY/2019/0108",
+      encumbranceStatus: "Nil Encumbrance Certificate Verified",
+      source: "APCRDA Commercial Allocation Wing",
+      lastVerificationDate: "2026-11-08"
+    },
     images: [
       "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=1200&q=80"
-    ],
-    description: "Exceptional glass façade commercial property ideal for corporate offices, banking institutions, healthcare clinics, or retail flagship showrooms. Unbeatable frontage on the busy Vijayawada-Amaravati arterial corridor.",
-    highlights: [
-      "60 ft highway frontage with immense branding visibility",
-      "Dedicated basement parking for 15+ vehicles",
-      "High rental yield projection exceeding 8.5% p.a.",
-      "Dual commercial lifts and 100% DG generator backup"
-    ],
-    amenities: ["High-speed Elevators", "Fire Safety Compliance", "Central AC Provision", "Basement Parking", "24/7 CCTV", "Fiber Internet Ready"],
-    nearby: [
-      { name: "Prakasam Barrage", distance: "4.0 km" },
-      { name: "Vijayawada Railway Station", distance: "6.5 km" },
-      { name: "Amaravati Secretariat", distance: "11.0 km" },
-      { name: "Benz Circle", distance: "8.0 km" }
-    ],
-    seller: {
-      name: "Apex Commercial Advisory",
-      phone: "+91 98765 43210",
-      role: "Commercial Real Estate Broker",
-      verified: true
-    }
-  },
-  {
-    id: "prop-5",
-    slug: "productive-agricultural-land-tadikonda",
-    title: "Fertile Agricultural Land near Outer Ring Road",
-    type: "Agricultural Land",
-    category: "agricultural-land",
-    price: 6500000,
-    priceDisplay: "₹65 Lakhs",
-    location: "Tadikonda",
-    address: "Village Road, Tadikonda Mandal, Amaravati Region, AP",
-    area: "1.25 Acres",
-    areaSqFt: 54450,
-    bedrooms: null,
-    bathrooms: null,
-    status: "Immediately Available",
-    featured: false,
-    verified: true,
-    furnishing: "Unfurnished",
-    postedDate: "2026-11-09",
-    images: [
-      "https://images.unsplash.com/photo-1500651230702-0e2d8a49d4ad?auto=format&fit=crop&w=1200&q=80",
       "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80"
     ],
-    description: "Highly fertile black cotton agricultural soil parcel adjacent to proposed ORR growth corridor. Perennial groundwater access with existing motor borewell, clear 1B revenue records, and clean title chain.",
+    description: "Rare double-road North-East corner commercial plot situated directly on the 100ft wide Seed Access corridor in Rayapudi. Unbeatable visibility for corporate office headquarters, diagnostic hospital, bank branch or retail showroom.",
     highlights: [
-      "Clean revenue passbook with zero encumbrance",
-      "Direct 25ft blacktop village road connectivity",
-      "Suitable for high-yield agriculture, agro-processing, or long term investment",
-      "High probability of urban boundary inclusion"
+      "North-East double road corner with 45ft & 90ft frontage",
+      "100% Commercial zoning approved by APCRDA",
+      "High vehicle movement on arterial capital highway",
+      "Permitted for G+5 commercial multi-floor development"
     ],
-    amenities: ["Active Borewell", "Electricity Connection", "Clear Demarcation", "Road Access"],
-    nearby: [
-      { name: "Tadikonda Center", distance: "3.0 km" },
-      { name: "Guntur Inner Ring Road", distance: "12.0 km" },
-      { name: "Amaravati Core City", distance: "14.0 km" }
-    ],
-    seller: {
-      name: "S. Venkateswara Rao",
-      phone: "+91 98765 43210",
-      role: "Land Owner",
-      verified: true
+    intelligence: {
+      roadConnectivity: "Direct 100ft arterial frontage connecting Vijayawada and Core Secretariat.",
+      landUseZoning: "C2 - High Density Commercial Corridor Zone.",
+      nearbyInfra: "Rayapudi Interchange (0.6 km), Secretariat (2.1 km), Prakasam Barrage (8.5 km).",
+      comparablesInsight: "Commercial plots on Seed Access corridor command ₹32,000–₹38,000/sq.yd.",
+      buyerFit: "High rental cash flow asset for commercial builders and corporate investors."
     }
   },
   {
-    id: "prop-6",
-    slug: "budget-friendly-2bhk-flat-mangalagiri",
-    title: "Contemporary 2BHK Apartment near AIIMS",
-    type: "Flats",
-    category: "residential",
-    price: 4800000,
-    priceDisplay: "₹48 Lakhs",
-    location: "Mangalagiri",
-    address: "AIIMS Healthcare Avenue, Mangalagiri, AP",
-    area: "1,150 sq.ft.",
-    areaSqFt: 1150,
-    bedrooms: 2,
-    bathrooms: 2,
-    status: "Ready to Move",
+    id: "SBS-AMA-000103",
+    apcrdaPlotCode: "LPS-MAN-R-0284",
+    title: "200 Sq.Yd North Facing Residential Plot, Mandadam",
+    category: "Residential Plot",
+    plotType: "Residential Plot",
+    village: "Mandadam",
+    locality: "Krishna River View Layout Sector 4",
+    surveyNo: "212/4",
+    plotNumber: "284",
+    layoutName: "Mandadam LPS Plotted Scheme",
+    plotSizeSqYd: 200,
+    dimensions: "30 ft x 60 ft",
+    plotLengthFt: 60,
+    plotWidthFt: 30,
+    frontageFt: 30,
+    roadWidthFt: 40,
+    facing: "North",
+    cornerPlot: false,
+    roadAccess: "40 ft Blacktop Avenue",
+    askingPrice: 5900000,
+    priceDisplay: "₹59 Lakhs",
+    pricePerSqYd: 29500,
+    pricePerSqYdDisplay: "₹29,500 / sq.yd.",
+    negotiable: true,
+    listingDate: "2026-11-14",
+    status: "Available",
     featured: false,
     verified: true,
-    furnishing: "Semi-Furnished",
-    postedDate: "2026-11-16",
-    images: [
-      "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80"
-    ],
-    description: "Perfect home for young families and medical/IT professionals. Modern 2BHK flat featuring open-concept kitchen, spacious balconies, solar water heater, and covered car parking.",
-    highlights: [
-      "Walking distance to AIIMS campus and public transit",
-      "Approved for 85% home loan from SBI & HDFC",
-      "Low maintenance society with 24/7 security",
-      "Solid brick construction with termite warranty"
-    ],
-    amenities: ["Lift", "Covered Parking", "24/7 Water Supply", "Security Guard", "Intercom", "Power Backup for Common Areas"],
-    nearby: [
-      { name: "AIIMS Mangalagiri", distance: "0.6 km" },
-      { name: "Mangalagiri Bus Terminal", distance: "2.0 km" },
-      { name: "Guntur City Center", distance: "16.0 km" }
-    ],
-    seller: {
-      name: "Sri Sai Builders",
-      phone: "+91 98765 43210",
-      role: "Authorized Builder Desk",
-      verified: true
-    }
-  },
-  {
-    id: "prop-7",
-    slug: "independent-house-guntur-city",
-    title: "Premium 3BHK Independent Duplex House",
-    type: "Houses",
-    category: "residential",
-    price: 9200000,
-    priceDisplay: "₹92 Lakhs",
-    location: "Guntur",
-    address: "Pattabhipuram Extension, Guntur, AP",
-    area: "2,200 sq.ft.",
-    areaSqFt: 2200,
-    bedrooms: 3,
-    bathrooms: 3,
-    status: "Ready to Move",
-    featured: true,
-    verified: true,
-    furnishing: "Semi-Furnished",
-    postedDate: "2026-11-05",
-    images: [
-      "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1200&q=80"
-    ],
-    description: "Stately independent 3BHK house situated in a peaceful, upscale Guntur neighborhood. Private compound wall, spacious portico parking, overhead water tank, and dedicated puja room.",
-    highlights: [
-      "Independent plot ownership with clear municipal municipal sanctions",
-      "Borewell + Municipal drinking water connections",
-      "Spacious master bedroom with walk-in closet",
-      "Close to premier schools, supermarkets, and hospitals"
-    ],
-    amenities: ["Car Porch", "Private Borewell", "Water Storage Sump", "Modular Kitchen", "Terrace Garden Space"],
-    nearby: [
-      { name: "Guntur Railway Station", distance: "4.5 km" },
-      { name: "Government Hospital", distance: "3.2 km" },
-      { name: "Amaravati Expressway", distance: "6.0 km" }
-    ],
-    seller: {
-      name: "M. Subba Rao",
-      phone: "+91 98765 43210",
-      role: "Direct Owner",
-      verified: true
-    }
-  },
-  {
-    id: "prop-8",
-    slug: "crda-open-plot-kaza-nh16",
-    title: "Strategic Plotted Venture near NH-16 Toll Plaza",
-    type: "Open Plots",
-    category: "plots",
-    price: 3400000,
-    priceDisplay: "₹34 Lakhs",
-    location: "Mangalagiri",
-    address: "Kaza Growth Zone, Near NH-16 Highway, AP",
-    area: "180 sq.yd.",
-    areaSqFt: 1620,
-    bedrooms: null,
-    bathrooms: null,
-    status: "Immediately Available",
-    featured: false,
-    verified: true,
-    furnishing: "Unfurnished",
-    postedDate: "2026-11-14",
+    lat: 16.5312,
+    lng: 80.5428,
+    locationAccuracy: "Exact Verified Plot Location",
+    boundaryGeoJson: {
+      type: "Polygon",
+      coordinates: [[
+        [80.5425, 16.5310],
+        [80.5430, 16.5310],
+        [80.5430, 16.5315],
+        [80.5425, 16.5315],
+        [80.5425, 16.5310]
+      ]]
+    },
+    documentation: {
+      titleReviewStatus: "Verified Clear Title",
+      lpsReturnableCertificate: "Valid Allotment Deed Available",
+      crdallpSanctionNo: "APCRDA/LPS/MAN/2019/0284",
+      encumbranceStatus: "Clear 30-Year EC",
+      source: "Mandadam Sub-Registrar & APCRDA Portal",
+      lastVerificationDate: "2026-11-11"
+    },
     images: [
       "https://images.unsplash.com/photo-1592595896551-12b371d546d5?auto=format&fit=crop&w=1200&q=80",
       "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80"
     ],
-    description: "Rapidly appreciating plotted layout located just 3 minutes off NH-16. Surrounded by established institutions like Acharya Nagarjuna University and Haailand.",
+    description: "Vaastu-compliant North facing 200 sq.yd. residential plot in Mandadam. Immediate connectivity to Vijayawada city via Prakasam Barrage road. Established peaceful residential neighborhood.",
     highlights: [
-      "DTCP / CRDA Layout Compliance",
-      "Wide 40-foot internal roads with curbing stones",
-      "Immediate spot registration assistance",
-      "Excellent investment potential for 3-year doubling horizon"
+      "North facing 30ft frontage on 40ft wide blacktop road",
+      "7 minutes drive from Vijayawada city center",
+      "All civil infrastructure works completed",
+      "Clear computerized link documents"
     ],
-    amenities: ["Compound Wall", "Security Gate", "Water Tank", "Electricity Lines"],
-    nearby: [
-      { name: "Acharya Nagarjuna University", distance: "2.5 km" },
-      { name: "Kaza Toll Plaza", distance: "1.8 km" },
-      { name: "Mangalagiri Center", distance: "6.0 km" }
+    intelligence: {
+      roadConnectivity: "40ft internal layout road leading to Mandadam-Vijayawada double road.",
+      landUseZoning: "R2 - Medium Density Residential Housing Zone.",
+      nearbyInfra: "Prakasam Barrage (4.5 km), Velagapudi Secretariat (4.0 km), AIIMS (7.5 km).",
+      comparablesInsight: "Mandadam average asking price is ₹29,500/sq.yd.",
+      buyerFit: "Top choice for Vijayawada professionals seeking a home in the Amaravati capital."
+    }
+  },
+  {
+    id: "SBS-AMA-000104",
+    apcrdaPlotCode: "LPS-KUR-R-0519",
+    title: "180 Sq.Yd Residential Plot near SRM University, Kuragallu",
+    category: "Residential Plot",
+    plotType: "Residential Plot",
+    village: "Kuragallu",
+    locality: "University Enclave Sector 11",
+    surveyNo: "74/3",
+    plotNumber: "519",
+    layoutName: "Kuragallu LPS Scheme #2",
+    plotSizeSqYd: 180,
+    dimensions: "30 ft x 54 ft",
+    plotLengthFt: 54,
+    plotWidthFt: 30,
+    frontageFt: 30,
+    roadWidthFt: 40,
+    facing: "East",
+    cornerPlot: false,
+    roadAccess: "40 ft Municipal Blacktop Road",
+    askingPrice: 4680000,
+    priceDisplay: "₹46.8 Lakhs",
+    pricePerSqYd: 26000,
+    pricePerSqYdDisplay: "₹26,000 / sq.yd.",
+    negotiable: true,
+    listingDate: "2026-11-15",
+    status: "Available",
+    featured: true,
+    verified: true,
+    lat: 16.4965,
+    lng: 80.5230,
+    locationAccuracy: "Exact Verified Plot Location",
+    documentation: {
+      titleReviewStatus: "Verified Clear Title",
+      lpsReturnableCertificate: "CRDA Returnable Allotment Order",
+      crdallpSanctionNo: "APCRDA/KUR/2020/0519",
+      encumbranceStatus: "Clear EC",
+      source: "CRDA Land Allocation Registry",
+      lastVerificationDate: "2026-11-13"
+    },
+    images: [
+      "https://images.unsplash.com/photo-1500651230702-0e2d8a49d4ad?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1628744448840-55bdb2497bd4?auto=format&fit=crop&w=1200&q=80"
     ],
-    seller: {
-      name: "SimplyBuySell Plots Desk",
-      phone: "+91 98765 43210",
-      role: "Verified Consultant",
-      verified: true
+    description: "Prime budget-friendly 180 sq.yd. residential plot situated within 1.5 km of SRM University AP. High student and faculty rental housing demand making it ideal for rental apartments or a peaceful independent home.",
+    highlights: [
+      "1.5 km from SRM University AP campus",
+      "East facing with rectangular shape",
+      "Pre-approved for SBI & HDFC plot purchase loans",
+      "Ready for instant sub-registrar registration"
+    ],
+    intelligence: {
+      roadConnectivity: "40ft blacktop road linking to Mangalagiri-Amaravati main highway.",
+      landUseZoning: "R1 - Low/Medium Density Residential Zone.",
+      nearbyInfra: "SRM University (1.5 km), VIT-AP (3.5 km), Mangalagiri Junction (6.0 km).",
+      comparablesInsight: "Kuragallu plotted layouts average ₹24,000–₹28,000/sq.yd.",
+      buyerFit: "High rental demand opportunity for educational institution staff and student hostels."
+    }
+  },
+  {
+    id: "SBS-AMA-000105",
+    apcrdaPlotCode: "LPS-VEL-C-0062",
+    title: "600 Sq.Yd High-Density Commercial Plot near Secretariat, Velagapudi",
+    category: "Commercial Plot",
+    plotType: "Commercial Plot",
+    village: "Velagapudi",
+    locality: "Secretariat Main Boulevard",
+    surveyNo: "115/2",
+    plotNumber: "62",
+    layoutName: "Velagapudi Administrative Core Layout",
+    plotSizeSqYd: 600,
+    dimensions: "50 ft x 108 ft",
+    plotLengthFt: 108,
+    plotWidthFt: 50,
+    frontageFt: 50,
+    roadWidthFt: 80,
+    facing: "West",
+    cornerPlot: false,
+    roadAccess: "80 ft Four-Lane Central Avenue",
+    askingPrice: 20400000,
+    priceDisplay: "₹2.04 Crore",
+    pricePerSqYd: 34000,
+    pricePerSqYdDisplay: "₹34,000 / sq.yd.",
+    negotiable: true,
+    listingDate: "2026-11-08",
+    status: "Available",
+    featured: true,
+    verified: true,
+    lat: 16.5392,
+    lng: 80.5068,
+    locationAccuracy: "Exact Verified Plot Location",
+    documentation: {
+      titleReviewStatus: "Verified Commercial Document Chain",
+      lpsReturnableCertificate: "CRDA Commercial Returnable Order",
+      crdallpSanctionNo: "APCRDA/VEL/COMM/2019/0062",
+      encumbranceStatus: "Nil Encumbrance Verified",
+      source: "APCRDA Commercial Wing",
+      lastVerificationDate: "2026-11-06"
+    },
+    images: [
+      "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80"
+    ],
+    description: "Exceptional commercial parcel on the 80ft four-lane central avenue in Velagapudi, just 400 meters from the Interim Government Complex. Ideal for commercial office complexes, hospitality hotels, restaurants, or business centers.",
+    highlights: [
+      "400 meters from AP Secretariat gates",
+      "80ft wide four-lane road frontage with streetlights and median",
+      "Commercial classification with high FAR / FSI permissions",
+      "Unmatched footfall and official corporate presence"
+    ],
+    intelligence: {
+      roadConnectivity: "80ft main boulevard connecting Velagapudi directly to Rayapudi Seed Access.",
+      landUseZoning: "C1 - Administrative Core Commercial Zone.",
+      nearbyInfra: "Secretariat & Assembly (0.4 km), High Court (2.8 km), Velagapudi Transit Center (0.5 km).",
+      comparablesInsight: "Secretariat front plots hold the highest commercial value in capital at ₹34,000–₹40,000/sq.yd.",
+      buyerFit: "Corporate offices, hotel chains, and premium retail hubs."
+    }
+  },
+  {
+    id: "SBS-AMA-000106",
+    apcrdaPlotCode: "LPS-NEL-R-0331",
+    title: "300 Sq.Yd South-East Corner Plot in Judicial City, Nelapadu",
+    category: "Residential Plot",
+    plotType: "Residential Plot",
+    village: "Nelapadu",
+    locality: "Judicial City Sector 3, Near High Court",
+    surveyNo: "68/1A",
+    plotNumber: "331",
+    layoutName: "Nelapadu Judicial Sector LPS",
+    plotSizeSqYd: 300,
+    dimensions: "40 ft x 67.5 ft",
+    plotLengthFt: 67.5,
+    plotWidthFt: 40,
+    frontageFt: 40,
+    roadWidthFt: 60,
+    facing: "South-East Corner",
+    cornerPlot: true,
+    roadAccess: "60 ft Sector Road & 40 ft Internal Road",
+    askingPrice: 8700000,
+    priceDisplay: "₹87 Lakhs",
+    pricePerSqYd: 29000,
+    pricePerSqYdDisplay: "₹29,000 / sq.yd.",
+    negotiable: false,
+    listingDate: "2026-11-16",
+    status: "Available",
+    featured: false,
+    verified: true,
+    lat: 16.5195,
+    lng: 80.4905,
+    locationAccuracy: "Exact Verified Plot Location",
+    documentation: {
+      titleReviewStatus: "Verified Clear Title",
+      lpsReturnableCertificate: "Valid Returnable Certificate Available",
+      crdallpSanctionNo: "APCRDA/NEL/2019/0331",
+      encumbranceStatus: "Clear 30-Year EC Checked",
+      source: "Nelapadu SRO & CRDA Land Records",
+      lastVerificationDate: "2026-11-14"
+    },
+    images: [
+      "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1592595896551-12b371d546d5?auto=format&fit=crop&w=1200&q=80"
+    ],
+    description: "Corner residential plot located right in the Judicial City zone of Nelapadu. Surrounded by proposed judge and advocate colonies, institutional facilities, and parks. Immediate possession.",
+    highlights: [
+      "South-East corner with dual road access (60ft & 40ft roads)",
+      "Walking distance to High Court of Andhra Pradesh",
+      "Underground drainage and underground electrification",
+      "High status neighborhood with top legal fraternity presence"
+    ],
+    intelligence: {
+      roadConnectivity: "Corner frontage on 60ft arterial road.",
+      landUseZoning: "R2 - Medium Density Plotted Residential.",
+      nearbyInfra: "High Court (0.5 km), Justice City Promenade (0.8 km), Thullur (2.5 km).",
+      comparablesInsight: "Nelapadu judicial plots range between ₹28,000–₹33,000/sq.yd.",
+      buyerFit: "Advocates, legal professionals, and families seeking an upscale address."
+    }
+  },
+  {
+    id: "SBS-AMA-000107",
+    apcrdaPlotCode: "LPS-NEK-R-0198",
+    title: "150 Sq.Yd Compact Residential Plot in Nekkallu",
+    category: "Residential Plot",
+    plotType: "Residential Plot",
+    village: "Nekkallu",
+    locality: "Western Green Sector Layout",
+    surveyNo: "142/5",
+    plotNumber: "198",
+    layoutName: "Nekkallu Land Pooling Scheme #1",
+    plotSizeSqYd: 150,
+    dimensions: "25 ft x 54 ft",
+    plotLengthFt: 54,
+    plotWidthFt: 25,
+    frontageFt: 25,
+    roadWidthFt: 40,
+    facing: "West",
+    cornerPlot: false,
+    roadAccess: "40 ft Blacktop Layout Road",
+    askingPrice: 3525000,
+    priceDisplay: "₹35.25 Lakhs",
+    pricePerSqYd: 23500,
+    pricePerSqYdDisplay: "₹23,500 / sq.yd.",
+    negotiable: true,
+    listingDate: "2026-11-13",
+    status: "Available",
+    featured: false,
+    verified: true,
+    lat: 16.5132,
+    lng: 80.4598,
+    locationAccuracy: "Exact Verified Plot Location",
+    documentation: {
+      titleReviewStatus: "Verified Title Chain",
+      lpsReturnableCertificate: "CRDA Returnable Allotment Order",
+      crdallpSanctionNo: "APCRDA/NEK/2021/0198",
+      encumbranceStatus: "Clear EC Verified",
+      source: "APCRDA LPS Land Records",
+      lastVerificationDate: "2026-11-10"
+    },
+    images: [
+      "https://images.unsplash.com/photo-1628744448840-55bdb2497bd4?auto=format&fit=crop&w=1200&q=80"
+    ],
+    description: "Compact, affordable 150 sq.yd. residential plot in Nekkallu. Clean rectangular shape, zero wastage, excellent entry point into Amaravati capital land ownership with high capital multiplier potential.",
+    highlights: [
+      "Pocket-friendly entry ticket size under ₹36 Lakhs",
+      "Fully demarcated boundaries with stone pillars",
+      "Clear 40ft road approach",
+      "Pre-approved bank loan feasibility"
+    ],
+    intelligence: {
+      roadConnectivity: "40ft internal layout road connected to Thullur-Nekkallu main road.",
+      landUseZoning: "R1 - Low Density Residential Housing.",
+      nearbyInfra: "Nekkallu Village Center (0.8 km), Thullur (4.0 km), AIIMS (12.0 km).",
+      comparablesInsight: "Nekkallu plots offer the highest percentage capital appreciation in the Western sector.",
+      buyerFit: "First-time land investors and young families looking for future home construction."
+    }
+  },
+  {
+    id: "SBS-AMA-000108",
+    apcrdaPlotCode: "LPS-LIN-C-0045",
+    title: "1,000 Sq.Yd Large Commercial / Institutional Land Parcel, Lingayapalem",
+    category: "Commercial Plot",
+    plotType: "Commercial Plot",
+    village: "Lingayapalem",
+    locality: "Riverfront Express Corridor",
+    surveyNo: "41/1A",
+    plotNumber: "45",
+    layoutName: "Lingayapalem Riverfront LPS Commercial Hub",
+    plotSizeSqYd: 1000,
+    dimensions: "60 ft x 150 ft",
+    plotLengthFt: 150,
+    plotWidthFt: 60,
+    frontageFt: 60,
+    roadWidthFt: 100,
+    facing: "East",
+    cornerPlot: false,
+    roadAccess: "100 ft Four-Lane Riverfront Highway",
+    askingPrice: 32000000,
+    priceDisplay: "₹3.20 Crore",
+    pricePerSqYd: 32000,
+    pricePerSqYdDisplay: "₹32,000 / sq.yd.",
+    negotiable: true,
+    listingDate: "2026-11-09",
+    status: "Available",
+    featured: true,
+    verified: true,
+    lat: 16.5458,
+    lng: 80.5525,
+    locationAccuracy: "Exact Verified Plot Location",
+    documentation: {
+      titleReviewStatus: "Verified Commercial Allotment",
+      lpsReturnableCertificate: "Commercial LPS Certificate Verified",
+      crdallpSanctionNo: "APCRDA/COMM/LIN/2019/0045",
+      encumbranceStatus: "Clear 30-Year Encumbrance Certificate",
+      source: "APCRDA Commercial Wing & Revenue Dept",
+      lastVerificationDate: "2026-11-04"
+    },
+    images: [
+      "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80"
+    ],
+    description: "Rare 1,000 sq.yd. commercial mega-plot with 100ft arterial highway frontage in Lingayapalem. Direct view of Krishna river and immediate connectivity to Vijayawada city via Kanaka Durga bypass.",
+    highlights: [
+      "Full 1,000 sq.yd. large parcel with 60ft frontage",
+      "100ft wide highway approach road with storm drainage",
+      "Suitable for hospital, star hotel, convention hall, or IT campus",
+      "Riverfront tourism and commercial master plan zoning"
+    ],
+    intelligence: {
+      roadConnectivity: "100ft riverfront expressway directly connecting to Vijayawada.",
+      landUseZoning: "C3 - Regional Commercial & Institutional Hub.",
+      nearbyInfra: "Krishna River Promenade (0.3 km), Prakasam Barrage (5.5 km), Vijayawada Railway Station (8.0 km).",
+      comparablesInsight: "Large 1000+ sq.yd. highway commercial plots in Lingayapalem command ₹32,000–₹36,000/sq.yd.",
+      buyerFit: "Corporate developers, hospital chains, and hotel builders."
     }
   }
 ];
 
+export const properties = initialPlots;
+export const initialProperties = initialPlots;
+
 export const initialReviews = [
   {
     id: "rev-1",
-    name: "Dr. K. Srinivas Rao",
-    location: "Amaravati",
+    name: "M. Venkata Ramana",
+    location: "Hyderabad",
     rating: 5,
-    role: "Property Investor",
-    propertyUsed: "Commercial Office Space, Tadepalli",
-    comment: "SimplyBuySell made our property search simple and transparent. Their guidance helped us make a confident commercial investment decision without any middlemen hassles.",
+    role: "Plot Buyer",
+    propertyUsed: "240 Sq.Yd Residential Plot, Thullur (LPS-THU-R-0412)",
+    comment: "The APCRDA plot code search and plot intelligence report gave me complete confidence. I could verify the exact road width and zoning before even visiting the site. Seamless registration experience!",
     avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80",
-    date: "2026-10-18",
+    date: "2026-10-22",
     approved: true
   },
   {
     id: "rev-2",
-    name: "P. Lakshmi Prasanna",
-    location: "Mangalagiri",
+    name: "S. Kameswari",
+    location: "Vijayawada",
     rating: 5,
-    role: "Home Buyer",
-    propertyUsed: "3BHK Luxury Apartment, Mangalagiri",
-    comment: "From site visit to registration, everything was handled with complete professionalism. The team checked all CRDA documents and title deeds thoroughly. Truly 100% trustworthy!",
+    role: "Land Pooling Returnable Plot Owner",
+    propertyUsed: "Commercial Plot Sale, Rayapudi",
+    comment: "SimplyBuySell connected me directly with genuine commercial investors. Closed the transaction in 15 days at a fair market price per sq.yd. No fake enquiries or middleman stress.",
     avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80",
-    date: "2026-11-02",
+    date: "2026-11-04",
     approved: true
   },
   {
     id: "rev-3",
-    name: "Anand Verma",
-    location: "Vijayawada",
+    name: "Rajesh Goud",
+    location: "Bangalore (NRI Investor)",
     rating: 5,
-    role: "Plot Owner / Seller",
-    propertyUsed: "Open Plot Sale, Thullur",
-    comment: "I listed my Thullur plot on SimplyBuySell and within 10 days received genuine enquiries from serious buyers. Closed the transaction at a great market price with zero stress.",
+    role: "NRI Plot Investor",
+    propertyUsed: "Interactive Map & Plot Compare Tool",
+    comment: "Being based in Bangalore, the interactive GIS map and plot comparison feature allowed me to evaluate 4 different villages in Amaravati side-by-side with genuine road widths and landmarks.",
     avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80",
-    date: "2026-11-08",
-    approved: true
-  },
-  {
-    id: "rev-4",
-    name: "Ramesh Babu Ch",
-    location: "Guntur",
-    rating: 5,
-    role: "Villa Buyer",
-    propertyUsed: "4BHK Independent Villa",
-    comment: "The best real estate platform for the Amaravati region. The property filters, pricing clarity, and direct WhatsApp contact saved us weeks of futile site visits.",
-    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=200&q=80",
     date: "2026-11-12",
     approved: true
   }
 ];
 
+export const initialStatistics = {
+  activePlotsCount: 148,
+  activePlotsDisplay: "140+",
+  registeredVillages: 13,
+  villagesDisplay: "13 Villages",
+  sqYardsListed: 125000,
+  sqYardsDisplay: "1.25 Lakh+ Sq.Yd",
+  avgPriceSqYd: 28400,
+  avgPriceDisplay: "₹28,400 / sq.yd.",
+  coverageArea: "APCRDA Capital Grid",
+  coverageTagline: "Andhra Pradesh Capital Region"
+};
+
 export const initialSiteSettings = {
   brandName: "SimplyBuySell",
-  tagline: "Buy • Sell • Invest",
+  tagline: "AMARAVATI PLOT INTELLIGENCE PLATFORM",
   phone: "+91 98765 43210",
   whatsappPhone: "919876543210",
-  email: "info@simplybuysell.com",
-  location: "Andhra Pradesh, India",
-  address: "SimplyBuySell Tower, Core Capital Zone, Amaravati, Andhra Pradesh 522503",
+  email: "plots@simplybuysell.com",
+  location: "Amaravati, Andhra Pradesh, India",
+  address: "Plot Intelligence Desk, Seed Access Road, Rayapudi, Amaravati, Andhra Pradesh 522503",
   language: "English",
-  trustStatement: "Your Trust is Our Strength. Your Satisfaction is Our Goal.",
+  trustStatement: "Transparent Land Discovery. Verified Plot Codes. Real Market Intelligence.",
   motto: {
-    vision: "To be the most transparent, accessible, and customer-centric property marketplace empowering individuals and businesses to build lasting prosperity across Andhra Pradesh.",
-    mission: "To eliminate property transaction anxiety through meticulous due diligence, verified listings, objective pricing intelligence, and uncompromising customer advocacy."
+    vision: "To empower land buyers, farmers, returnable plot allottees, and investors in Amaravati with authoritative GIS mapping, plot-code verification, and transparent price intelligence.",
+    mission: "To eliminate property transaction ambiguity in Andhra Pradesh's greenfield smart capital through verified plot codes, boundary geometry, and objective asking-price data."
   }
 };

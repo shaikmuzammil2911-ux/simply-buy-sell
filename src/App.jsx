@@ -9,6 +9,13 @@ import Modals from './components/Modals';
 import Home from './pages/Home';
 import Motto from './pages/Motto';
 import BuyProperty from './pages/BuyProperty';
+import ResidentialPlots from './pages/ResidentialPlots';
+import CommercialPlots from './pages/CommercialPlots';
+import MapPage from './pages/MapPage';
+import PlotIntelligence from './pages/PlotIntelligence';
+import ComparePlots from './pages/ComparePlots';
+import MarketInsights from './pages/MarketInsights';
+import VillageExplorer from './pages/VillageExplorer';
 import SellProperty from './pages/SellProperty';
 import OpenProperties from './pages/OpenProperties';
 import BuyersChoice from './pages/BuyersChoice';
@@ -39,15 +46,30 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/motto" element={<Motto />} />
+          
+          {/* Amaravati Plot Core Routes */}
           <Route path="/buy" element={<BuyProperty />} />
+          <Route path="/residential-plots" element={<ResidentialPlots />} />
+          <Route path="/commercial-plots" element={<CommercialPlots />} />
+          <Route path="/map" element={<MapPage />} />
+          <Route path="/plot-intelligence" element={<PlotIntelligence />} />
+          <Route path="/compare-plots" element={<ComparePlots />} />
+          <Route path="/market-insights" element={<MarketInsights />} />
+          <Route path="/locations/:village" element={<VillageExplorer />} />
+          
+          {/* Sell & Listings */}
           <Route path="/sell" element={<SellProperty />} />
+          <Route path="/sell-property" element={<SellProperty />} />
           <Route path="/open-properties" element={<OpenProperties />} />
           <Route path="/buyers-choice" element={<BuyersChoice />} />
           <Route path="/properties" element={<BuyProperty />} />
           <Route path="/properties/:id" element={<PropertyDetail />} />
           <Route path="/services/:slug" element={<ServiceDetail />} />
           <Route path="/contact" element={<Contact />} />
+          
+          {/* Admin (Hidden from public navigation) */}
           <Route path="/admin" element={<AdminDashboard />} />
+          
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>

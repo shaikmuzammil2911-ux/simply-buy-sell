@@ -11,9 +11,13 @@ import {
   MapPin,
   Sparkles,
   X,
-  Image as ImageIcon
+  Image as ImageIcon,
+  FileCheck2,
+  Compass,
+  Maximize2
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
+import { amaravatiVillages } from '../data/mockData';
 
 export default function SellProperty() {
   const { submitSellProperty } = useApp();
@@ -22,52 +26,31 @@ export default function SellProperty() {
   const [formData, setFormData] = useState({
     fullName: '',
     mobileNumber: '',
+    whatsappNumber: '',
     email: '',
-    propertyType: 'Flats',
-    propertyTitle: '',
-    location: 'Amaravati',
-    address: '',
-    priceExpectation: '',
-    area: '',
-    bedrooms: '',
-    bathrooms: '',
-    description: '',
-    features: ''
+    plotCode: '',
+    village: 'Thullur',
+    category: 'Residential Plot',
+    plotSizeSqYds: '',
+    facing: 'East Facing',
+    roadWidth: '18 meters',
+    cornerPlot: 'No',
+    expectedAskingPrice: '',
+    description: ''
   });
 
-  // Working drag-and-drop uploaded pictures state with thumbnail previews
+  // Working drag-and-drop uploaded pictures
   const [uploadedPhotos, setUploadedPhotos] = useState([
     {
       id: 'demo-1',
-      name: 'property-front-view.jpg',
-      size: '1.8 MB',
-      preview: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=400&q=80'
+      name: 'plot-site-survey.jpg',
+      size: '2.1 MB',
+      preview: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=600&q=80'
     }
   ]);
   const [isDragOver, setIsDragOver] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const propertyTypes = [
-    'Flats',
-    'Apartments',
-    'Houses',
-    'Villas',
-    'Plots',
-    'Open Plots',
-    'Commercial',
-    'Agricultural Land'
-  ];
-
-  const locations = [
-    'Amaravati',
-    'Mangalagiri',
-    'Thullur',
-    'Vijayawada',
-    'Guntur',
-    'Tadikonda',
-    'Tadepalli',
-    'Other Andhra Pradesh Area'
-  ];
+  const [submitted, setSubmitted] = useState(false);
 
   // Handle files selected via file input or drag-and-drop
   const handleFiles = (files) => {
@@ -124,409 +107,359 @@ export default function SellProperty() {
         photos: uploadedPhotos.map((p) => p.preview)
       });
       setIsSubmitting(false);
-      // Reset form
-      setFormData({
-        fullName: '',
-        mobileNumber: '',
-        email: '',
-        propertyType: 'Flats',
-        propertyTitle: '',
-        location: 'Amaravati',
-        address: '',
-        priceExpectation: '',
-        area: '',
-        bedrooms: '',
-        bathrooms: '',
-        description: '',
-        features: ''
-      });
-      setUploadedPhotos([]);
-    }, 600);
+      setSubmitted(true);
+    }, 500);
   };
 
   return (
-    <div className="w-full bg-gradient-to-b from-sky-50 via-blue-50/50 to-sky-50 min-h-screen py-10 md:py-16">
+    <div className="w-full bg-gradient-to-b from-sky-50 via-blue-50/50 to-sky-50 min-h-screen pt-24 pb-16">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header Banner */}
         <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-blue-100 text-brand-royal border border-blue-200 text-xs font-bold uppercase tracking-wider mb-3">
-            <Sparkles className="w-3.5 h-3.5 text-brand-orange" />
-            <span>Direct Seller & Owner Portal</span>
+          <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-blue-100 text-blue-800 border border-blue-200 text-xs font-bold uppercase tracking-wider mb-3">
+            <Sparkles className="w-3.5 h-3.5 text-blue-600" />
+            <span>Direct Land Owner & Allottee Listing</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-navy-900 tracking-tight">
-            Sell Your Property with SimplyBuySell
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-navy-950 tracking-tight">
+            List Your Amaravati Plot for Sale
           </h1>
-          <p className="mt-3 text-slate-600 text-sm sm:text-base max-w-2xl mx-auto">
-            Connect directly with verified property buyers and serious investors across the Amaravati capital region. Fast turnaround, transparent pricing, and zero spam.
+          <p className="mt-2 text-slate-600 text-xs sm:text-sm max-w-2xl mx-auto">
+            Connect directly with verified plot investors and builders looking for APCRDA LPS residential and commercial allotments across the Capital Region.
           </p>
         </div>
 
-        {/* Benefits Strip in light blue styling */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
-          <div className="bg-white/90 backdrop-blur-md p-4 rounded-2xl border border-blue-100 shadow-sm flex items-center gap-3">
-            <ShieldCheck className="w-8 h-8 text-brand-green shrink-0" />
-            <div>
-              <div className="text-xs font-bold text-navy-900">Verified Buyers Only</div>
-              <div className="text-[11px] text-slate-500">Pre-screened inquiries with purchase intent.</div>
+        {submitted ? (
+          <div className="bg-white rounded-3xl p-10 text-center border border-blue-100 shadow-xl max-w-xl mx-auto">
+            <div className="w-16 h-16 rounded-2xl bg-emerald-100 text-emerald-600 mx-auto flex items-center justify-center mb-4">
+              <CheckCircle2 className="w-8 h-8" />
             </div>
+            <h2 className="text-2xl font-black text-navy-950 mb-2">Plot Successfully Listed!</h2>
+            <p className="text-xs text-slate-600 mb-6 leading-relaxed">
+              Our Amaravati land verification desk has received your plot listing. We will verify the APCRDA plot allotment credentials and activate your listing on the GIS map.
+            </p>
+            <button
+              onClick={() => {
+                setSubmitted(false);
+                setFormData({
+                  fullName: '',
+                  mobileNumber: '',
+                  whatsappNumber: '',
+                  email: '',
+                  plotCode: '',
+                  village: 'Thullur',
+                  category: 'Residential Plot',
+                  plotSizeSqYds: '',
+                  facing: 'East Facing',
+                  roadWidth: '18 meters',
+                  cornerPlot: 'No',
+                  expectedAskingPrice: '',
+                  description: ''
+                });
+                setUploadedPhotos([]);
+              }}
+              className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-md transition-colors"
+            >
+              List Another Plot
+            </button>
           </div>
+        ) : (
+          <div className="bg-white rounded-3xl border border-blue-100 shadow-xl p-6 sm:p-10">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Owner / Contact Details */}
+              <div>
+                <h3 className="text-base font-bold text-navy-950 border-b border-slate-100 pb-2 mb-4 flex items-center gap-2">
+                  <User className="w-4 h-4 text-blue-600" />
+                  <span>1. Plot Owner / Authorized Contact</span>
+                </h3>
 
-          <div className="bg-white/90 backdrop-blur-md p-4 rounded-2xl border border-blue-100 shadow-sm flex items-center gap-3">
-            <Building className="w-8 h-8 text-brand-orange shrink-0" />
-            <div>
-              <div className="text-xs font-bold text-navy-900">Highest Regional Reach</div>
-              <div className="text-[11px] text-slate-500">Over 10,000 active monthly Amaravati visitors.</div>
-            </div>
-          </div>
-
-          <div className="bg-white/90 backdrop-blur-md p-4 rounded-2xl border border-blue-100 shadow-sm flex items-center gap-3">
-            <CheckCircle2 className="w-8 h-8 text-brand-royal shrink-0" />
-            <div>
-              <div className="text-xs font-bold text-navy-900">Free Legal & Title Check</div>
-              <div className="text-[11px] text-slate-500">Complimentary document and CRDA audit.</div>
-            </div>
-          </div>
-        </div>
-
-        {/* Main Property Submission Form */}
-        <div className="bg-white/95 backdrop-blur-md rounded-3xl shadow-xl border border-blue-100 p-6 sm:p-10">
-          <form onSubmit={handleSubmit} className="space-y-8">
-            {/* Step 1: Owner Details */}
-            <div>
-              <h2 className="text-lg font-bold text-navy-900 flex items-center gap-2 mb-4 pb-2 border-b border-blue-100">
-                <span className="w-6 h-6 rounded-full bg-brand-orange text-white text-xs flex items-center justify-center font-bold">
-                  1
-                </span>
-                <span>Seller & Contact Information</span>
-              </h2>
-
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
-                    Full Name *
-                  </label>
-                  <div className="relative">
-                    <User className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+                  <div>
+                    <label className="block text-[11px] font-bold text-slate-600 uppercase mb-1">
+                      Full Name *
+                    </label>
                     <input
                       type="text"
                       required
+                      placeholder="e.g. Ramesh Varma"
                       value={formData.fullName}
                       onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                      placeholder="e.g. K. Venkata Ramana"
-                      className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange"
+                      className="w-full p-2.5 rounded-xl border border-slate-200 text-xs font-medium focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
-                </div>
 
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
-                    Mobile Number *
-                  </label>
-                  <div className="relative">
-                    <Phone className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
+                  <div>
+                    <label className="block text-[11px] font-bold text-slate-600 uppercase mb-1">
+                      Mobile Number *
+                    </label>
                     <input
                       type="tel"
                       required
+                      placeholder="+91 98765 43210"
                       value={formData.mobileNumber}
                       onChange={(e) => setFormData({ ...formData, mobileNumber: e.target.value })}
-                      placeholder="+91 98765 43210"
-                      className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange"
+                      className="w-full p-2.5 rounded-xl border border-slate-200 text-xs font-medium focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
-                </div>
 
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
-                    Email Address
-                  </label>
-                  <div className="relative">
-                    <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
+                  <div>
+                    <label className="block text-[11px] font-bold text-slate-600 uppercase mb-1">
+                      WhatsApp Number
+                    </label>
+                    <input
+                      type="tel"
+                      placeholder="+91 98765 43210"
+                      value={formData.whatsappNumber}
+                      onChange={(e) => setFormData({ ...formData, whatsappNumber: e.target.value })}
+                      className="w-full p-2.5 rounded-xl border border-slate-200 text-xs font-medium focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] font-bold text-slate-600 uppercase mb-1">
+                      Email Address
+                    </label>
                     <input
                       type="email"
+                      placeholder="ramesh@example.com"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      placeholder="seller@gmail.com"
-                      className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange"
+                      className="w-full p-2.5 rounded-xl border border-slate-200 text-xs font-medium focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
                 </div>
               </div>
-            </div>
 
-            {/* Step 2: Property Basic Details */}
-            <div>
-              <h2 className="text-lg font-bold text-navy-900 flex items-center gap-2 mb-4 pb-2 border-b border-blue-100">
-                <span className="w-6 h-6 rounded-full bg-brand-orange text-white text-xs flex items-center justify-center font-bold">
-                  2
-                </span>
-                <span>Property Specification & Pricing</span>
-              </h2>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
-                    Property Type *
-                  </label>
-                  <select
-                    value={formData.propertyType}
-                    onChange={(e) => setFormData({ ...formData, propertyType: e.target.value })}
-                    className="w-full py-2.5 px-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-orange"
-                  >
-                    {propertyTypes.map((t) => (
-                      <option key={t} value={t}>{t}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
-                    Property Headline / Title *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.propertyTitle}
-                    onChange={(e) => setFormData({ ...formData, propertyTitle: e.target.value })}
-                    placeholder="e.g. 240 Sq.Yd East Facing Plot near Secretariat"
-                    className="w-full py-2.5 px-4 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-orange"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
-                    Location / Zone *
-                  </label>
-                  <select
-                    value={formData.location}
-                    onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                    className="w-full py-2.5 px-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-orange"
-                  >
-                    {locations.map((loc) => (
-                      <option key={loc} value={loc}>{loc}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
-                    Price Expectation *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.priceExpectation}
-                    onChange={(e) => setFormData({ ...formData, priceExpectation: e.target.value })}
-                    placeholder="e.g. ₹65 Lakhs (or Negotiable)"
-                    className="w-full py-2.5 px-4 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-orange"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
-                    Total Area / Extent *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.area}
-                    onChange={(e) => setFormData({ ...formData, area: e.target.value })}
-                    placeholder="e.g. 1,650 sq.ft. or 220 sq.yd."
-                    className="w-full py-2.5 px-4 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-orange"
-                  />
-                </div>
-              </div>
-
-              {/* Bedrooms & Bathrooms */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
-                    Bedrooms (if applicable)
-                  </label>
-                  <input
-                    type="number"
-                    min="0"
-                    max="10"
-                    value={formData.bedrooms}
-                    onChange={(e) => setFormData({ ...formData, bedrooms: e.target.value })}
-                    placeholder="e.g. 3"
-                    className="w-full py-2.5 px-4 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-orange"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
-                    Bathrooms (if applicable)
-                  </label>
-                  <input
-                    type="number"
-                    min="0"
-                    max="10"
-                    value={formData.bathrooms}
-                    onChange={(e) => setFormData({ ...formData, bathrooms: e.target.value })}
-                    placeholder="e.g. 3"
-                    className="w-full py-2.5 px-4 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-orange"
-                  />
-                </div>
-              </div>
-
+              {/* Plot Specifications */}
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
-                  Detailed Address / Landmarks *
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={formData.address}
-                  onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                  placeholder="Plot/Flat No., Road Name, Sector, Landmark, Amaravati"
-                  className="w-full py-2.5 px-4 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-orange"
-                />
-              </div>
-            </div>
+                <h3 className="text-base font-bold text-navy-950 border-b border-slate-100 pb-2 mb-4 flex items-center gap-2">
+                  <FileCheck2 className="w-4 h-4 text-blue-600" />
+                  <span>2. APCRDA Plot Specifications</span>
+                </h3>
 
-            {/* Step 3: Description & Working Interactive Drag-and-Drop Photo Upload */}
-            <div>
-              <h2 className="text-lg font-bold text-navy-900 flex items-center gap-2 mb-4 pb-2 border-b border-blue-100">
-                <span className="w-6 h-6 rounded-full bg-brand-orange text-white text-xs flex items-center justify-center font-bold">
-                  3
-                </span>
-                <span>Description & Photo Upload</span>
-              </h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                  {/* APCRDA Plot Code */}
+                  <div>
+                    <label className="block text-[11px] font-bold text-slate-600 uppercase mb-1">
+                      APCRDA / LPS Plot Code
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g. LPS-THU-R-0412"
+                      value={formData.plotCode}
+                      onChange={(e) => setFormData({ ...formData, plotCode: e.target.value })}
+                      className="w-full p-2.5 rounded-xl border border-slate-200 text-xs font-medium focus:ring-2 focus:ring-blue-500"
+                    />
+                    <span className="text-[10px] text-slate-400">Leave blank if pending allotment confirmation</span>
+                  </div>
 
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
-                    Property Description *
+                  {/* Village */}
+                  <div>
+                    <label className="block text-[11px] font-bold text-slate-600 uppercase mb-1">
+                      Amaravati Village *
+                    </label>
+                    <select
+                      value={formData.village}
+                      onChange={(e) => setFormData({ ...formData, village: e.target.value })}
+                      className="w-full p-2.5 rounded-xl border border-slate-200 text-xs font-semibold bg-white text-slate-800 focus:ring-2 focus:ring-blue-500"
+                    >
+                      {amaravatiVillages.map((v) => (
+                        <option key={v.id} value={v.name}>{v.name}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Category */}
+                  <div>
+                    <label className="block text-[11px] font-bold text-slate-600 uppercase mb-1">
+                      Plot Category *
+                    </label>
+                    <select
+                      value={formData.category}
+                      onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                      className="w-full p-2.5 rounded-xl border border-slate-200 text-xs font-semibold bg-white text-slate-800 focus:ring-2 focus:ring-blue-500"
+                    >
+                      <option value="Residential Plot">Residential Plot</option>
+                      <option value="Commercial Plot">Commercial Plot</option>
+                    </select>
+                  </div>
+
+                  {/* Plot Size (Sq. Yards) */}
+                  <div>
+                    <label className="block text-[11px] font-bold text-slate-600 uppercase mb-1">
+                      Plot Size (Sq. Yards) *
+                    </label>
+                    <input
+                      type="number"
+                      required
+                      placeholder="e.g. 400"
+                      value={formData.plotSizeSqYds}
+                      onChange={(e) => setFormData({ ...formData, plotSizeSqYds: e.target.value })}
+                      className="w-full p-2.5 rounded-xl border border-slate-200 text-xs font-medium focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+
+                  {/* Facing */}
+                  <div>
+                    <label className="block text-[11px] font-bold text-slate-600 uppercase mb-1">
+                      Facing Orientation *
+                    </label>
+                    <select
+                      value={formData.facing}
+                      onChange={(e) => setFormData({ ...formData, facing: e.target.value })}
+                      className="w-full p-2.5 rounded-xl border border-slate-200 text-xs font-semibold bg-white text-slate-800 focus:ring-2 focus:ring-blue-500"
+                    >
+                      <option value="East Facing">East Facing</option>
+                      <option value="North Facing">North Facing</option>
+                      <option value="West Facing">West Facing</option>
+                      <option value="South Facing">South Facing</option>
+                      <option value="North-East Facing">North-East Facing</option>
+                    </select>
+                  </div>
+
+                  {/* Front Road Width */}
+                  <div>
+                    <label className="block text-[11px] font-bold text-slate-600 uppercase mb-1">
+                      Front Road Width *
+                    </label>
+                    <select
+                      value={formData.roadWidth}
+                      onChange={(e) => setFormData({ ...formData, roadWidth: e.target.value })}
+                      className="w-full p-2.5 rounded-xl border border-slate-200 text-xs font-semibold bg-white text-slate-800 focus:ring-2 focus:ring-blue-500"
+                    >
+                      <option value="18 meters">18 meters (Standard Sector)</option>
+                      <option value="24 meters">24 meters (Arterial)</option>
+                      <option value="45 meters">45+ meters (Expressway Frontage)</option>
+                    </select>
+                  </div>
+
+                  {/* Corner Plot */}
+                  <div>
+                    <label className="block text-[11px] font-bold text-slate-600 uppercase mb-1">
+                      Corner Plot?
+                    </label>
+                    <select
+                      value={formData.cornerPlot}
+                      onChange={(e) => setFormData({ ...formData, cornerPlot: e.target.value })}
+                      className="w-full p-2.5 rounded-xl border border-slate-200 text-xs font-semibold bg-white text-slate-800 focus:ring-2 focus:ring-blue-500"
+                    >
+                      <option value="No">No (Standard Plot)</option>
+                      <option value="Yes">Yes (Corner Dual Road)</option>
+                    </select>
+                  </div>
+
+                  {/* Expected Asking Price */}
+                  <div>
+                    <label className="block text-[11px] font-bold text-slate-600 uppercase mb-1">
+                      Total Expected Asking Price *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. ₹1.5 Crores or ₹38,000/yd"
+                      value={formData.expectedAskingPrice}
+                      onChange={(e) => setFormData({ ...formData, expectedAskingPrice: e.target.value })}
+                      className="w-full p-2.5 rounded-xl border border-slate-200 text-xs font-medium focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                </div>
+
+                <div className="mt-4">
+                  <label className="block text-[11px] font-bold text-slate-600 uppercase mb-1">
+                    Plot Description / Proximity Highlights
                   </label>
                   <textarea
-                    rows="4"
-                    required
+                    rows={3}
+                    placeholder="Describe nearby landmarks, Seed Access Road distance, survey number details, or specific negotiation terms..."
                     value={formData.description}
                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                    placeholder="Describe your property: facing, road width, ventilation, neighborhood advantages, clear title status..."
-                    className="w-full p-3.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-orange"
+                    className="w-full p-2.5 rounded-xl border border-slate-200 text-xs font-medium focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
+              </div>
 
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
-                    Key Features & Amenities
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.features}
-                    onChange={(e) => setFormData({ ...formData, features: e.target.value })}
-                    placeholder="e.g. Gated boundary, DTCP approved, 50ft road, Borewell connection"
-                    className="w-full py-2.5 px-4 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-brand-orange"
-                  />
-                </div>
+              {/* Working Drag and Drop Upload */}
+              <div>
+                <h3 className="text-base font-bold text-navy-950 border-b border-slate-100 pb-2 mb-4 flex items-center gap-2">
+                  <Upload className="w-4 h-4 text-blue-600" />
+                  <span>3. Upload Plot Photos / Allotment Paper Photos</span>
+                </h3>
 
-                {/* WORKING DRAG & DROP PHOTO UPLOAD AREA */}
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
-                    Upload Property Pictures (Drag & Drop or Click to Browse)
-                  </label>
-
-                  {/* Hidden native file input */}
+                <div
+                  onDragOver={handleDragOver}
+                  onDragLeave={handleDragLeave}
+                  onDrop={handleDrop}
+                  onClick={() => fileInputRef.current?.click()}
+                  className={`border-2 border-dashed rounded-2xl p-6 text-center cursor-pointer transition-all ${
+                    isDragOver
+                      ? 'border-blue-500 bg-blue-50/80 scale-[1.01]'
+                      : 'border-slate-300 hover:border-blue-400 bg-slate-50/60'
+                  }`}
+                >
                   <input
                     type="file"
                     ref={fileInputRef}
                     multiple
                     accept="image/*"
-                    onChange={(e) => {
-                      if (e.target.files && e.target.files.length > 0) {
-                        handleFiles(e.target.files);
-                      }
-                    }}
+                    onChange={(e) => handleFiles(e.target.files)}
                     className="hidden"
                   />
-
-                  {/* Interactive Drag & Drop Box */}
-                  <div
-                    onDragOver={handleDragOver}
-                    onDragLeave={handleDragLeave}
-                    onDrop={handleDrop}
-                    onClick={() => fileInputRef.current?.click()}
-                    className={`border-2 border-dashed rounded-3xl p-8 text-center cursor-pointer transition-all duration-300 ${
-                      isDragOver
-                        ? 'border-brand-orange bg-orange-50/60 scale-[1.01] shadow-lg shadow-orange-500/10'
-                        : 'border-blue-200 hover:border-brand-orange bg-blue-50/40 hover:bg-blue-50/70'
-                    }`}
-                  >
-                    <div className="w-14 h-14 rounded-2xl bg-white shadow-md text-brand-orange flex items-center justify-center mx-auto mb-3">
-                      <Upload className="w-7 h-7" />
-                    </div>
-                    <div className="text-sm font-bold text-navy-900">
-                      Drag & drop your property photos here, or <span className="text-brand-orange underline">browse files</span>
-                    </div>
-                    <div className="text-xs text-slate-500 mt-1">
-                      Upload photos (JPEG, PNG, WebP) up to 10MB each
-                    </div>
+                  <div className="w-12 h-12 rounded-xl bg-blue-100 text-blue-600 mx-auto flex items-center justify-center mb-2">
+                    <Upload className="w-6 h-6" />
                   </div>
-
-                  {/* UPLOADED PICTURES THUMBNAILS PREVIEW */}
-                  {uploadedPhotos.length > 0 && (
-                    <div className="mt-4">
-                      <div className="text-xs font-bold text-navy-900 mb-2 flex items-center gap-1.5">
-                        <ImageIcon className="w-4 h-4 text-brand-green" />
-                        <span>Uploaded Pictures ({uploadedPhotos.length})</span>
-                      </div>
-
-                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                        {uploadedPhotos.map((photo) => (
-                          <div
-                            key={photo.id}
-                            className="relative group rounded-2xl overflow-hidden border border-blue-200 bg-white shadow-sm aspect-[4/3]"
-                          >
-                            <img
-                              src={photo.preview}
-                              alt={photo.name}
-                              className="w-full h-full object-cover"
-                            />
-                            {/* Overlay with file name & delete button */}
-                            <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-between p-2 text-white">
-                              <button
-                                type="button"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  removePhoto(photo.id);
-                                }}
-                                className="self-end p-1 rounded-full bg-red-600 text-white hover:bg-red-700"
-                                title="Remove photo"
-                              >
-                                <X className="w-3.5 h-3.5" />
-                              </button>
-                              <div className="text-[10px] truncate">{photo.name}</div>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
+                  <div className="font-bold text-xs text-navy-900 mb-1">
+                    Drag and drop plot photos here, or <span className="text-blue-600 underline">browse files</span>
+                  </div>
+                  <p className="text-[10px] text-slate-500">
+                    PNG, JPG, JPEG up to 10MB each. Attach site photos or layout copies.
+                  </p>
                 </div>
-              </div>
-            </div>
 
-            {/* Terms and Submission button */}
-            <div className="pt-4 border-t border-blue-100 flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div className="flex items-center gap-2 text-xs text-slate-500">
-                <ShieldCheck className="w-4 h-4 text-brand-green shrink-0" />
-                <span>Your contact information is strictly protected under SimplyBuySell privacy guidelines.</span>
+                {/* Uploaded Thumbnails Preview */}
+                {uploadedPhotos.length > 0 && (
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-4">
+                    {uploadedPhotos.map((photo) => (
+                      <div
+                        key={photo.id}
+                        className="relative group rounded-xl overflow-hidden border border-slate-200 aspect-[4/3] bg-slate-100"
+                      >
+                        <img
+                          src={photo.preview}
+                          alt={photo.name}
+                          className="w-full h-full object-cover"
+                        />
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            removePhoto(photo.id);
+                          }}
+                          className="absolute top-1.5 right-1.5 p-1 rounded-full bg-rose-600 text-white shadow-md hover:bg-rose-700 transition-colors"
+                        >
+                          <X className="w-3.5 h-3.5" />
+                        </button>
+                        <div className="absolute bottom-0 inset-x-0 bg-black/60 backdrop-blur-sm px-2 py-1 text-[10px] text-white truncate">
+                          {photo.name}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
 
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full sm:w-auto px-10 py-4 rounded-2xl bg-brand-orange hover:bg-brand-orangeDark text-white font-bold text-sm shadow-xl shadow-brand-orange/30 flex items-center justify-center gap-2 transition-all duration-200 disabled:opacity-50 hover:scale-105"
-              >
-                <PlusCircle className="w-4 h-4" />
-                <span>{isSubmitting ? 'Submitting Property...' : 'Submit Property for Listing'}</span>
-              </button>
-            </div>
-          </form>
-        </div>
+              {/* Submit CTA */}
+              <div className="pt-4 border-t border-slate-100">
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm uppercase tracking-wider shadow-lg shadow-blue-600/30 transition-all flex items-center justify-center gap-2"
+                >
+                  <PlusCircle className="w-4 h-4" />
+                  <span>{isSubmitting ? 'Submitting Plot...' : 'Publish Plot Listing for Verification'}</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        )}
       </div>
     </div>
   );
