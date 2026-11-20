@@ -39,12 +39,12 @@ export const AppProvider = ({ children }) => {
 
   // Primary Data State (Versioned cache ensures immediate freshness across browsers)
   const [properties, setProperties] = usePersistedState('sbs_properties_v5', initialPlots);
-  const [heroSlides, setHeroSlides] = usePersistedState('sbs_hero_slides_v5', initialHeroSlides);
+  const [heroSlides, setHeroSlides] = usePersistedState('sbs_hero_slides_v7', initialHeroSlides);
   const [services, setServices] = usePersistedState('sbs_services_v5', initialServices);
   const [villages, setVillages] = usePersistedState('sbs_villages_v5', amaravatiVillages);
   const [landmarks, setLandmarks] = usePersistedState('sbs_landmarks_v5', amaravatiLandmarks);
   const [statistics, setStatistics] = usePersistedState('sbs_statistics_v5', initialStatistics);
-  const [siteSettings, setSiteSettings] = usePersistedState('sbs_site_settings_v5', initialSiteSettings);
+  const [siteSettings, setSiteSettings] = usePersistedState('sbs_site_settings_v7', initialSiteSettings);
   const [reviews, setReviews] = usePersistedState('sbs_reviews_v5', initialReviews);
   const [savedProperties, setSavedProperties] = usePersistedState('sbs_saved_properties_v5', ['SBS-AMA-000101', 'SBS-AMA-000102']);
 
@@ -52,6 +52,12 @@ export const AppProvider = ({ children }) => {
   useEffect(() => {
     if (!properties || properties.length < initialPlots.length) {
       setProperties(initialPlots);
+    }
+    if (!heroSlides || heroSlides.length < initialHeroSlides.length) {
+      setHeroSlides(initialHeroSlides);
+    }
+    if (!siteSettings || !siteSettings.motto) {
+      setSiteSettings(initialSiteSettings);
     }
   }, []);
 

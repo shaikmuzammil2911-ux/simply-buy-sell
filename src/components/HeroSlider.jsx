@@ -112,41 +112,33 @@ export default function HeroSlider() {
             {currentSlide.description}
           </p>
 
-          {/* Multi-action CTA Buttons */}
+          {/* 3 Common Action Buttons Across All Slides */}
           <div className="flex flex-wrap items-center gap-3 sm:gap-4">
-            {/* Explore Properties */}
-            <Link
-              to={currentSlide.ctaPrimary?.link || '/buy'}
-              className="px-5 py-3 rounded-xl bg-brand-orange hover:bg-brand-orangeDark text-white font-bold text-sm sm:text-base transition-all duration-200 shadow-lg shadow-brand-orange/30 flex items-center gap-2 group"
-            >
-              <span>{currentSlide.ctaPrimary?.text || 'Explore Properties'}</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
-
-            {/* Buy Property */}
+            {/* 1. Buy Property */}
             <Link
               to="/buy"
-              className="px-5 py-3 rounded-xl bg-brand-green hover:bg-brand-greenDark text-white font-bold text-sm sm:text-base transition-all duration-200 shadow-lg shadow-brand-green/30 flex items-center gap-2"
+              className="px-5 py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-black text-sm sm:text-base transition-all duration-200 shadow-xl shadow-blue-600/35 ring-2 ring-white/20 flex items-center gap-2 group hover:scale-[1.02]"
             >
-              <Search className="w-4 h-4" />
+              <Search className="w-4 h-4 text-blue-200 group-hover:scale-110 transition-transform" />
               <span>Buy Property</span>
             </Link>
 
-            {/* Sell Property */}
+            {/* 2. Sell Property - High Vibrancy Eye-Catching Color */}
             <Link
               to="/sell"
-              className="px-5 py-3 rounded-xl bg-white/15 hover:bg-white/25 text-white backdrop-blur-md border border-white/30 font-semibold text-sm sm:text-base transition-all duration-200 flex items-center gap-2"
+              className="px-5 py-3.5 rounded-xl bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 hover:from-amber-600 hover:via-orange-600 hover:to-rose-600 text-white font-black text-sm sm:text-base transition-all duration-200 shadow-xl shadow-orange-500/35 ring-2 ring-white/20 flex items-center gap-2 group hover:scale-[1.02]"
             >
-              <PlusCircle className="w-4 h-4 text-brand-orange" />
+              <PlusCircle className="w-4 h-4 text-amber-100 group-hover:rotate-90 transition-transform" />
               <span>Sell Property</span>
             </Link>
 
-            {/* Know More */}
+            {/* 3. Buyers Choice */}
             <Link
-              to={currentSlide.ctaSecondary?.link || '/motto'}
-              className="px-4 py-3 text-slate-300 hover:text-white font-medium text-sm sm:text-base underline-offset-4 hover:underline transition-colors hidden md:inline-block"
+              to="/buyers-choice"
+              className="px-5 py-3.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-black text-sm sm:text-base transition-all duration-200 shadow-xl shadow-emerald-600/35 ring-2 ring-white/20 flex items-center gap-2 group hover:scale-[1.02]"
             >
-              {currentSlide.ctaSecondary?.text || 'Know More'}
+              <Sparkles className="w-4 h-4 text-emerald-200 animate-pulse" />
+              <span>Buyers Choice</span>
             </Link>
           </div>
         </div>

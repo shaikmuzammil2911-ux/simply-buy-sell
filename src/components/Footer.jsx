@@ -18,7 +18,7 @@ export default function Footer() {
 
   return (
     <footer className="bg-navy-900 text-slate-300 pt-16 pb-8 border-t border-navy-800 relative overflow-hidden">
-      {/* Subtle light blue ambient glow at top */}
+      {/* Ambient glow at top */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-1 bg-gradient-to-r from-transparent via-blue-400/30 to-transparent pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -34,7 +34,7 @@ export default function Footer() {
             </Link>
 
             <p className="text-slate-400 text-sm leading-relaxed max-w-sm">
-              The premier real estate marketplace dedicated to the emerging Amaravati capital region and Andhra Pradesh. We bring transparency, verified documentation, and confidence to every property transaction.
+              Making property buying and selling simple across India. We bring transparency, verified information, and confidence to buyers and sellers.
             </p>
 
             <div className="flex items-center gap-3 pt-2">
@@ -89,13 +89,8 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link to="/services/residential" className="hover:text-brand-orange transition-colors">
-                  Our Services
-                </Link>
-              </li>
-              <li>
                 <Link to="/motto" className="hover:text-brand-orange transition-colors">
-                  Our Motto & Vision
+                  Our Motto
                 </Link>
               </li>
               <li>
@@ -109,18 +104,8 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link to="/open-properties" className="hover:text-brand-orange transition-colors">
-                  Open Properties
-                </Link>
-              </li>
-              <li>
                 <Link to="/buyers-choice" className="hover:text-brand-orange transition-colors">
                   Buyer's Choice
-                </Link>
-              </li>
-              <li>
-                <Link to="/contact" className="hover:text-brand-orange transition-colors">
-                  Contact Us
                 </Link>
               </li>
             </ul>
@@ -133,34 +118,34 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2.5 text-sm text-slate-400">
               <li>
-                <Link to="/services/residential" className="hover:text-brand-orange transition-colors">
-                  Residential
+                <Link to="/buy?category=lps_plots" className="hover:text-brand-orange transition-colors">
+                  APCRDA / LPS Plots
                 </Link>
               </li>
               <li>
-                <Link to="/services/commercial" className="hover:text-brand-orange transition-colors">
-                  Commercial
-                </Link>
-              </li>
-              <li>
-                <Link to="/services/plots" className="hover:text-brand-orange transition-colors">
+                <Link to="/buy?category=open_plots" className="hover:text-brand-orange transition-colors">
                   Open Plots
                 </Link>
               </li>
               <li>
-                <Link to="/services/agricultural-land" className="hover:text-brand-orange transition-colors">
-                  Agricultural Land
+                <Link to="/buy?category=apartments" className="hover:text-brand-orange transition-colors">
+                  Apartments
                 </Link>
               </li>
               <li>
-                <Link to="/services/investment" className="hover:text-brand-orange transition-colors">
-                  Investment
+                <Link to="/buy?category=houses" className="hover:text-brand-orange transition-colors">
+                  Residential Houses
+                </Link>
+              </li>
+              <li>
+                <Link to="/buy?category=commercial" className="hover:text-brand-orange transition-colors">
+                  Commercial Properties
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Col 4: Contact & Office (3 cols) */}
+          {/* Col 4: Contact Us - Only Contact Details (3 cols) */}
           <div className="lg:col-span-3">
             <h4 className="text-sm font-bold uppercase tracking-wider text-white mb-4">
               Contact Us
@@ -168,23 +153,23 @@ export default function Footer() {
             <ul className="space-y-3 text-sm text-slate-400">
               <li className="flex items-start gap-2.5">
                 <MapPin className="w-4 h-4 text-brand-orange shrink-0 mt-1" />
-                <span>{siteSettings.address || 'Capital Zone, Amaravati, Andhra Pradesh, India'}</span>
+                <span>{siteSettings.address || 'Amaravati & Pan-India Real Estate Network'}</span>
               </li>
               <li className="flex items-center gap-2.5">
                 <Phone className="w-4 h-4 text-brand-green shrink-0" />
-                <a href={`tel:${siteSettings.phone.replace(/\s+/g, '')}`} className="hover:text-white">
-                  {siteSettings.phone}
+                <a href={`tel:${siteSettings.phone?.replace(/\s+/g, '') || '+919876543210'}`} className="hover:text-white">
+                  {siteSettings.phone || '+91 98765 43210'}
                 </a>
               </li>
               <li className="flex items-center gap-2.5">
                 <Mail className="w-4 h-4 text-blue-400 shrink-0" />
-                <a href={`mailto:${siteSettings.email}`} className="hover:text-white">
-                  {siteSettings.email}
+                <a href={`mailto:${siteSettings.email || 'info@simplybuysell.com'}`} className="hover:text-white">
+                  {siteSettings.email || 'info@simplybuysell.com'}
                 </a>
               </li>
               <li className="pt-2">
                 <div className="p-3 rounded-xl bg-navy-800/80 border border-navy-700 text-xs text-slate-300">
-                  <div className="font-bold text-white mb-0.5">Andhra Pradesh Capital Support</div>
+                  <div className="font-bold text-white mb-0.5">Customer Support Desk</div>
                   <div>Monday – Saturday: 9:00 AM – 7:30 PM</div>
                 </div>
               </li>
@@ -195,13 +180,18 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <p>
-            © 2026 SimplyBuySell. All Rights Reserved. Built for Andhra Pradesh Real Estate.
+            © 2026 SimplyBuySell. All Rights Reserved. Making Property Simple Across India.
           </p>
-
           <div className="flex items-center gap-6">
-            <Link to="/motto" className="hover:text-slate-300 transition-colors">Privacy Policy</Link>
-            <Link to="/motto" className="hover:text-slate-300 transition-colors">Terms of Service</Link>
-            <Link to="/contact" className="hover:text-slate-300 transition-colors">Site Map</Link>
+            <Link to="/motto" className="hover:text-slate-400">
+              Our Vision
+            </Link>
+            <Link to="/contact" className="hover:text-slate-400">
+              Support
+            </Link>
+            <Link to="/buy" className="hover:text-slate-400">
+              All Properties
+            </Link>
           </div>
         </div>
       </div>

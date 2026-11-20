@@ -1171,42 +1171,75 @@ export const initialReviews = [
 export const initialHeroSlides = [
   {
     id: 1,
-    title: "Buy & Sell Properties in Amaravati",
+    title: "Buy, Sell & Invest in Properties with SimplyBuySell",
     subtitle: "Buy • Sell • Invest",
-    description: "Discover verified APCRDA & LPS returnable plots, apartment flats, and open plots with transparent pricing and direct owner contacts.",
+    description: "Looking to sell your property at the right time? Or searching for the right property to invest in? SimplyBuySell helps you connect with property buyers and sellers, explore valuable opportunities, and make confident property decisions — across locations.",
     image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1920&q=80",
-    badge: "Prime Amaravati Real Estate",
+    badge: "Pan-India Real Estate Platform",
     active: true,
-    ctaPrimary: { text: "Buy Properties", link: "/buy" },
-    ctaSecondary: { text: "GIS Map", link: "/map" },
-    ctaBuy: { text: "Buy Properties", link: "/buy" },
-    ctaSell: { text: "Sell Property", link: "/sell" }
+    ctaBuy: { text: "Buy Property", link: "/buy" },
+    ctaSell: { text: "Sell Property", link: "/sell" },
+    ctaBuyersChoice: { text: "Buyers Choice", link: "/buyers-choice" }
   },
   {
     id: 2,
-    title: "Verified APCRDA Land Pooling Plots",
-    subtitle: "Clear Demarcations • Freehold Titles",
-    description: "Explore surveyed LPS plots across Thullur, Rayapudi, Mandadam, and Nelapadu with authentic plot code records and instant documentation.",
+    title: "Your Property. Your Choice. Your Opportunity.",
+    subtitle: "Your Needs Come First",
+    description: "Find the right property for your needs. List your property and connect with potential buyers. Explore properties selected to match your preferences.",
     image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1920&q=80",
-    badge: "APCRDA LPS Verified",
+    badge: "Personalized Property Matching",
     active: true,
-    ctaPrimary: { text: "Buy LPS Plots", link: "/buy?category=lps_plots" },
-    ctaSecondary: { text: "Plot Intelligence", link: "/plot-intelligence" },
-    ctaBuy: { text: "Browse Plots", link: "/buy" },
-    ctaSell: { text: "Sell Your Plot", link: "/sell" }
+    ctaBuy: { text: "Buy Property", link: "/buy" },
+    ctaSell: { text: "Sell Property", link: "/sell" },
+    ctaBuyersChoice: { text: "Buyers Choice", link: "/buyers-choice" }
   },
   {
     id: 3,
-    title: "High-Growth Commercial Parcels & Open Plots",
-    subtitle: "Seed Access Road • Arterial Expressways",
-    description: "Prime commercial frontage parcels and investment lands suitable for corporate campuses, retail ventures, and long-term capital preservation.",
+    title: "Complete Property Insights. Smarter Deals. Better Opportunities.",
+    subtitle: "Market Intelligence & Data",
+    description: "SimplyBuySell provides comprehensive property information to help you make informed decisions, trade properties with confidence, and explore income-generating opportunities. Our mission is to make property transactions smarter, easier, and more rewarding.",
     image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1920&q=80",
-    badge: "High-Yield Investments",
+    badge: "Transparent Valuation",
     active: true,
-    ctaPrimary: { text: "Explore Properties", link: "/buy" },
-    ctaSecondary: { text: "Compare Properties", link: "/compare-plots" },
-    ctaBuy: { text: "Buy Properties", link: "/buy" },
-    ctaSell: { text: "Sell Property", link: "/sell" }
+    ctaBuy: { text: "Buy Property", link: "/buy" },
+    ctaSell: { text: "Sell Property", link: "/sell" },
+    ctaBuyersChoice: { text: "Buyers Choice", link: "/buyers-choice" }
+  },
+  {
+    id: 4,
+    title: "Your Requirement. Our Search. The Right Property.",
+    subtitle: "Buyer's Choice Engine",
+    description: "Can't find the property you're looking for? Share your requirements through Buyer's Choice. Our team will help you discover properties that match your preferred location, budget, and expectations.",
+    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1920&q=80",
+    badge: "Dedicated Requirement Search",
+    active: true,
+    ctaBuy: { text: "Buy Property", link: "/buy" },
+    ctaSell: { text: "Sell Property", link: "/sell" },
+    ctaBuyersChoice: { text: "Buyers Choice", link: "/buyers-choice" }
+  },
+  {
+    id: 5,
+    title: "Your Trust. Our Priority. Verified Property Listings.",
+    subtitle: "Green Tick • Verified",
+    description: "Every property listed on SimplyBuySell undergoes an initial review. Only properties that successfully complete our detailed document verification process receive the exclusive Green Tick – Documents Verified badge.",
+    image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1920&q=80",
+    badge: "Documents Verified",
+    active: true,
+    ctaBuy: { text: "Buy Property", link: "/buy" },
+    ctaSell: { text: "Sell Property", link: "/sell" },
+    ctaBuyersChoice: { text: "Buyers Choice", link: "/buyers-choice" }
+  },
+  {
+    id: 6,
+    title: "Only What You Need. Nothing You Don’t.",
+    subtitle: "Simple. Relevant. Customer-Focused.",
+    description: "At SimplyBuySell, we show only the information and suggestions that buyers and sellers really need. We avoid unnecessary content and value every user's opinion. Your feedback helps us make SimplyBuySell better for everyone.",
+    image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1920&q=80",
+    badge: "Your Needs Come First. Always.",
+    active: true,
+    ctaBuy: { text: "Buy Property", link: "/buy" },
+    ctaSell: { text: "Sell Property", link: "/sell" },
+    ctaBuyersChoice: { text: "Buyers Choice", link: "/buyers-choice" }
   }
 ];
 
@@ -1325,16 +1358,16 @@ export const initialStatistics = {
 
 export const initialSiteSettings = {
   brandName: "SimplyBuySell",
-  tagline: "AMARAVATI PLOT INTELLIGENCE PLATFORM",
+  tagline: "MAKING PROPERTY BUYING AND SELLING SIMPLE ACROSS INDIA",
   phone: "+91 98765 43210",
   whatsappPhone: "919876543210",
-  email: "plots@simplybuysell.com",
-  location: "Amaravati, Andhra Pradesh, India",
-  address: "Plot Intelligence Desk, Seed Access Road, Rayapudi, Amaravati, Andhra Pradesh 522503",
+  email: "info@simplybuysell.com",
+  location: "Amaravati, Andhra Pradesh & Pan-India",
+  address: "SimplyBuySell Real Estate Network, Amaravati & Pan-India Hub",
   language: "English",
-  trustStatement: "Transparent Land Discovery. Verified Plot Codes. Real Market Intelligence.",
+  trustStatement: "Making Property Buying and Selling Simple Across India.",
   motto: {
-    vision: "To empower land buyers, farmers, returnable plot allottees, and investors in Amaravati with authoritative GIS mapping, plot-code verification, and transparent price intelligence.",
-    mission: "To eliminate property transaction ambiguity in Andhra Pradesh's greenfield smart capital through verified plot codes, boundary geometry, and objective asking-price data."
+    vision: "To build a trusted and easy-to-use property marketplace that connects buyers and sellers across India, making property discovery and transactions simpler for everyone.",
+    mission: "To provide only the property information and suggestions that users need, help buyers find suitable properties, support sellers in reaching potential buyers, and continuously improve through customer feedback."
   }
 };

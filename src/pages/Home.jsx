@@ -1,45 +1,31 @@
 import React from 'react';
 import HeroSlider from '../components/HeroSlider';
 import PlotHeroSearch from '../components/PlotHeroSearch';
-import BuyerRequirementSection from '../components/BuyerRequirementSection';
 import FeaturedProperties from '../components/FeaturedProperties';
-import VillageDiscoverySection from '../components/VillageDiscoverySection';
-import CategorySpotlightSection from '../components/CategorySpotlightSection';
-import MapDiscoveryPreview from '../components/MapDiscoveryPreview';
 import TrustValueCards from '../components/TrustValueCards';
 import TrustStatementBanner from '../components/TrustStatementBanner';
-import StatsCounter from '../components/StatsCounter';
 import ReviewsSection from '../components/ReviewsSection';
 import ContactCtaBanner from '../components/ContactCtaBanner';
 
 export default function Home() {
   return (
     <div className="w-full">
-      {/* 1. Dynamic Hero Slider */}
+      {/* 1. Dynamic Hero Slider (6 Pan-India Slides with 3 Common Buttons) */}
       <HeroSlider />
 
-      {/* 2. Advanced Search Panel */}
+      {/* 2. Find Your Perfect Property Search Panel */}
       <PlotHeroSearch />
 
-      {/* 3. Featured Plot Inventory */}
+      {/* 3. Main Property Inventory (LPS Plots, Apartment Flats, Open Plots) */}
       <FeaturedProperties />
 
-      {/* 4. Buyer Requirement Section: Looking for a Specific Plot? */}
-      <BuyerRequirementSection />
-
-      {/* 5. Village Discovery Section: Explore Plots by Amaravati Village */}
-      <VillageDiscoverySection />
-
-      {/* 6. Residential vs Commercial Plots Spotlight */}
-      <CategorySpotlightSection />
-
-      {/* 7. GIS Map Discovery Teaser */}
-      <MapDiscoveryPreview />
-
-      {/* 8. Trust & Proof Banners */}
+      {/* 4. Trust & Values */}
       <TrustValueCards />
+
+      {/* 5. Core Commitment Banner */}
       <TrustStatementBanner />
-      <StatsCounter />
+
+      {/* 6. Client Feedback & Contact */}
       <ReviewsSection />
       <ContactCtaBanner />
     </div>
