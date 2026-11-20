@@ -21,9 +21,10 @@ import {
 import { useApp } from '../context/AppContext';
 
 export default function Header() {
-  const { siteSettings, compareList } = useApp();
+  const { siteSettings, currentLanguage, setCurrentLanguage, availableLanguages, t } = useApp();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [langMenuOpen, setLangMenuOpen] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -36,14 +37,29 @@ export default function Header() {
 
   useEffect(() => {
     setMobileMenuOpen(false);
+    setLangMenuOpen(false);
   }, [location.pathname]);
 
+  // Click outside to close language dropdown
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (!e.target.closest('#lang-selector-container')) {
+        setLangMenuOpen(false);
+      }
+    };
+    if (langMenuOpen) {
+      document.addEventListener('click', handleClickOutside);
+    }
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, [langMenuOpen]);
+
+  // Strictly: Home, Our Moto, Sell, Buy, Contact (Sell before Buy)
   const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'Our Motto', path: '/motto' },
-    { name: 'Buy', path: '/buy' },
-    { name: 'Sell', path: '/sell' },
-    { name: 'Contact', path: '/contact' },
+    { name: t('nav_home', 'Home'), path: '/' },
+    { name: t('nav_motto', 'Our Moto'), path: '/motto' },
+    { name: t('nav_sell', 'Sell'), path: '/sell' },
+    { name: t('nav_buy', 'Buy'), path: '/buy' },
+    { name: t('nav_contact', 'Contact'), path: '/contact' },
   ];
 
   return (
@@ -96,15 +112,48 @@ export default function Header() {
             ))}
           </div>
 
-          {/* Right Contact Quick Pill on Desktop for balanced layout */}
-          <div className="hidden lg:flex items-center gap-2 z-10">
-            <a
-              href={`tel:${siteSettings.phone.replace(/\s+/g, '')}`}
-              className="inline-flex items-center gap-1.5 text-xs font-extrabold text-blue-700 hover:text-blue-900 bg-blue-50/80 hover:bg-blue-100 px-3.5 py-2 rounded-xl border border-blue-200 transition-colors"
-            >
-              <Phone className="w-3.5 h-3.5 text-brand-orange" />
-              <span>{siteSettings.phone}</span>
-            </a>
+          {/* Right Language Selector on Desktop */}
+          <div className="hidden lg:flex items-center gap-2 z-10" id="lang-selector-container">
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setLangMenuOpen(!langMenuOpen)}
+                className="inline-flex items-center gap-2 text-xs font-black text-slate-800 hover:text-blue-700 bg-white hover:bg-blue-50/80 px-3.5 py-2 rounded-xl border border-blue-200/90 shadow-sm transition-all focus:outline-none"
+                aria-label="Language selection dropdown"
+              >
+                <Globe className="w-3.5 h-3.5 text-blue-600" />
+                <span>{availableLanguages.find((l) => l.code === currentLanguage)?.native || 'English'}</span>
+                <ChevronDown className={`w-3.5 h-3.5 text-slate-500 transition-transform ${langMenuOpen ? 'rotate-180' : ''}`} />
+              </button>
+
+              {langMenuOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-2xl shadow-2xl border border-blue-100 py-2 z-50 animate-fade-in-scale">
+                  <div className="px-3.5 py-1 text-[10px] font-black uppercase tracking-wider text-slate-400">
+                    Select Language
+                  </div>
+                  {availableLanguages.map((lang) => (
+                    <button
+                      key={lang.code}
+                      type="button"
+                      onClick={() => {
+                        setCurrentLanguage(lang.code);
+                        setLangMenuOpen(false);
+                      }}
+                      className={`w-full text-left px-3.5 py-2.5 text-xs font-bold flex items-center justify-between transition-colors ${
+                        currentLanguage === lang.code
+                          ? 'bg-blue-50 text-blue-700 font-black'
+                          : 'text-slate-700 hover:bg-slate-50'
+                      }`}
+                    >
+                      <span>
+                        {lang.native} <span className="text-[11px] font-medium text-slate-400">({lang.label})</span>
+                      </span>
+                      {currentLanguage === lang.code && <CheckCircle2 className="w-4 h-4 text-blue-600" />}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Mobile Menu Toggle Button */}
@@ -165,17 +214,34 @@ export default function Header() {
               </div>
             </div>
 
-            {/* Mobile Drawer Footer */}
-            <div className="pt-6 border-t border-blue-100 space-y-3">
-              <a
-                href={`tel:${siteSettings.phone.replace(/\s+/g, '')}`}
-                className="flex items-center gap-2 text-sm text-slate-700 font-medium"
-              >
-                <Phone className="w-4 h-4 text-brand-orange" />
-                <span>{siteSettings.phone}</span>
-              </a>
-              <div className="text-[11px] text-slate-400">
-                Amaravati Land & Plot Intelligence
+            {/* Mobile Drawer Footer with Language Selection */}
+            <div className="pt-6 border-t border-blue-100 space-y-4">
+              <div>
+                <div className="text-[11px] font-black uppercase tracking-wider text-slate-400 mb-2">
+                  Select Language
+                </div>
+                <div className="grid grid-cols-3 gap-2">
+                  {availableLanguages.map((lang) => (
+                    <button
+                      key={lang.code}
+                      type="button"
+                      onClick={() => {
+                        setCurrentLanguage(lang.code);
+                        setMobileMenuOpen(false);
+                      }}
+                      className={`px-2.5 py-2 rounded-xl text-xs font-bold text-center border transition-all ${
+                        currentLanguage === lang.code
+                          ? 'bg-blue-600 text-white border-blue-600 shadow-md'
+                          : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+                      }`}
+                    >
+                      {lang.native}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div className="text-[11px] text-slate-400 text-center font-medium">
+                Simply Buy Sell • Real Estate Network
               </div>
             </div>
           </div>

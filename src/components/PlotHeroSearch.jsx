@@ -17,9 +17,11 @@ import {
   Info
 } from 'lucide-react';
 import { amaravatiVillages } from '../data/mockData';
+import { useApp } from '../context/AppContext';
 
 export default function PlotHeroSearch() {
   const navigate = useNavigate();
+  const { t } = useApp();
 
   // Primary Location & Property Type Selectors
   const [selectedState, setSelectedState] = useState('Andhra Pradesh');
@@ -73,55 +75,25 @@ export default function PlotHeroSearch() {
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Hero Top Copy */}
-        <div className="text-center max-w-4xl mx-auto mb-10">
+        <div className="text-center max-w-4xl mx-auto mb-8 sm:mb-10">
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 text-white text-xs sm:text-sm font-black mb-4 shadow-md shadow-blue-500/20 ring-2 ring-white">
             <Sparkles className="w-4 h-4 text-amber-300 animate-spin" style={{ animationDuration: '6s' }} />
-            <span>Connecting Buyers & Sellers Across Locations</span>
+            <span>{t('hero_badge', 'Connecting Buyers & Sellers Across Locations')}</span>
           </div>
 
-          {/* Main Headline */}
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-black tracking-tight text-navy-950 mb-4 leading-tight drop-shadow-sm">
-            Find the Right Property.{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-amber-500 underline decoration-amber-400 decoration-wavy decoration-2">
-              Buy, Sell & Invest with Confidence.
+          {/* Main Headline - Moderate, Clean, 2 Lines, Center-Aligned, No Wavy Underline */}
+          <h1 className="text-2xl sm:text-4xl md:text-5xl font-black tracking-tight text-slate-900 mb-4 leading-tight drop-shadow-sm">
+            <span>{t('hero_title_1', 'Find the Right Property')}</span>
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-indigo-700 to-amber-600 mt-1">
+              {t('hero_title_2', 'Buy, Sell and Invest with Confidence')}
             </span>
           </h1>
 
           {/* Supporting Copy */}
-          <p className="text-base sm:text-lg font-medium text-slate-700 mb-8 max-w-3xl mx-auto leading-relaxed">
-            Explore residential plots, commercial properties, houses, apartments and more across multiple locations. Discover the right property with information that helps you make informed decisions.
+          <p className="text-sm sm:text-base md:text-lg font-medium text-slate-700 max-w-3xl mx-auto leading-relaxed">
+            {t('hero_desc', 'Explore residential plots, commercial properties, houses, apartments and more across prime locations. Discover the right property and make informed decisions.')}
           </p>
-
-          {/* 3 Common Action Buttons */}
-          <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mb-4">
-            {/* 1. Buy Property */}
-            <Link
-              to="/buy"
-              className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-black text-sm sm:text-base shadow-lg shadow-blue-600/35 ring-4 ring-blue-200/80 transition-all flex items-center gap-2 group hover:-translate-y-0.5"
-            >
-              <span>Buy Property</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
-
-            {/* 2. Sell Property - High Vibrancy Eye-Catching Color */}
-            <Link
-              to="/sell"
-              className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 hover:from-amber-600 hover:via-orange-600 hover:to-rose-600 text-white font-black text-sm sm:text-base shadow-lg shadow-orange-500/35 ring-4 ring-orange-200/80 transition-all flex items-center gap-2 hover:-translate-y-0.5"
-            >
-              <PlusCircle className="w-4 h-4 text-amber-100" />
-              <span>Sell Property</span>
-            </Link>
-
-            {/* 3. Buyers Choice */}
-            <Link
-              to="/buyers-choice"
-              className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-black text-sm sm:text-base shadow-lg shadow-emerald-600/30 ring-4 ring-emerald-200/80 transition-all flex items-center gap-2 hover:-translate-y-0.5"
-            >
-              <Sparkles className="w-4 h-4 text-emerald-200" />
-              <span>Buyers Choice</span>
-            </Link>
-          </div>
         </div>
 
         {/* Find Your Perfect Property - Advanced Search Panel Card */}
@@ -131,11 +103,11 @@ export default function PlotHeroSearch() {
               <div className="p-1.5 rounded-lg bg-blue-100 text-blue-700">
                 <SlidersHorizontal className="w-4 h-4" />
               </div>
-              <span className="text-sm font-extrabold">Find Your Perfect Property</span>
+              <span className="text-sm font-extrabold">{t('search_title', 'Find Your Perfect Property')}</span>
             </div>
             <div className="text-xs text-blue-800 font-bold hidden sm:flex items-center gap-1.5 bg-blue-50 px-3 py-1 rounded-full border border-blue-200">
               <ShieldCheck className="w-3.5 h-3.5 text-blue-600" />
-              <span>Filter by State, District, Property Type & Details</span>
+              <span>{t('search_subtitle', 'Filter by State, District, Property Type & Details')}</span>
             </div>
           </div>
 
@@ -145,7 +117,7 @@ export default function PlotHeroSearch() {
               {/* State */}
               <div>
                 <label className="block text-xs font-black text-navy-950 uppercase mb-1.5">
-                  State
+                  {t('filter_state', 'State')}
                 </label>
                 <select
                   value={selectedState}
@@ -162,7 +134,7 @@ export default function PlotHeroSearch() {
               {/* District */}
               <div>
                 <label className="block text-xs font-black text-navy-950 uppercase mb-1.5">
-                  District
+                  {t('filter_district', 'District')}
                 </label>
                 <select
                   value={selectedDistrict}
@@ -179,7 +151,7 @@ export default function PlotHeroSearch() {
               {/* Property Type */}
               <div>
                 <label className="block text-xs font-black text-navy-950 uppercase mb-1.5">
-                  Property Type
+                  {t('filter_property_type', 'Property Type')}
                 </label>
                 <select
                   value={propertyType}
@@ -226,7 +198,7 @@ export default function PlotHeroSearch() {
                 <div>
                   <label className="block text-xs font-black text-navy-950 uppercase mb-1.5 flex items-center gap-1">
                     <FileCheck2 className="w-3.5 h-3.5 text-blue-600" />
-                    <span>APCRDA / LPS Plot Code</span>
+                    <span>{t('filter_plot_code', 'APCRDA / LPS Plot Code')}</span>
                   </label>
                   <div className="relative">
                     <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
@@ -244,7 +216,7 @@ export default function PlotHeroSearch() {
                 <div>
                   <label className="block text-xs font-black text-navy-950 uppercase mb-1.5 flex items-center gap-1">
                     <MapPin className="w-3.5 h-3.5 text-rose-500" />
-                    <span>Amaravati Village</span>
+                    <span>{t('filter_village', 'Amaravati Village')}</span>
                   </label>
                   <select
                     value={village}
@@ -262,7 +234,7 @@ export default function PlotHeroSearch() {
                 <div>
                   <label className="block text-xs font-black text-navy-950 uppercase mb-1.5 flex items-center gap-1">
                     <Compass className="w-3.5 h-3.5 text-teal-600" />
-                    <span>Facing Direction</span>
+                    <span>{t('filter_facing', 'Facing Direction')}</span>
                   </label>
                   <select
                     value={facing}
@@ -282,7 +254,7 @@ export default function PlotHeroSearch() {
                 {/* 4. Road Width (Meters) */}
                 <div>
                   <label className="block text-xs font-black text-navy-950 uppercase mb-1.5">
-                    Road Width (Meters)
+                    {t('filter_road_width', 'Road Width (Meters)')}
                   </label>
                   <select
                     value={roadWidth}
@@ -301,7 +273,7 @@ export default function PlotHeroSearch() {
                 {/* 5. Plot Size (Sq. Yards) */}
                 <div>
                   <label className="block text-xs font-black text-navy-950 uppercase mb-1.5">
-                    Plot Size (Sq. Yards)
+                    {t('filter_plot_size', 'Plot Size (Sq. Yards)')}
                   </label>
                   <select
                     value={plotSize}
@@ -320,7 +292,7 @@ export default function PlotHeroSearch() {
                 <div>
                   <label className="block text-xs font-black text-navy-950 uppercase mb-1.5 flex items-center gap-1">
                     <TrendingUp className="w-3.5 h-3.5 text-amber-500" />
-                    <span>Price / Sq.Yd Range</span>
+                    <span>{t('filter_budget', 'Price / Sq.Yd Range')}</span>
                   </label>
                   <select
                     value={budget}
@@ -348,7 +320,7 @@ export default function PlotHeroSearch() {
                 className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-700 hover:to-indigo-700 text-white font-black text-sm shadow-xl shadow-blue-600/30 ring-4 ring-blue-100 transition-all flex items-center justify-center gap-2"
               >
                 <Search className="w-4 h-4" />
-                <span>Search Property Now</span>
+                <span>{t('btn_search', 'Search Properties')}</span>
               </button>
             </div>
           </form>

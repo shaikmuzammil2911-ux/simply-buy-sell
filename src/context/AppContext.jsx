@@ -10,6 +10,7 @@ import {
   initialReviews,
   initialSiteSettings
 } from '../data/mockData';
+import { translations, availableLanguages } from '../i18n/translations';
 
 const AppContext = createContext();
 
@@ -35,6 +36,16 @@ export const AppProvider = ({ children }) => {
     }, [key, state]);
 
     return [state, setState];
+  };
+
+  // Language state & i18n
+  const [currentLanguage, setCurrentLanguage] = usePersistedState('sbs_lang_v1', 'en');
+
+  const t = (key, fallback = '') => {
+    const dict = translations[currentLanguage] || translations.en;
+    if (dict && dict[key]) return dict[key];
+    if (translations.en && translations.en[key]) return translations.en[key];
+    return fallback || key;
   };
 
   // Primary Data State (Versioned cache ensures immediate freshness across browsers)
@@ -463,6 +474,12 @@ Please share the legal verification details and coordinate a site inspection.`;
         setStatistics,
         setSiteSettings,
         setServices,
+
+        // Language & i18n
+        currentLanguage,
+        setCurrentLanguage,
+        availableLanguages,
+        t,
 
         // Communication
         getWhatsAppLink

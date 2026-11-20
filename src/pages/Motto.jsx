@@ -4,17 +4,19 @@ import {
   Compass,
   Target,
   ShieldCheck,
-  Eye,
-  HeartHandshake,
   Users,
   Sparkles,
   ArrowRight,
   CheckCircle2,
   FileText,
-  UserCheck
+  UserCheck,
+  PlusCircle
 } from 'lucide-react';
+import { useApp } from '../context/AppContext';
 
 export default function Motto() {
+  const { t } = useApp();
+
   const pillars = [
     {
       num: "1",
@@ -54,14 +56,39 @@ export default function Motto() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center max-w-4xl">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-amber-300 text-xs sm:text-sm font-bold uppercase tracking-wider mb-5 backdrop-blur-md">
             <Sparkles className="w-4 h-4 text-amber-300" />
-            <span>Our Motto, Vision & Mission</span>
+            <span>Our Motto & Vision</span>
           </div>
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight mb-6 leading-tight drop-shadow-md">
-            Making Property Buying and Selling Simple Across India.
+            {t('motto_heading', 'Sell Smarter, Discover More with Simply Buy Sell')}
           </h1>
           <p className="text-blue-100 text-base sm:text-lg md:text-xl leading-relaxed max-w-2xl mx-auto">
-            Our goal is to connect property buyers and sellers across India through simple, transparent and useful property information.
+            {t('motto_subheading', 'A simple way to explore properties and connect with buyers and sellers across India.')}
           </p>
+
+          {/* 3 Call to Action Buttons */}
+          <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mt-8">
+            <Link
+              to="/buy"
+              className="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm sm:text-base shadow-lg shadow-blue-600/30 transition-all hover:-translate-y-0.5 flex items-center gap-2"
+            >
+              <span>{t('btn_buy', 'Buy')}</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+            <Link
+              to="/sell"
+              className="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-extrabold text-sm sm:text-base shadow-lg shadow-orange-500/30 transition-all hover:-translate-y-0.5 flex items-center gap-2"
+            >
+              <PlusCircle className="w-4 h-4" />
+              <span>{t('btn_sell', 'Sell')}</span>
+            </Link>
+            <Link
+              to="/buyers-choice"
+              className="px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm sm:text-base shadow-lg shadow-emerald-600/30 transition-all hover:-translate-y-0.5 flex items-center gap-2"
+            >
+              <Sparkles className="w-4 h-4 text-emerald-200" />
+              <span>{t('btn_buyers_choice', 'Buyer Choice')}</span>
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -159,27 +186,36 @@ export default function Motto() {
               Pan-India Real Estate Network
             </span>
             <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black mb-3">
-              Your Property Journey Starts Here.
+              {t('motto_closing', 'Your Property Journey Starts Here.')}
             </h2>
             <h3 className="text-lg sm:text-2xl font-extrabold text-blue-200 mb-4">
-              Buy Better. Sell Smarter. Discover More with SimplyBuySell.
+              Sell Smarter, Discover More with Simply Buy Sell
             </h3>
             <p className="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto mb-8 leading-relaxed">
-              A simpler way to explore properties and connect with buyers and sellers across India.
+              A simple way to explore properties and connect with buyers and sellers across India.
             </p>
+            {/* 3 Call to Action Buttons */}
             <div className="flex flex-wrap items-center justify-center gap-4">
               <Link
                 to="/buy"
-                className="px-7 py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-black text-sm shadow-xl shadow-blue-600/30 flex items-center gap-2 group transition-all hover:scale-[1.02]"
+                className="px-7 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black text-sm shadow-xl shadow-blue-600/30 flex items-center gap-2 group transition-all hover:scale-[1.02]"
               >
-                <span>Explore Properties</span>
+                <span>{t('btn_buy', 'Buy')}</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link
-                to="/contact"
-                className="px-7 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/25 text-white font-bold text-sm transition-all hover:scale-[1.02]"
+                to="/sell"
+                className="px-7 py-3.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-black text-sm shadow-xl shadow-orange-500/30 flex items-center gap-2 group transition-all hover:scale-[1.02]"
               >
-                <span>Contact Us</span>
+                <PlusCircle className="w-4 h-4" />
+                <span>{t('btn_sell', 'Sell')}</span>
+              </Link>
+              <Link
+                to="/buyers-choice"
+                className="px-7 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-sm shadow-xl shadow-emerald-600/30 flex items-center gap-2 group transition-all hover:scale-[1.02]"
+              >
+                <Sparkles className="w-4 h-4 text-emerald-200" />
+                <span>{t('btn_buyers_choice', 'Buyer Choice')}</span>
               </Link>
             </div>
           </div>

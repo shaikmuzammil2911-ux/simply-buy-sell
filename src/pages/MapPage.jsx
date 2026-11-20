@@ -561,11 +561,11 @@ export default function MapPage() {
       </div>
 
       {/* Main Map + Side Panel Layout (Responsive Desktop Split + Mobile Dedicated Views) */}
-      <div className="flex-1 flex flex-col lg:flex-row relative overflow-hidden" style={{ minHeight: '550px', height: 'calc(100vh - 128px)' }}>
+      <div className="flex-1 flex flex-col lg:flex-row relative overflow-hidden" style={{ minHeight: 'calc(100vh - 110px)' }}>
         {/* Plot List Container: Shown in Desktop split-view OR in Mobile when mobileView === 'list' */}
         <div
           className={`w-full lg:w-96 bg-white border-r-2 border-blue-200 flex-col z-10 shrink-0 shadow-xl lg:shadow-none lg:flex ${
-            mobileView === 'list' ? 'flex h-full overflow-y-auto' : 'hidden'
+            mobileView === 'list' ? 'flex min-h-[calc(100vh-170px)] pb-12 overflow-y-auto' : 'hidden'
           }`}
         >
           <div className="p-3 bg-gradient-to-r from-blue-50 to-sky-50 border-b border-blue-200 flex items-center justify-between text-xs font-black text-navy-950 shrink-0">
@@ -710,7 +710,7 @@ export default function MapPage() {
         {/* Right Side: Grand Interactive Leaflet Map Container */}
         <div
           className={`flex-1 relative h-full lg:block ${
-            mobileView === 'map' ? 'block w-full min-h-[480px] h-[calc(100dvh-175px)]' : 'hidden'
+            mobileView === 'map' ? 'block w-full min-h-[520px] h-[calc(100vh-170px)]' : 'hidden'
           }`}
         >
           <div ref={mapContainerRef} className="w-full h-full z-0" />

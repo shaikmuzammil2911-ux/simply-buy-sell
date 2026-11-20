@@ -1361,9 +1361,10 @@ export const initialSiteSettings = {
   tagline: "MAKING PROPERTY BUYING AND SELLING SIMPLE ACROSS INDIA",
   phone: "+91 98765 43210",
   whatsappPhone: "919876543210",
-  email: "info@simplybuysell.com",
-  location: "Amaravati, Andhra Pradesh & Pan-India",
-  address: "SimplyBuySell Real Estate Network, Amaravati & Pan-India Hub",
+  email: "customercare@simplybuysell.com",
+  location: "Amaravati, One India Hub",
+  address: "Simply Buy Sell Real Estate Network, Amaravati, One India Hub",
+  supportHours: "Monday to Saturday: 10:00 AM to 5:00 PM",
   language: "English",
   trustStatement: "Making Property Buying and Selling Simple Across India.",
   motto: {
