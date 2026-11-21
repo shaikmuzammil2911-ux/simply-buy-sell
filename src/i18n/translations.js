@@ -35,7 +35,9 @@ export const translations = {
     // Buttons
     btn_buy: 'Buy',
     btn_sell: 'Sell',
-    btn_buyers_choice: 'Buyer Choice',
+    btn_buy_prop: 'Buy Property',
+    btn_sell_prop: 'Sell Property',
+    btn_buyers_choice: "Buyer's Choice",
     btn_contact: 'Contact Us',
     btn_explore: 'Explore Properties',
 
@@ -95,6 +97,8 @@ export const translations = {
     // Buttons
     btn_buy: 'కొనుగోలు',
     btn_sell: 'అమ్మకం',
+    btn_buy_prop: 'ప్రాపర్టీ కొనండి',
+    btn_sell_prop: 'ప్రాపర్టీ అమ్మండి',
     btn_buyers_choice: 'కొనుగోలుదారు ఎంపిక',
     btn_contact: 'సంప్రదించండి',
     btn_explore: 'ప్రాపర్టీలను అన్వేషించండి',
@@ -155,6 +159,8 @@ export const translations = {
     // Buttons
     btn_buy: 'खरीदें',
     btn_sell: 'बेचें',
+    btn_buy_prop: 'संपत्ति खरीदें',
+    btn_sell_prop: 'संपत्ति बेचें',
     btn_buyers_choice: 'क्रेता पसंद',
     btn_contact: 'संपर्क करें',
     btn_explore: 'संपत्तियां देखें',

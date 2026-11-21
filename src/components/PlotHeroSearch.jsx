@@ -75,25 +75,55 @@ export default function PlotHeroSearch() {
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Hero Top Copy */}
-        <div className="text-center max-w-4xl mx-auto mb-8 sm:mb-10">
+        <div className="text-center max-w-4xl mx-auto mb-10">
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 text-white text-xs sm:text-sm font-black mb-4 shadow-md shadow-blue-500/20 ring-2 ring-white">
             <Sparkles className="w-4 h-4 text-amber-300 animate-spin" style={{ animationDuration: '6s' }} />
             <span>{t('hero_badge', 'Connecting Buyers & Sellers Across Locations')}</span>
           </div>
 
-          {/* Main Headline - Moderate, Clean, 2 Lines, Center-Aligned, No Wavy Underline */}
-          <h1 className="text-2xl sm:text-4xl md:text-5xl font-black tracking-tight text-slate-900 mb-4 leading-tight drop-shadow-sm">
-            <span>{t('hero_title_1', 'Find the Right Property')}</span>
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-indigo-700 to-amber-600 mt-1">
-              {t('hero_title_2', 'Buy, Sell and Invest with Confidence')}
+          {/* Main Headline with Vibrant Gradient and Underline */}
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-black tracking-tight text-navy-950 mb-4 leading-tight drop-shadow-sm">
+            {t('hero_title_1', 'Find the Right Property')}.{' '}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-amber-500 underline decoration-amber-400 decoration-wavy decoration-2">
+              {t('hero_title_2', 'Buy, Sell & Invest with Confidence.')}
             </span>
           </h1>
 
           {/* Supporting Copy */}
-          <p className="text-sm sm:text-base md:text-lg font-medium text-slate-700 max-w-3xl mx-auto leading-relaxed">
-            {t('hero_desc', 'Explore residential plots, commercial properties, houses, apartments and more across prime locations. Discover the right property and make informed decisions.')}
+          <p className="text-base sm:text-lg font-medium text-slate-700 mb-8 max-w-3xl mx-auto leading-relaxed">
+            {t('hero_desc', 'Explore residential plots, commercial properties, houses, apartments and more across multiple locations. Discover the right property with information that helps you make informed decisions.')}
           </p>
+
+          {/* 3 Common Action Buttons */}
+          <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mb-4">
+            {/* 1. Buy Property */}
+            <Link
+              to="/buy"
+              className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-black text-sm sm:text-base shadow-lg shadow-blue-600/35 ring-4 ring-blue-200/80 transition-all flex items-center gap-2 group hover:-translate-y-0.5"
+            >
+              <span>{t('btn_buy_prop', 'Buy Property')}</span>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Link>
+
+            {/* 2. Sell Property - High Vibrancy Eye-Catching Color */}
+            <Link
+              to="/sell"
+              className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 hover:from-amber-600 hover:via-orange-600 hover:to-rose-600 text-white font-black text-sm sm:text-base shadow-lg shadow-orange-500/35 ring-4 ring-orange-200/80 transition-all flex items-center gap-2 hover:-translate-y-0.5"
+            >
+              <PlusCircle className="w-4 h-4 text-amber-100" />
+              <span>{t('btn_sell_prop', 'Sell Property')}</span>
+            </Link>
+
+            {/* 3. Buyers Choice */}
+            <Link
+              to="/buyers-choice"
+              className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-black text-sm sm:text-base shadow-lg shadow-emerald-600/30 ring-4 ring-emerald-200/80 transition-all flex items-center gap-2 hover:-translate-y-0.5"
+            >
+              <Sparkles className="w-4 h-4 text-emerald-200" />
+              <span>{t('btn_buyers_choice', 'Buyers Choice')}</span>
+            </Link>
+          </div>
         </div>
 
         {/* Find Your Perfect Property - Advanced Search Panel Card */}
